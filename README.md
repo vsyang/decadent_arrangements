@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Decadent Arrangements
 
-## Getting Started
+## The Team
 
-First, run the development server:
+- **Joelnin Elizabeth Rodriguez Manosalva**
+- **Jose David Colmenarez Gil**
+- **Vanessa Yang**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Decadent Arrangements is a business website built with Next.js. The website is designed to showcase custom arrangements, gifts, and special occasion charcuterie boards in a clean and professional way.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Description
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project is a custom website for Decadent Arrangements. The goal of the site is to give customers an easy way to learn about the business, view available arrangements, and contact the business to place an order. The website will also help the business owner stay organized by making it easier to manage orders, schedule pickups or deliveries, and keep track of customer requests.
 
-## Learn More
+The website will include sections for the home page, about the business, products, pricing, contact information, and an order management dashboard.
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js** - Framework for building scalable and performant web applications.
+- **React** - Component-based UI development.
+- **Tailwind CSS** - Utility-first styling for fast and consistent design.
+- **Heroicons React** - Icon set for UI enhancements.
+- **Clsx** - Utility for conditional class names.
+- **Debounce** - Debounced UI interactions.
 
-## Deploy on Vercel
+### Backend
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Postgres** - PostgreSQL database integration.
+- **bcrypt** - Secure password hashing.
+- **zod** - Schema validation for safe and typed data handling.
+- **Vercel Blob** - File and asset storage management.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Development Tools
+
+- **TypeScript** - Strong typing and improved maintainability.
+- **ESLint** - Code quality and best practices.
+- **Tailwind/PostCSS** - CSS processing workflow.
+- **pnpm** - Fast and efficient package manager.
+
+## Features
+
+- Modern homepage design
+- Responsive layout for desktop and mobile
+- Business introduction section
+- Arrangement showcase
+- Contact and order section
+- Clean styling using Tailwind CSS
