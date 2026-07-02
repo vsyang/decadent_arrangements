@@ -1,10 +1,12 @@
 # Decadent Arrangements
 
+---
+
 ## The Team
 
 - **Joelnin Elizabeth Rodriguez Manosalva**
 - **Jose David Colmenarez Gil**
-- **Vanessa Yang**
+- **Vanessa Yang** "Peace begins with a smile" - Mother Theresa
 
 ---
 
@@ -29,7 +31,7 @@ The website will include sections for the home page, about the business, product
 
 ### Backend
 
-- **Postgres** - PostgreSQL database integration.
+- **Postgres with Drizzle** - PostgreSQL database integration.
 - **bcrypt** - Secure password hashing.
 - **zod** - Schema validation for safe and typed data handling.
 - **Vercel Blob** - File and asset storage management.
@@ -38,8 +40,7 @@ The website will include sections for the home page, about the business, product
 
 - **TypeScript** - Strong typing and improved maintainability.
 - **ESLint** - Code quality and best practices.
-- **Tailwind/PostCSS** - CSS processing workflow.
-- **pnpm** - Fast and efficient package manager.
+- **Tailwind CSS** - CSS processing workflow.
 
 ## Features
 
