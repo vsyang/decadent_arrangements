@@ -4,7 +4,7 @@
 
 ## The Team
 
-- **Joelnin Elizabeth Rodriguez Manosalva**
+- **Joelnin Elizabeth Rodriguez Manosalva** _"Knowledge is power"_ - Francis Bacon
 - **Jose David Colmenarez Gil**
 - **Vanessa Yang** "Peace begins with a smile" - Mother Theresa
 
