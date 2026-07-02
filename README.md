@@ -1,5 +1,7 @@
 # Decadent Arrangements
 
+---
+
 ## The Team
 
 - **Joelnin Elizabeth Rodriguez Manosalva**
