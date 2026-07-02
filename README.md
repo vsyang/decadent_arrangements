@@ -4,7 +4,7 @@
 
 - **Joelnin Elizabeth Rodriguez Manosalva**
 - **Jose David Colmenarez Gil**
-- **Vanessa Yang**
+- **Vanessa Yang** "Peace begins with a smile" - Mother Theresa
 
 ---
 
