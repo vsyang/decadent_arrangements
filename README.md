@@ -6,7 +6,7 @@
 
 - **Joelnin Elizabeth Rodriguez Manosalva** _"Knowledge is power"_ - Francis Bacon
 - **Jose David Colmenarez Gil**
-- **Vanessa Yang** "Peace begins with a smile" - Mother Theresa
+- **Vanessa Yang** _"Peace begins with a smile"_ - Mother Theresa
 
 ---
 
