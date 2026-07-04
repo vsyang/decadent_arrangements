@@ -5,7 +5,7 @@
 ## The Team
 
 - **Joelnin Elizabeth Rodriguez Manosalva** _"Knowledge is power"_ - Francis Bacon
-- **Jose David Colmenarez Gil**
+- **Jose David Colmenarez Gil** _ "With great power comes great responsibility"_ - Amazing Fantasy #15 (1962)
 - **Vanessa Yang** _"Peace begins with a smile"_ - Mother Theresa
 
 ---
