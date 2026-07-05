@@ -15,6 +15,20 @@
       "when": 1782954713038,
       "tag": "0001_remarkable_bloodaxe",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783209489176,
+      "tag": "0002_heavy_quentin_quire",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1783209637807,
+      "tag": "0003_little_bloodaxe",
+      "breakpoints": true
     }
   ]
 }

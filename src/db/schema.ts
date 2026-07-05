@@ -24,10 +24,10 @@ export const orderStatusEnum = pgEnum('order_status', [
 ]);
 
 // ==========================================
-// USER TABLE
+// USERS TABLE
 // ==========================================
 
-export const user = pgTable('user', {
+export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
   lastname: text('lastname').notNull(),
@@ -67,7 +67,7 @@ export const Order = pgTable('orders', {
 
   userId: uuid('user_id')
     .notNull()
-    .references(() => user.id, { onDelete: 'restrict' }),
+    .references(() => users.id, { onDelete: 'restrict' }),
 
   customerNameAtPurchase: text('customer_name_at_purchase').notNull(),
   customerPhoneAtPurchase: text('customer_phone_at_purchase').notNull(),
