@@ -7,7 +7,7 @@ dotenv.config({ path: '.env.local' });
 const databaseUrl = process.env.DATABASE_URL?.trim();
 
 if (!databaseUrl) {
-  throw new Error("DATABASE_URL no está definida en .env.local - undefined");
+  throw new Error("DATABASE_URL is undefined in .env.local");
 }
 
 export default defineConfig({

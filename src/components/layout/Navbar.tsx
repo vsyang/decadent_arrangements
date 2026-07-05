@@ -1,28 +1,73 @@
 import Link from "next/link";
+import { NavActionButton } from "./NavActionButton";
+
+function BookOpenIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+        </svg>
+    );
+}
+
+function EnvelopeIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+        </svg>
+    );
+}
 
 export function Navbar() {
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur">
-            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-                <Link href="/" className="text-xl font-bold tracking-tight text-primary">
-                    Decadent Arrangements
-                </Link>
+        <>
+            {/* DESKTOP HEADER */}
+            <header className="hidden md:sticky md:top-0 md:z-50 md:block w-full border-b border-border bg-background/80 backdrop-blur">
+                <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+                    <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+                        Decadent Arrangements
+                    </Link>
 
-                <nav className="flex items-center gap-6 text-sm font-medium">
-                    <Link href="/catalog" className="text-muted hover:text-foreground transition-colors">
-                        Catalog
-                    </Link>
-                    <Link href="/contact" className="text-muted hover:text-foreground transition-colors">
-                        Contact & Order
-                    </Link>
+                    <nav className="flex items-center gap-6 text-sm font-medium">
+                        <Link href="/catalog" className="text-muted hover:text-foreground transition-colors">
+                            Catalog
+                        </Link>
+                        <Link href="/contact" className="text-muted hover:text-foreground transition-colors">
+                            Contact
+                        </Link>
+                        <NavActionButton />
+                    </nav>
+                </div>
+            </header>
+
+            {/* MOBILE BOTTOM NAVIGATION */}
+            <nav className="fixed bottom-0 left-0 right-0 z-50 block border-t border-border bg-background/95 pb-safe backdrop-blur md:hidden">
+                <div className="flex h-16 items-center justify-around px-4">
+
+                    {/* Catalog Icon */}
                     <Link
-                        href="/dashboard"
-                        className="rounded-full bg-secondary px-4 py-1.5 text-xs text-secondary-foreground font-semibold hover:opacity-90 transition-opacity"
+                        href="/catalog"
+                        className="flex flex-col items-center justify-center gap-1 text-xs font-medium text-muted hover:text-foreground transition-colors"
                     >
-                        Admin Panel
+                        <BookOpenIcon className="h-5 w-5" />
+                        <span>Catalog</span>
                     </Link>
-                </nav>
-            </div>
-        </header>
+
+                    {/* (Orders / Admin Panel Wrapper) */}
+                    <div className="relative -top-3 flex flex-col items-center justify-center scale-110 drop-shadow-sm">
+                        <NavActionButton />
+                    </div>
+
+                    {/* Contact Icon */}
+                    <Link
+                        href="/contact"
+                        className="flex flex-col items-center justify-center gap-1 text-xs font-medium text-muted hover:text-foreground transition-colors"
+                    >
+                        <EnvelopeIcon className="h-5 w-5" />
+                        <span>Contact</span>
+                    </Link>
+
+                </div>
+            </nav>
+        </>
     );
 }
