@@ -17,6 +17,14 @@ function EnvelopeIcon(props: React.SVGProps<SVGSVGElement>) {
     );
 }
 
+function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+        </svg>
+    );
+}
+
 export function Navbar() {
     return (
         <>
@@ -39,28 +47,49 @@ export function Navbar() {
                 </div>
             </header>
 
+            {/* MOBILE TOP BRAND HEADER */}
+            <header className="sticky top-0 z-50 block md:hidden w-full border-b border-border bg-background/80 backdrop-blur">
+                <div className="flex h-14 items-center justify-between px-4">
+                    <Link href="/" className="text-md font-bold tracking-tight text-primary">
+                        Decadent Arrangements
+                    </Link>
+
+                    {/* TO-DO Breadcrumbs */}
+                    <div id="mobile-breadcrumbs" className="text-xs text-muted font-medium" />
+                </div>
+            </header>
+
             {/* MOBILE BOTTOM NAVIGATION */}
             <nav className="fixed bottom-0 left-0 right-0 z-50 block border-t border-border bg-background/95 pb-safe backdrop-blur md:hidden">
-                <div className="flex h-16 items-center justify-around px-4">
+                <div className="flex h-16 items-center justify-around px-2">
 
-                    {/* Catalog Icon */}
+                    {/* Home Link */}
+                    <Link
+                        href="/"
+                        className="flex flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted hover:text-foreground transition-colors w-16"
+                    >
+                        <HomeIcon className="h-5 w-5" />
+                        <span>Home</span>
+                    </Link>
+
+                    {/* Catalog Link */}
                     <Link
                         href="/catalog"
-                        className="flex flex-col items-center justify-center gap-1 text-xs font-medium text-muted hover:text-foreground transition-colors"
+                        className="flex flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted hover:text-foreground transition-colors w-16"
                     >
                         <BookOpenIcon className="h-5 w-5" />
                         <span>Catalog</span>
                     </Link>
 
-                    {/* (Orders / Admin Panel Wrapper) */}
-                    <div className="relative -top-3 flex flex-col items-center justify-center scale-110 drop-shadow-sm">
+                    {/* Orders / Admin Action CTA */}
+                    <div className="relative -top-3 flex flex-col items-center justify-center scale-105 drop-shadow-sm z-10">
                         <NavActionButton />
                     </div>
 
-                    {/* Contact Icon */}
+                    {/* Contact Link */}
                     <Link
                         href="/contact"
-                        className="flex flex-col items-center justify-center gap-1 text-xs font-medium text-muted hover:text-foreground transition-colors"
+                        className="flex flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted hover:text-foreground transition-colors w-16"
                     >
                         <EnvelopeIcon className="h-5 w-5" />
                         <span>Contact</span>
