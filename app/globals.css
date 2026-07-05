@@ -1,26 +1,39 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Fondo e Iniciales de la App */
+  --color-background: #FDFBF7;
+  --color-foreground: #22120F;
+
+  /* Mapeo de Colores Semánticos del Negocio (Madera, Oliva, Vino) */
+  --color-primary: #3E2723;
+  --color-primary-foreground: #FDFBF7;
+
+  --color-secondary: #3B4B20;
+  --color-secondary-foreground: #FDFBF7;
+
+  --color-accent: #6B1D2F;
+  --color-accent-foreground: #FDFBF7;
+
+  /* Estados del Sistema */
+  --color-success: #2E7D32;
+  --color-success-foreground: #FFFFFF;
+  --color-warning: #EF6C00;
+  --color-warning-foreground: #FFFFFF;
+  --color-danger: #C62828;
+  --color-danger-foreground: #FFFFFF;
+
+  /* Escala Neutra / Bordes */
+  --color-muted: #6E6765;
+  --color-muted-foreground: #F2EFE9;
+  --color-border: #D7D1C7;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Estilos Base globales usando el nuevo estándar */
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: Arial, Helvetica, sans-serif;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
