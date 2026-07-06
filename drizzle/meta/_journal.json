@@ -29,6 +29,13 @@
       "when": 1783209637807,
       "tag": "0003_little_bloodaxe",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1783298283592,
+      "tag": "0004_rapid_turbo",
+      "breakpoints": true
     }
   ]
 }

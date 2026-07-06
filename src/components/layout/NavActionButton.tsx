@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { getSessionAction } from "@/app/actions/auth";
 
 interface SessionState {
     isAuthenticated: boolean;
@@ -9,7 +10,6 @@ interface SessionState {
 }
 
 export function NavActionButton() {
-    // Init Skeleton
     const [loading, setLoading] = useState<boolean>(true);
     const [session, setSession] = useState<SessionState>({
         isAuthenticated: false,
@@ -19,18 +19,26 @@ export function NavActionButton() {
     useEffect(() => {
         async function checkAuth() {
             try {
-                // Server Action o API & WHITELIST
-                // const res = await getSessionAction();
+                const res = await getSessionAction();
 
-                await new Promise((resolve) => setTimeout(resolve, 800));
-
-                setSession({
-                    isAuthenticated: false, // Change to true when solved Auth.js
-                    isAdmin: false,        // if isAdmin()
-                });
+                if (!res || !res.user) {
+                    setSession({
+                        isAuthenticated: false,
+                        isAdmin: false,
+                    });
+                } else {
+                    setSession({
+                        isAuthenticated: true,
+                        // Validamos de forma estricta contra la variable de entorno
+                        isAdmin: res.user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL,
+                    });
+                }
             } catch (error) {
-                console.error("Failed to fetch session state:", error);
+                console.error("Error validando la sesión en el cliente:", error);
+                // Fallback seguro en caso de error de red o timeout
+                setSession({ isAuthenticated: false, isAdmin: false });
             } finally {
+                // Se garantiza el apagado del skeleton independientemente del resultado
                 setLoading(false);
             }
         }
@@ -40,7 +48,7 @@ export function NavActionButton() {
 
     if (loading) {
         return (
-            <div className="h-7 w-24 animate-pulse rounded-full bg-muted/30" aria-hidden="true" />
+            <div className="h-7 w-18 animate-pulse rounded-full bg-neutral-200" aria-hidden="true" />
         );
     }
 
@@ -48,19 +56,20 @@ export function NavActionButton() {
         return (
             <Link
                 href="/dashboard"
-                className="rounded-full bg-accent px-4 py-1.5 text-xs text-accent-foreground font-semibold hover:opacity-90 transition-opacity"
+                className="rounded-full bg-stone-800 px-4 py-1.5 text-xs text-white font-semibold hover:opacity-90 transition-opacity"
             >
                 Admin Panel
             </Link>
         );
     }
 
+    // Si está autenticado pero no es admin, o si no está autenticado (redirige a login)
     return (
         <Link
-            href="/api/auth/signin"
-            className="rounded-full bg-secondary px-4 py-1.5 text-xs text-secondary-foreground font-semibold hover:opacity-90 transition-opacity"
+            href={session.isAuthenticated ? "/orders" : "/api/auth/signin"}
+            className="rounded-full bg-stone-100 px-4 py-1.5 text-xs text-stone-900 font-semibold hover:opacity-90 transition-opacity border border-stone-200"
         >
-            Orders
+            {session.isAuthenticated ? "My Orders" : "Orders"}
         </Link>
     );
 }

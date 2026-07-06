@@ -1,4 +1,5 @@
-import { pgTable, uuid, text, timestamp, jsonb, pgEnum, numeric } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp, jsonb, pgEnum, numeric, primaryKey } from 'drizzle-orm/pg-core';
+import type { AdapterAccount } from 'next-auth/adapters';
 
 export interface UserAddress {
   id: string;
@@ -13,26 +14,27 @@ export interface UserAddress {
 // ==========================================
 // ENUMS
 // ==========================================
-
 export const productSizeEnum = pgEnum('product_size', ['S', 'M', 'L', 'XL']);
 
 export const orderStatusEnum = pgEnum('order_status', [
-  'pending',     // Pendiente
-  'preparing',   // Preparando
-  'delivered',   // Entregado
-  'cancelled'    // Cancelado
+  'pending',
+  'preparing',
+  'delivered',
+  'cancelled'
 ]);
 
 // ==========================================
-// USERS TABLE
+// AUTH.JS TABLES
 // ==========================================
 
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
-  name: text('name').notNull(),
-  lastname: text('lastname').notNull(),
-  middlename: text('middlename'), 
+  name: text('name'), 
+  lastname: text('lastname').notNull().default(''), 
+  middlename: text('middlename'),
   email: text('email').notNull().unique(),
+  emailVerified: timestamp('email_verified', { mode: 'date' }),
+  image: text('image'),
   phones: text('phones').array().notNull().default([]),
   preferredContactMethod: text('preferred_contact_method').notNull().default('whatsapp'),
   addresses: jsonb('addresses').$type<UserAddress[]>().notNull().default([]),
@@ -40,8 +42,50 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const accounts = pgTable('account', {
+  userId: uuid('user_id') 
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  type: text('type').$type<AdapterAccount['type']>().notNull(),
+  provider: text('provider').notNull(),
+  providerAccountId: text('provider_account_id').notNull(),
+  refresh_token: text('refresh_token'),
+  access_token: text('access_token'),
+  expires_at: numeric('expires_at'),
+  token_type: text('token_type'),
+  scope: text('scope'),
+  id_token: text('id_token'),
+  session_state: text('session_state'),
+},
+  (account) => [
+    {
+      compoundKey: primaryKey({ columns: [account.provider, account.providerAccountId] }),
+    },
+  ]
+);
+
+export const sessions = pgTable('session', {
+  sessionToken: text('session_token').primaryKey(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  expires: timestamp('expires', { mode: 'date' }).notNull(),
+});
+
+export const verificationTokens = pgTable('verification_token', {
+  identifier: text('identifier').notNull(),
+  token: text('token').notNull(),
+  expires: timestamp('expires', { mode: 'date' }).notNull(),
+},
+  (vt) => [
+    {
+      compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
+    },
+  ]
+);
+
 // ==========================================
-// PRODUCT TABLE
+// BUSINESS TABLES
 // ==========================================
 
 export const Product = pgTable('products', {
@@ -49,17 +93,13 @@ export const Product = pgTable('products', {
   name: text('name').notNull(),
   description: text('description').notNull(),
   size: productSizeEnum('size').notNull(),
-  capacity: text('capacity').notNull(), // Ex: "10-20 guests", "20-30 guests"
+  capacity: text('capacity').notNull(),
   price: numeric('price', { precision: 10, scale: 2 }).notNull(),
   imageUrl: text('image_url'),
 
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
-
-// ==========================================
-// ORDERS TABLE
-// ==========================================
 
 export const Order = pgTable('orders', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -76,7 +116,7 @@ export const Order = pgTable('orders', {
   totalPrice: numeric('total_price', { precision: 10, scale: 2 }).notNull(),
   eventDate: timestamp('event_date', { withTimezone: true }).notNull(),
   deliveryAddress: jsonb('delivery_address').$type<UserAddress>().notNull(),
-  dietaryRestrictions: text('dietary_restrictions').array().notNull().default([]),   // Ex: ["Nuts-free", "Gluten-free"])
+  dietaryRestrictions: text('dietary_restrictions').array().notNull().default([]),
   status: orderStatusEnum('status').notNull().default('pending'),
 
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
