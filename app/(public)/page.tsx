@@ -28,7 +28,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="/contact"
+            href="/order"
             className="rounded-full border border-primary text-primary px-8 py-3 font-medium transition-colors hover:bg-primary/5"
           >
             Place an Order

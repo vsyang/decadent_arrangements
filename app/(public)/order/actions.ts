@@ -21,6 +21,8 @@ function getArrangementSizeEnum(size: string): ArrangementSize {
       return "M";
     case "30-40":
       return "L";
+    case "50-plus":
+      return "XL";
     default:
       throw new Error("Invalid arrangement size.");
   }
