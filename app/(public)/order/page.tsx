@@ -3,6 +3,7 @@
 "use client";
 
 import { useState } from "react";
+import { createOrder } from "./actions";
 
 // This page will display the customer order form.
 // Customers will use this form to request an arrangement and let the business owner know the delivery details.
@@ -19,7 +20,7 @@ export default function OrderPage() {
       <h1 className="mb-6 text-4xl font-bold text-[#545454]">Place an Order</h1>
 
       {/* Main order form */}
-      <form className="space-y-6">
+      <form className="space-y-6" action={createOrder} method="post">
         {/* Customer information section */}
         <div className="rounded-lg border border-[#807973]/30 bg-[#ffffff] p-6 shadow-sm">
           <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
@@ -83,9 +84,9 @@ export default function OrderPage() {
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             >
               <option value="">Select a size</option>
-              <option value="10-15">10-15 people</option>
-              <option value="15-20">15-20 people</option>
+              <option value="10-20">10-20 people</option>
               <option value="20-30">20-30 people</option>
+              <option value="30-40">30-40 people</option>
               <option value="50-plus">Table arrangement, 50+ people</option>
             </select>
           </div>
