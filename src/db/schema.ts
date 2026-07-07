@@ -1,4 +1,13 @@
-import { pgTable, uuid, text, timestamp, jsonb, pgEnum, numeric, primaryKey } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  uuid,
+  text,
+  timestamp,
+  jsonb,
+  pgEnum,
+  numeric,
+  primaryKey,
+} from 'drizzle-orm/pg-core';
 import type { AdapterAccount } from 'next-auth/adapters';
 
 export interface UserAddress {
@@ -20,7 +29,7 @@ export const orderStatusEnum = pgEnum('order_status', [
   'pending',
   'preparing',
   'delivered',
-  'cancelled'
+  'cancelled',
 ]);
 
 // ==========================================
@@ -29,8 +38,8 @@ export const orderStatusEnum = pgEnum('order_status', [
 
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
-  name: text('name'), 
-  lastname: text('lastname').notNull().default(''), 
+  name: text('name'),
+  lastname: text('lastname').notNull().default(''),
   middlename: text('middlename'),
   email: text('email').notNull().unique(),
   emailVerified: timestamp('email_verified', { mode: 'date' }),
@@ -42,24 +51,28 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
-export const accounts = pgTable('account', {
-  userId: uuid('user_id') 
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  type: text('type').$type<AdapterAccount['type']>().notNull(),
-  provider: text('provider').notNull(),
-  providerAccountId: text('provider_account_id').notNull(),
-  refresh_token: text('refresh_token'),
-  access_token: text('access_token'),
-  expires_at: numeric('expires_at'),
-  token_type: text('token_type'),
-  scope: text('scope'),
-  id_token: text('id_token'),
-  session_state: text('session_state'),
-},
+export const accounts = pgTable(
+  'account',
+  {
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    type: text('type').$type<AdapterAccount['type']>().notNull(),
+    provider: text('provider').notNull(),
+    providerAccountId: text('provider_account_id').notNull(),
+    refresh_token: text('refresh_token'),
+    access_token: text('access_token'),
+    expires_at: numeric('expires_at'),
+    token_type: text('token_type'),
+    scope: text('scope'),
+    id_token: text('id_token'),
+    session_state: text('session_state'),
+  },
   (account) => [
     {
-      compoundKey: primaryKey({ columns: [account.provider, account.providerAccountId] }),
+      compoundKey: primaryKey({
+        columns: [account.provider, account.providerAccountId],
+      }),
     },
   ]
 );
@@ -72,14 +85,18 @@ export const sessions = pgTable('session', {
   expires: timestamp('expires', { mode: 'date' }).notNull(),
 });
 
-export const verificationTokens = pgTable('verification_token', {
-  identifier: text('identifier').notNull(),
-  token: text('token').notNull(),
-  expires: timestamp('expires', { mode: 'date' }).notNull(),
-},
+export const verificationTokens = pgTable(
+  'verification_token',
+  {
+    identifier: text('identifier').notNull(),
+    token: text('token').notNull(),
+    expires: timestamp('expires', { mode: 'date' }).notNull(),
+  },
   (vt) => [
     {
-      compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
+      compoundKey: primaryKey({
+        columns: [vt.identifier, vt.token],
+      }),
     },
   ]
 );
@@ -112,7 +129,12 @@ export const Order = pgTable('orders', {
   customerNameAtPurchase: text('customer_name_at_purchase').notNull(),
   customerPhoneAtPurchase: text('customer_phone_at_purchase').notNull(),
   customerEmailAtPurchase: text('customer_email_at_purchase').notNull(),
-  arrangementSize: text('arrangement_size').notNull(),
+
+  // Stores S, M, L, or XL.
+  // Your form can still show 10-20, 20-30, 30-40,
+  // but actions.ts should convert those values before inserting.
+  arrangementSize: productSizeEnum('arrangement_size').notNull(),
+
   specialRequests: text('special_requests'),
 
   totalPrice: numeric('total_price', { precision: 10, scale: 2 }).notNull(),
