@@ -121,6 +121,8 @@ export const Order = pgTable('orders', {
   customerNameAtPurchase: text('customer_name_at_purchase').notNull(),
   customerPhoneAtPurchase: text('customer_phone_at_purchase').notNull(),
   customerEmailAtPurchase: text('customer_email_at_purchase').notNull(),
+  arrangementSize: text('arrangement_size').notNull(),
+  specialRequests: text('special_requests'),
 
   arrangementSize: productSizeEnum('arrangement_size').notNull(),
   specialRequests: text('special_requests'),
