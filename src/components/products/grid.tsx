@@ -57,7 +57,7 @@ export default async function ProductsGrid() {
                   <p className="text-[#2e2e2e] font-bold text-lg">${p.price}</p>
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <span className="text-xs text-slate-400 font-serif italic">Not available</span>
+                    <span className="text-s text-slate-700 font-serif italic">Upon request</span>
                   </div>
                 )}
 

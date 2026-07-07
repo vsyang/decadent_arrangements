@@ -7,16 +7,12 @@ import { Suspense } from "react";
 
 import { ProductsGridSkeleton } from "@/components/skeleton";
 import ProductsGrid from "@/components/products/grid";
-import Link from "next/link";
-
 
 export const metadata: Metadata = {
     title: 'Catalog',
 };
 
 export default function CatalogPage() {
-
-    const price = 0;
 
     return (
         <>
