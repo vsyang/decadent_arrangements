@@ -45,12 +45,12 @@ export default function OrderPage() {
 
         {/* Arrangement information section */}
         <div>
-          <h3 className="mb-4 text-2xl font-semibold">
+          <h3>
             Arrangement Information
           </h3>
 
           {/* Customer selects the arrangement size */}
-          <div className="mb-4">
+          <div>
             <label>Arrangement Size</label>
             <select
               name="arrangementSize"
@@ -86,8 +86,8 @@ export default function OrderPage() {
           </div>
 
           {/* Special requests */}
-          <div className="mb-4">
-            <label className="mb-1 block font-medium">Special Requests</label>
+          <div>
+            <label>Special Requests</label>
             <textarea
               name="specialRequests"
               rows={4}
@@ -129,7 +129,7 @@ export default function OrderPage() {
           </div>
 
           <div>
-            <label className="mb-1 block font-medium">Zip Code</label>
+            <label>Zip Code</label>
             <input
               type="text"
               name="postalCode"
