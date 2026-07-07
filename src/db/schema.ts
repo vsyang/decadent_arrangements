@@ -35,9 +35,9 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   emailVerified: timestamp('email_verified', { mode: 'date' }),
   image: text('image'),
-  phones: text('phones').array().notNull().default([]),
+  phones: text('phones').array(),
+  addresses: jsonb('addresses').$type<UserAddress[]>().default([]),
   preferredContactMethod: text('preferred_contact_method').notNull().default('whatsapp'),
-  addresses: jsonb('addresses').$type<UserAddress[]>().notNull().default([]),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });

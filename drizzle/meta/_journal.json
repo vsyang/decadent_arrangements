@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1782952829853,
-      "tag": "0000_majestic_nico_minoru",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1782954713038,
-      "tag": "0001_remarkable_bloodaxe",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1783209489176,
-      "tag": "0002_heavy_quentin_quire",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1783209637807,
-      "tag": "0003_little_bloodaxe",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1783298283592,
-      "tag": "0004_rapid_turbo",
+      "when": 1783389895596,
+      "tag": "0000_busy_forge",
       "breakpoints": true
     }
   ]
