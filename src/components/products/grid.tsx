@@ -47,10 +47,11 @@ export default async function ProductsGrid() {
               <p className="text-[#6f6f6f] text-sm mt-2 line-clamp-2 leading-relaxed">
                 {p.description}
               </p>
+            
             </div>
 
-            <div className="mt-4 border-t border-slate-50 flex items-center justify-between">
-              <div className="flex flex-col">
+            <div className="mt-4 border-t border-slate-100 flex items-center justify-between pt-1">
+              <div className="flex flex-col text-left">
                 <span className="text-[10px] uppercase tracking-tighter text-slate-400 font-bold">Price</span>
 
                 {p.price > 0 ? (
@@ -62,6 +63,14 @@ export default async function ProductsGrid() {
                 )}
 
               </div>
+
+              <div className="flex flex-col text-right">
+                <span className="text-[10px] uppercase tracking-tighter text-slate-400 font-bold">Capacity</span>
+                <p className="text-[#2e2e2e] text-sm line-clamp-2 leading-relaxed">
+                  {p.capacity} people
+                </p>
+              </div>
+              
             </div>
           </div>
 
