@@ -13,7 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Decadent Arrangements",
+  title: {
+    template: "%s | Decadent Arrangements",
+    default: "Decadent Arrangements",
+  },
   description: "The website is designed to showcase custom arrangements, gifts, and special occasion charcuterie boards in a clean and professional way",
 };
 
