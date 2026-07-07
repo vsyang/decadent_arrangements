@@ -11,14 +11,31 @@ function generateOrderCode() {
   return `DA-${randomNumber}`;
 }
 
-function getPriceByArrangementSize(size: string) {
+type ArrangementSize = "S" | "M" | "L" | "XL";
+
+function getArrangementSizeEnum(size: string): ArrangementSize {
   switch (size) {
     case "10-20":
-      return "675.00";
+      return "S";
     case "20-30":
-      return "800.00";
+      return "M";
     case "30-40":
+      return "L";
+    default:
+      throw new Error("Invalid arrangement size.");
+  }
+}
+
+function getPriceByArrangementSize(size: ArrangementSize) {
+  switch (size) {
+    case "S":
+      return "675.00";
+    case "M":
+      return "800.00";
+    case "L":
       return "1050.00";
+    case "XL":
+      return "0.00";
     default:
       return "0.00";
   }
@@ -34,7 +51,8 @@ export async function createOrder(formData: FormData) {
   const fullName = formData.get("fullName")?.toString() ?? "";
   const email = formData.get("email")?.toString() ?? "";
   const phone = formData.get("phone")?.toString() ?? "";
-  const arrangementSize = formData.get("arrangementSize")?.toString() ?? "";
+  const arrangementSizeFormValue = formData.get("arrangementSize")?.toString() ?? "";
+  const arrangementSize = getArrangementSizeEnum(arrangementSizeFormValue);
   const eventDate = formData.get("eventDate")?.toString() ?? "";
   const eventTime = formData.get("eventTime")?.toString() ?? "";
   const specialRequests = formData.get("specialRequests")?.toString() ?? "";
