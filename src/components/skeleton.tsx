@@ -13,10 +13,10 @@ export function ProductCardSkeleton() {
   return (
     <div className="flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
       {/* Image */}
-      <div className="relative aspect-[4/5] w-full bg-slate-200 animate-pulse" />
+      <div className="relative aspect-[5/4] w-full bg-slate-200 animate-pulse" />
 
       {/* Body */}
-      <div className="p-5 flex flex-col gap-4">
+      <div className="p-2 flex flex-col gap-4">
         <div>
           {/* Name */}
           <div className="h-6 w-3/4 bg-slate-200 rounded-lg animate-pulse" />
