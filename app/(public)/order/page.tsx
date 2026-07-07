@@ -20,7 +20,7 @@ export default function OrderPage() {
       <h1 className="mb-6 text-4xl font-bold text-[#545454]">Place an Order</h1>
 
       {/* Main order form */}
-      <form className="space-y-6" action={createOrder} method="post">
+      <form className="space-y-6" action={createOrder}>
         {/* Customer information section */}
         <div className="rounded-lg border border-[#807973]/30 bg-[#ffffff] p-6 shadow-sm">
           <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
