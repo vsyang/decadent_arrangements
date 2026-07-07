@@ -17,7 +17,7 @@ export function Sidebar() {
                     Orders Overview
                 </Link>
                 <Link
-                    href="/catalog" /* Enlace temporal o de retorno */
+                    href="/catalog" 
                     className="flex items-center rounded-lg px-3 py-2 text-muted hover:bg-muted/30 hover:text-foreground transition-colors"
                 >
                     View Live Catalog

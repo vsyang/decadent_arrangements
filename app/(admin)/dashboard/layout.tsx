@@ -10,7 +10,7 @@ export default async function DashboardLayout({
     const session = await getServerSession(authOptions);
 
     if (!session) {
-        redirect("/catalog"); // O tu ruta de login pública
+        redirect("/catalog");
     }
 
     return <>{children}</>;

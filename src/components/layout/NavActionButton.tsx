@@ -29,16 +29,13 @@ export function NavActionButton() {
                 } else {
                     setSession({
                         isAuthenticated: true,
-                        // Validamos de forma estricta contra la variable de entorno
                         isAdmin: res.user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL,
                     });
                 }
             } catch (error) {
                 console.error("Error validando la sesión en el cliente:", error);
-                // Fallback seguro en caso de error de red o timeout
                 setSession({ isAuthenticated: false, isAdmin: false });
             } finally {
-                // Se garantiza el apagado del skeleton independientemente del resultado
                 setLoading(false);
             }
         }
@@ -63,7 +60,6 @@ export function NavActionButton() {
         );
     }
 
-    // Si está autenticado pero no es admin, o si no está autenticado (redirige a login)
     return (
         <Link
             href={session.isAuthenticated ? "/orders" : "/api/auth/signin"}
