@@ -11,19 +11,16 @@ import { db } from "@/db";
 import { Order } from "@/db/schema";
 
 // These values must match the product_size enum in the database schema.
-// Your schema uses: "S", "M", "L", and "XL".
 type ArrangementSize = "S" | "M" | "L" | "XL";
 
-// Creates a simple readable order code, such as DA-123456.
-// This is easier for customers and the owner to reference than a long database ID.
+// Creates a simple readable order code, such as DA-123456. This is easier for customers and the owner to reference than a long database ID.
 function generateOrderCode() {
   const randomNumber = Math.floor(100000 + Math.random() * 900000);
   return `DA-${randomNumber}`;
 }
 
 // Converts the form dropdown value into the database enum value.
-// The form shows customer-friendly labels like 10-20 people,
-// but the database stores the size as S, M, L, or XL.
+// The form shows customer-friendly labels like 10-20 people,but the database stores the size as S, M, L, or XL.
 function getArrangementSizeEnum(size: string): ArrangementSize {
   switch (size) {
     case "10-20":
@@ -40,15 +37,15 @@ function getArrangementSizeEnum(size: string): ArrangementSize {
 }
 
 // Returns the price based on the selected arrangement size.
-// Replace these placeholder values with the real business prices later.
+
 function getPriceByArrangementSize(size: string) {
   switch (size) {
     case "10-20":
-      return "0.00";
+      return "675.00";
     case "20-30":
-      return "0.00";
+      return "800.00";
     case "30-40":
-      return "0.00";
+      return "1050.00";
     case "50-plus":
       return "0.00";
     default:
@@ -56,9 +53,7 @@ function getPriceByArrangementSize(size: string) {
   }
 }
 
-// This server action runs when the customer submits the order form.
-// It reads the form data, validates required fields, saves the order,
-// and redirects the customer to the confirmation page.
+// This server action runs when the customer submits the order form. It reads the form data, validates required fields, saves the order, and redirects the customer to the confirmation page.
 export async function createOrder(formData: FormData) {
   // Get the current signed-in user.
   const session = await getServerSession(authOptions);
@@ -137,13 +132,11 @@ export async function createOrder(formData: FormData) {
     customerPhoneAtPurchase: phone,
     customerEmailAtPurchase: email,
 
-    // Store arrangement details.
-    // The database uses S, M, L, XL instead of 10-20, 20-30, etc.
+    // Store arrangement details. The database uses S, M, L, XL instead of 10-20, 20-30, etc.
     arrangementSize: arrangementSizeEnum,
     specialRequests,
 
     // Store price.
-    // Right now prices are placeholders until the real prices are added.
     totalPrice: getPriceByArrangementSize(arrangementSize),
 
     // Store event and delivery details.
@@ -158,7 +151,7 @@ export async function createOrder(formData: FormData) {
       deliveryNotes,
     },
 
-    // This can be improved later if you add a separate dietary restrictions field.
+    // This can be improved later if we add a separate dietary restrictions field.
     dietaryRestrictions: [],
 
     // New orders start as pending.
