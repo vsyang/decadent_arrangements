@@ -1,15 +1,15 @@
-// app/(public)/order/page.tsx
+// app/(public)/order/OrderForm.tsx
 
 "use client";
 
 import { useState } from "react";
 import { createOrder } from "./actions";
 
-// This page will display the customer order form.
-// Customers will use this form to request an arrangement and let the business owner know the delivery details.
-export default function OrderPage() {
+// This component displays the customer order form.
+export default function OrderForm() {
   // Tracks which arrangement size the customer selected.
   const [arrangementSize, setArrangementSize] = useState("");
+  const [phone, setPhone] = useState("");
 
   // Checks if the customer selected the table arrangement option.
   const isTableArrangement = arrangementSize === "50-plus";
@@ -20,14 +20,14 @@ export default function OrderPage() {
       <h1 className="mb-6 text-4xl font-bold text-[#545454]">Place an Order</h1>
 
       {/* Main order form */}
-      <form className="space-y-6" action={createOrder}>
+      <form action={createOrder} className="space-y-6">
         {/* Customer information section */}
         <div className="rounded-lg border border-[#807973]/30 bg-[#ffffff] p-6 shadow-sm">
           <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
             Customer Information
           </h3>
 
-          {/* Basic customer information */}
+          {/* Customer full name */}
           <div className="mb-4">
             <label className="mb-1 block font-medium text-[#545454]">
               Full Name
@@ -40,6 +40,7 @@ export default function OrderPage() {
             />
           </div>
 
+          {/* Customer email */}
           <div className="mb-4">
             <label className="mb-1 block font-medium text-[#545454]">
               Email
@@ -52,14 +53,27 @@ export default function OrderPage() {
             />
           </div>
 
+          {/* Customer phone number */}
           <div className="mb-4">
             <label className="mb-1 block font-medium text-[#545454]">
               Phone Number
             </label>
             <input
-              type="tel"
+              type="text"
               name="phone"
+              value={phone}
+              onChange={(event) => {
+                // Removes anything that is not a number
+                const numbersOnly = event.target.value.replace(/\D/g, "");
+
+                // Limits the phone number to 10 digits
+                setPhone(numbersOnly.slice(0, 10));
+              }}
               required
+              inputMode="numeric"
+              pattern="[0-9]{10}"
+              maxLength={10}
+              placeholder="Enter 10 digit phone number"
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
           </div>
@@ -71,7 +85,7 @@ export default function OrderPage() {
             Arrangement Information
           </h3>
 
-          {/* Customer selects the arrangement size */}
+          {/* Arrangement size dropdown */}
           <div className="mb-4">
             <label className="mb-1 block font-medium text-[#545454]">
               Arrangement Size
@@ -91,7 +105,7 @@ export default function OrderPage() {
             </select>
           </div>
 
-          {/* Shows a consultation message instead of the regular order fields for table arrangements */}
+          {/* If table arrangement is selected, show consultation message instead of normal order fields */}
           {isTableArrangement ? (
             <div className="mt-6 rounded-lg border border-[#03989e]/40 bg-[#03989e]/10 p-5">
               <h4 className="mb-2 text-xl font-semibold text-[#545454]">
@@ -115,7 +129,7 @@ export default function OrderPage() {
             </div>
           ) : (
             <>
-              {/* Event date and event time are split into two inputs for better spacing */}
+              {/* Event date and time fields */}
               <div className="grid gap-8 md:grid-cols-2">
                 <div className="mb-4">
                   <label className="mb-1 block font-medium text-[#545454]">
@@ -158,7 +172,7 @@ export default function OrderPage() {
           )}
         </div>
 
-        {/* Only show delivery and payment sections if table arrangement is NOT selected */}
+        {/* Only show delivery, payment, and submit button if table arrangement is not selected */}
         {!isTableArrangement && (
           <>
             {/* Delivery information section */}
@@ -167,7 +181,7 @@ export default function OrderPage() {
                 Delivery Information
               </h3>
 
-              {/* Delivery address */}
+              {/* Street address */}
               <div className="mb-4">
                 <label className="mb-1 block font-medium text-[#545454]">
                   Street Address
@@ -180,6 +194,7 @@ export default function OrderPage() {
                 />
               </div>
 
+              {/* City, state, and zip code */}
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="mb-4">
                   <label className="mb-1 block font-medium text-[#545454]">
@@ -218,7 +233,7 @@ export default function OrderPage() {
                 </div>
               </div>
 
-              {/* Extra delivery instructions */}
+              {/* Delivery notes */}
               <div className="mb-4">
                 <label className="mb-1 block font-medium text-[#545454]">
                   Delivery Notes
@@ -232,14 +247,14 @@ export default function OrderPage() {
               </div>
             </div>
 
-            {/* Payment confirmation section */}
+            {/* Payment notice section */}
             <div className="rounded-lg border border-[#03989e]/40 bg-[#03989e]/10 p-6 shadow-sm">
               <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
                 Payment Notice
               </h3>
 
-              {/* Required confirmation checkbox */}
-              <label className="flex gap-5 text-[#545454]">
+              {/* Customer must confirm payment requirement before submitting */}
+              <label className="flex gap-2 text-[#545454]">
                 <input
                   type="checkbox"
                   name="agreeToPayment"
@@ -248,7 +263,7 @@ export default function OrderPage() {
                 />
                 <span>
                   I understand that my order will not begin until payment is
-                  received. (We can add something else like: Venmo instructions will be provided after the order is submitted.)
+                  received because supplies must be purchased first.
                 </span>
               </label>
             </div>
