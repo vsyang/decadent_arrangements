@@ -1,6 +1,7 @@
 // app/(public)/order/page.tsx
 
-// This page controls access to the order form. Visitors can view products on the site, but they must sign in with Google before placing an order.
+// This page controls access to the order form.
+// Visitors can view the website, but they must sign in with Google before placing an order.
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -8,10 +9,12 @@ import Link from "next/link";
 import OrderForm from "./OrderForm";
 
 export default async function OrderPage() {
-  // Get the current user's login session from NextAuth/Auth.js If the user is signed in, this will contain their account information. If not, session will be null.
+  // Get the current user's login session from NextAuth/Auth.js.
+  // If the user is signed in, session will contain user information.
+  // If the user is not signed in, session will be null.
   const session = await getServerSession(authOptions);
 
-  // If the user is not signed in, do not show the order form.Instead, show a message explaining that Google login is required.
+  // If the user is not signed in, show a message instead of the order form.
   if (!session?.user) {
     return (
       <main className="mx-auto max-w-3xl px-6 py-12 text-[#545454]">
@@ -21,9 +24,10 @@ export default async function OrderPage() {
             Sign In Required
           </h1>
 
-          {/* Explanation of why login is required */}
-          <p className="mb-6">
-            You can view available products without signing in, but you must log in before placing an order.
+          {/* Explanation for why login is required */}
+          <p className="mb-6 text-[#807973]">
+            You can view available products without signing in, but you must log
+            in with Google before placing an order.
           </p>
 
           {/* Link to the NextAuth/Auth.js sign-in page */}
@@ -38,6 +42,6 @@ export default async function OrderPage() {
     );
   }
 
-  // If the user is signed in, show the actual customer order form. The form itself is kept in a separate component because it uses useState.
+  // If the user is signed in, show the customer order form.
   return <OrderForm />;
 }
