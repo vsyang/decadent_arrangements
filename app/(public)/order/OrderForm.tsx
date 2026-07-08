@@ -2,14 +2,25 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createOrder } from "./actions";
+import { useSearchParams } from "next/navigation";
 
 // This component displays the customer order form.
 export default function OrderForm() {
   // Tracks which arrangement size the customer selected.
   const [arrangementSize, setArrangementSize] = useState("");
   const [phone, setPhone] = useState("");
+
+  // This is information that comes from the URL to set the size directly
+  const searchParams = useSearchParams();
+  const querySize = searchParams.get('arrangement') || '';
+
+  useEffect(() => {
+    if (querySize) {
+      setArrangementSize(querySize);
+    }
+  }, [querySize, setArrangementSize]);
 
   // Checks if the customer selected the table arrangement option.
   const isTableArrangement = arrangementSize === "50-plus";
@@ -97,7 +108,7 @@ export default function OrderForm() {
               required
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             >
-              <option value="">Select a size</option>
+              <option value="" disabled>Select a size</option>
               <option value="10-20">10-20 people</option>
               <option value="20-30">20-30 people</option>
               <option value="30-40">30-40 people</option>
