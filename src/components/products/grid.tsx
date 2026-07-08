@@ -67,7 +67,12 @@ export default async function ProductsGrid() {
               <div className="flex flex-col text-right">
                 <span className="text-[10px] uppercase tracking-tighter text-slate-400 font-bold">Capacity</span>
                 <p className="text-[#2e2e2e] text-sm line-clamp-2 leading-relaxed">
-                  {p.capacity} people
+                {p.capacity == "50-plus" ? (
+                  <span>+50 </span>
+                ) : (
+                  <span>{p.capacity} </span>
+                )}
+                people
                 </p>
               </div>
               
@@ -77,7 +82,7 @@ export default async function ProductsGrid() {
           <div className="pb-4 px-8">
 
             <Link
-              href="#"
+              href={`/order?arrangement=${p.capacity}`}
               className="flex w-full items-center justify-center text-sm line-clamp-2 border text-[#2e2e2e] font-serif text-xl leading-tight hover:text-[#c97c5d] transition-colors line-clamp-1 p-2"
             >
               Place Order
