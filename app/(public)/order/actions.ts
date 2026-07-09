@@ -20,7 +20,6 @@ function generateOrderCode() {
 }
 
 // Converts the form dropdown value into the database enum value.
-// The form shows customer-friendly labels like 10-20 people,but the database stores the size as S, M, L, or XL.
 function getArrangementSizeEnum(size: string): ArrangementSize {
   switch (size) {
     case "10-20":
@@ -37,7 +36,6 @@ function getArrangementSizeEnum(size: string): ArrangementSize {
 }
 
 // Returns the price based on the selected arrangement size.
-
 function getPriceByArrangementSize(size: string) {
   switch (size) {
     case "10-20":
