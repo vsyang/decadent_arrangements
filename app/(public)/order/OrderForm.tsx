@@ -21,10 +21,10 @@ export default function OrderForm() {
   // Checks if the customer selected the table arrangement option.
   const isTableArrangement = arrangementSize === "50-plus";
 
-  // Calculates the soonest event date allowed. Customers must order at least 7 days in advance.
+  // Calculates the soonest event date allowed. Customers must order at least 10 days in advance.
   const today = new Date();
   const soonestAllowedDate = new Date(today);
-  soonestAllowedDate.setDate(today.getDate() + 7);
+  soonestAllowedDate.setDate(today.getDate() + 10);
 
   // Formats the date as YYYY-MM-DD.
   const minimumEventDate = soonestAllowedDate.toISOString().split("T")[0];
