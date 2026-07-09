@@ -214,7 +214,7 @@ export default function OrderForm() {
                     type="text"
                     name="city"
                     required
-                    className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   />
                 </div>
 
@@ -291,7 +291,7 @@ export default function OrderForm() {
                     type="text"
                     name="postalCode"
                     required
-                    className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   />
                 </div>
               </div>
