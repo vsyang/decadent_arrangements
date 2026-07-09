@@ -226,7 +226,7 @@ export default function OrderForm() {
                   <select
                     name="state"
                     required
-                    className="h-4 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   >
                     <option value="">Select a state</option>
                     <option value="AL">AL</option>
