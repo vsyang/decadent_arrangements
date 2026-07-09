@@ -110,6 +110,19 @@ export async function createOrder(formData: FormData) {
   // Combine the event date and event time into one Date object for the database.
   const combinedEventDate = new Date(`${eventDate}T${eventTime}`);
 
+  // Make sure the event date is at least 7 days from today.
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const soonestAllowedDate = new Date(today);
+  soonestAllowedDate.setDate(today.getDate() + 7);
+
+  const selectedEventDate = new Date(eventDate);
+  selectedEventDate.setHours(0, 0, 0, 0);
+
+  if (selectedEventDate < soonestAllowedDate) {
+    throw new Error("Orders must be placed at least 7 days in advance.");
+  }
   // Make sure the date is valid before saving it.
   if (Number.isNaN(combinedEventDate.getTime())) {
     throw new Error("Invalid event date or time.");
