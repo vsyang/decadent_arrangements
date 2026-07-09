@@ -21,6 +21,14 @@ export default function OrderForm() {
   // Checks if the customer selected the table arrangement option.
   const isTableArrangement = arrangementSize === "50-plus";
 
+  // Calculates the soonest event date allowed. Customers must order at least 10 days in advance.
+  const today = new Date();
+  const soonestAllowedDate = new Date(today);
+  soonestAllowedDate.setDate(today.getDate() + 10);
+
+  // Formats the date as YYYY-MM-DD.
+  const minimumEventDate = soonestAllowedDate.toISOString().split("T")[0];
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12 text-[#545454]">
       {/* Page title */}
@@ -147,6 +155,7 @@ export default function OrderForm() {
                   <input
                     type="date"
                     name="eventDate"
+                    min={minimumEventDate}
                     required
                     className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   />
