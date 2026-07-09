@@ -65,7 +65,7 @@ export function NavActionButton() {
             href={session.isAuthenticated ? "/" : "/api/auth/signin"}
             className="rounded-full bg-stone-100 px-4 py-1.5 text-xs text-stone-900 font-semibold hover:opacity-90 transition-opacity border border-stone-200"
         >
-            {session.isAuthenticated ? "Sign out" : "Sign up"}
+            {session.isAuthenticated ? "Sign Out" : "Sign In"}
         </Link>
     );
 }
