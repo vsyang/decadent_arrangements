@@ -326,7 +326,7 @@ export default function OrderForm() {
                 />
                 <span>
                   I understand that my order will not begin until payment is
-                  received because supplies must be purchased first.
+                  received.
                 </span>
               </label>
             </div>
