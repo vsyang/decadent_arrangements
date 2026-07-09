@@ -2,25 +2,21 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
-import { createOrder } from "./actions";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { createOrder } from "./actions";
 
-// This component displays the customer order form.
+// This displays the customer order form.
 export default function OrderForm() {
-  // Tracks which arrangement size the customer selected.
-  const [arrangementSize, setArrangementSize] = useState("");
-  const [phone, setPhone] = useState("");
-
-  // This is information that comes from the URL to set the size directly
+  // Reads the arrangement size from the URL if the customer came from the catalog page.
   const searchParams = useSearchParams();
-  const querySize = searchParams.get('arrangement') || '';
+  const querySize = searchParams.get("arrangement") || "";
 
-  useEffect(() => {
-    if (querySize) {
-      setArrangementSize(querySize);
-    }
-  }, [querySize, setArrangementSize]);
+  // Tracks which arrangement size the customer selected.
+  const [arrangementSize, setArrangementSize] = useState(querySize);
+
+  // Tracks the customer's phone number.
+  const [phone, setPhone] = useState("");
 
   // Checks if the customer selected the table arrangement option.
   const isTableArrangement = arrangementSize === "50-plus";
@@ -74,10 +70,10 @@ export default function OrderForm() {
               name="phone"
               value={phone}
               onChange={(event) => {
-                // Removes anything that is not a number
+                // Removes anything that is not a number.
                 const numbersOnly = event.target.value.replace(/\D/g, "");
 
-                // Limits the phone number to 10 digits
+                // Limits the phone number to 10 digits.
                 setPhone(numbersOnly.slice(0, 10));
               }}
               required
@@ -108,7 +104,9 @@ export default function OrderForm() {
               required
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             >
-              <option value="" disabled>Select a size</option>
+              <option value="" disabled>
+                Select a size
+              </option>
               <option value="10-20">10-20 people</option>
               <option value="20-30">20-30 people</option>
               <option value="30-40">30-40 people</option>
@@ -207,6 +205,7 @@ export default function OrderForm() {
 
               {/* City, state, and zip code */}
               <div className="grid gap-4 md:grid-cols-3">
+                {/* City */}
                 <div className="mb-4">
                   <label className="mb-1 block font-medium text-[#545454]">
                     City
@@ -219,11 +218,15 @@ export default function OrderForm() {
                   />
                 </div>
 
+                {/* State dropdown */}
                 <div className="mb-4">
+                  <label className="mb-1 block font-medium text-[#545454]">
+                    State
+                  </label>
                   <select
                     name="state"
                     required
-                    className="w-full rounded-md border border-[#807973]/40 px-4 py-3"
+                    className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   >
                     <option value="">Select a state</option>
                     <option value="AL">AL</option>
@@ -279,6 +282,7 @@ export default function OrderForm() {
                   </select>
                 </div>
 
+                {/* Zip code */}
                 <div className="mb-4">
                   <label className="mb-1 block font-medium text-[#545454]">
                     Zip Code
@@ -313,7 +317,7 @@ export default function OrderForm() {
               </h3>
 
               {/* Customer must confirm payment requirement before submitting */}
-              <label className="flex gap-2 text-[#545454]">
+              <label className="flex gap-5 text-[#545454]">
                 <input
                   type="checkbox"
                   name="agreeToPayment"
