@@ -3,12 +3,15 @@
 import "../globals.css";
 
 import type { Metadata } from "next";
+import ManageActions from "./actions";
 
 export const metadata: Metadata = {
-    title: 'Administration',
+    title: 'Management',
 };
 
 export default function DashboardPage() {
+
+ManageActions();
 
     return (
         <>
