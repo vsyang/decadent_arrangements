@@ -3,12 +3,20 @@
 import "../globals.css";
 
 import type { Metadata } from "next";
+import IsAdminProtection from "./actions";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-    title: 'Administration',
+    title: 'Management',
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+
+    const authorized = await IsAdminProtection();
+
+    if (!authorized) {
+        redirect("/manage/orders");
+    }
 
     return (
         <>
