@@ -1,7 +1,7 @@
 import "../../../app/globals.css";
 
 
-export default async function OrdersTableBody({ orders }) {
+export default async function OrdersTableBody({ orders }: any) {
 
   if (!orders || orders.length === 0) {
     return (
@@ -28,7 +28,7 @@ export default async function OrdersTableBody({ orders }) {
   return (
 
     <>
-      {orders?.map((o) => (
+      {orders?.map((o: any) => (
 
       <tr
         key={o.id}

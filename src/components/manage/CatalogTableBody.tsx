@@ -1,7 +1,7 @@
 import "../../../app/globals.css";
 
 
-export default async function CatalogTableBody({ products }) {
+export default async function CatalogTableBody({ products }: any) {
 
 
   if (!products || products.length === 0) {
@@ -29,7 +29,7 @@ export default async function CatalogTableBody({ products }) {
   return (
 
     <>
-      {products?.map((p) => (
+      {products?.map((p: any) => (
 
       <tr
         key={p.id}
