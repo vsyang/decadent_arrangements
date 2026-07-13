@@ -1,11 +1,9 @@
 //app/(admin)/orders/page.tsx
 
-import { getServerSession } from "next-auth";
 import "../../globals.css";
 
 import type { Metadata } from "next";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import IsAdminProtection from "../actions";
 
 export const metadata: Metadata = {
     title: 'Orders Admin',
@@ -13,25 +11,11 @@ export const metadata: Metadata = {
 
 export default async function OrderManagementPage() {
 
-    const session = await getServerSession(authOptions);
-
-    if (!session || !session.user) {
-        redirect("/not-found");
-    }    
-
-    const whitelistRaw = process.env.WHITELIST || "";
-    const adminWhitelist = whitelistRaw.split(",").map((email) => email.trim().toLowerCase());
-    
-    const userEmail = session.user.email?.toLowerCase() || ""; // prod
-
-    // const userEmail = ""; // dev
-
-    const isAuthorizedAdmin = adminWhitelist.includes(userEmail);
-
+    const authorized = await IsAdminProtection();
 
     return (
         <>
-        {(isAuthorizedAdmin) ? (
+        {(authorized) ? (
         
         <div>
             <h1 className="text-2xl font-bold text-primary">Orders Overview</h1>

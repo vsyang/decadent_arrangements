@@ -1,25 +1,30 @@
+// app/actions/isAdmin.ts
+
+"use server";
+
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-export default async function ManageActions() {
+export default async function IsAdminProtection(): Promise<boolean> {
 
-      const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
-      if (!session || !session.user) {
-          redirect("/not-found");
-      }
+  if (!session || !session.user) {
+    redirect("/not-found");
+  }
 
-      const whitelistRaw = process.env.WHITELIST || "";
-      const adminWhitelist = whitelistRaw.split(",").map((email) => email.trim().toLowerCase());
-  
-      const userEmail = session.user.email?.toLowerCase() || ""; // prod
-  
-      // const userEmail = ""; // dev
-  
-      const isAuthorizedAdmin = adminWhitelist.includes(userEmail);
-  
-      if (!isAuthorizedAdmin) {
-          redirect("/manage/orders");
-      }
+  if (!session?.user?.email) {
+    return false;
+  }
+
+  const whitelist = JSON.parse(process.env.WHITELIST ?? '[]');
+
+  // console.log(whitelist);
+
+  const sessionEmail = session.user.email.toLowerCase(); // prod
+
+  // const sessionEmail = "" // dev
+
+  return whitelist.includes(sessionEmail);
 }
