@@ -1,7 +1,5 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import IsAdminProtection from "./actions";
 
 export default async function DashboardLayout({
     children,
@@ -9,27 +7,14 @@ export default async function DashboardLayout({
     children: React.ReactNode;
 }) {
 
-    const session = await getServerSession(authOptions);
-
-    if (!session || !session.user) {
-        redirect("/not-found");
-    }    
-
-    const whitelistRaw = process.env.WHITELIST || "";
-    const adminWhitelist = whitelistRaw.split(",").map((email) => email.trim().toLowerCase());
-    
-    const userEmail = session.user.email?.toLowerCase() || ""; // prod
-
-    // const userEmail = ""; // dev
-
-    const isAuthorizedAdmin = adminWhitelist.includes(userEmail);
+    const authorized = await IsAdminProtection();
     
     const managementPages = ["Catalog" , "Orders"];
     
     return (
     <>
 
-        {(isAuthorizedAdmin) ? (
+        {(authorized) ? (
         
         <div>
             <div className="mx-auto max-w-7xl px-6 py-12">

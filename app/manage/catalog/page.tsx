@@ -3,7 +3,8 @@
 import { fetchProducts } from "@/db/queries";
 import "../../globals.css";
 import type { Metadata } from "next";
-import ManageActions from "../actions";
+import IsAdminProtection from "../actions";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
     title: 'Catalog Admin',
@@ -11,12 +12,11 @@ export const metadata: Metadata = {
 
 export default async function CatalogManagementPage() {
 
-
-    ManageActions();
-
-    // Get the current user's login session from NextAuth/Auth.js.
-    // If the user is signed in, session will contain user information.
-    // If the user is not signed in, session will be null.
+        const authorized = await IsAdminProtection();
+    
+        if (!authorized) {
+            redirect("/not-found");
+        }
 
     const products = await fetchProducts();
 
