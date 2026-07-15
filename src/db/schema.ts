@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, timestamp, jsonb, pgEnum, numeric, primaryKey } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp, jsonb, pgEnum, numeric, primaryKey, boolean } from 'drizzle-orm/pg-core';
 import type { AdapterAccount } from 'next-auth/adapters';
 
 export interface UserAddress {
@@ -21,6 +21,12 @@ export const orderStatusEnum = pgEnum('order_status', [
   'preparing',
   'delivered',
   'cancelled'
+]);
+
+export const notificationCategoryEnum = pgEnum('notification_category', [
+  'orders',
+  'promotions',
+  'account',
 ]);
 
 // ==========================================
@@ -113,11 +119,34 @@ export const Order = pgTable('orders', {
   customerPhoneAtPurchase: text('customer_phone_at_purchase').notNull(),
   customerEmailAtPurchase: text('customer_email_at_purchase').notNull(),
 
+  arrangementSize: productSizeEnum('arrangement_size').notNull(),
+  specialRequests: text('special_requests'),
+
   totalPrice: numeric('total_price', { precision: 10, scale: 2 }).notNull(),
   eventDate: timestamp('event_date', { withTimezone: true }).notNull(),
   deliveryAddress: jsonb('delivery_address').$type<UserAddress>().notNull(),
   dietaryRestrictions: text('dietary_restrictions').array().notNull().default([]),
   status: orderStatusEnum('status').notNull().default('pending'),
+
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const Notification = pgTable('notifications', {
+  id: uuid('id').defaultRandom().primaryKey(),
+
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+
+  title: text('title').notNull(),
+  message: text('message').notNull(),
+
+  category: notificationCategoryEnum('category').notNull().default('orders'),
+
+  isRead: boolean('is_read').notNull().default(false),
+
+  actionUrl: text('action_url'),
 
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
