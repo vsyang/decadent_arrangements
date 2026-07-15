@@ -125,7 +125,7 @@ export function Navbar() {
               Contact
             </Link>
 
-            {/* Desktop Notifications Bell */}
+            {/* Desktop Notifications Bell - Corregido sin colores hardcodeados */}
             {isAuthenticated && (
               <Link
                 href="/notifications"
@@ -155,7 +155,7 @@ export function Navbar() {
           </Link>
 
           <div className="flex items-center gap-2">
-            {/* Mobile Notifications Bell */}
+            {/* Mobile Notifications Bell - Corregido sin colores hardcodeados */}
             {isAuthenticated && (
               <Link
                 href="/notifications"
