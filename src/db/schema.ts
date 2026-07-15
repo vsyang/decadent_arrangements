@@ -14,6 +14,8 @@ export interface UserAddress {
 // ==========================================
 // ENUMS
 // ==========================================
+export const userRoleEnum = pgEnum('user_role', ['user', 'admin']);
+
 export const productSizeEnum = pgEnum('product_size', ['S', 'M', 'L', 'XL']);
 
 export const orderStatusEnum = pgEnum('order_status', [
@@ -44,6 +46,7 @@ export const users = pgTable('users', {
   phones: text('phones').array(),
   addresses: jsonb('addresses').$type<UserAddress[]>().default([]),
   preferredContactMethod: text('preferred_contact_method').notNull().default('whatsapp'),
+  role: userRoleEnum('role').notNull().default('user'),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
