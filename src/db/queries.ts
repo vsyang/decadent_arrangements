@@ -3,9 +3,7 @@ import { Order, Product } from './schema';
 import { asc, eq, sql } from 'drizzle-orm';
 
 export async function getProducts() {
-
   const allProducts = await db.select().from(Product);
-
   return allProducts;
 }
 
@@ -31,7 +29,7 @@ export async function fetchProducts() {
   }
 }
 
-
+// 🟢 INTEGRADO: Obtenido de main
 export async function fetchProductById(productId: string) {
   try {
     const data = await db
@@ -45,26 +43,19 @@ export async function fetchProductById(productId: string) {
         imageUrl: Product.imageUrl,
       })
       .from(Product)
-      .where(eq(Product.id, productId))
-      
+      .where(eq(Product.id, productId));
 
-      return data[0] || null;
+    return data[0] || null;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch product data.");
   }
 }
 
-
-
-
 export async function getAllOrders() {
-
   const allOrders = await db.select().from(Order);
-
   return allOrders;
 }
-
 
 export async function fetchAllOrders() {
   try {
@@ -86,7 +77,6 @@ export async function fetchAllOrders() {
     throw new Error('Failed to fetch orders data.');
   }
 }
-
 
 export async function fetchAllOrdersByCustomerId(customerId: string) {
   try {
@@ -110,6 +100,7 @@ export async function fetchAllOrdersByCustomerId(customerId: string) {
   }
 }
 
+// 🟢 INTEGRADO: Obtenido de main
 export async function fetchOrderById(orderId: string) {
   try {
     const data = await db
@@ -122,10 +113,9 @@ export async function fetchOrderById(orderId: string) {
         status: Order.status,
       })
       .from(Order)
-      .where(eq(Order.id, orderId))
-      
+      .where(eq(Order.id, orderId));
 
-      return data[0] || null;
+    return data[0] || null;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch order data.");
