@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "../../../app/globals.css";
 
 
@@ -50,6 +51,15 @@ export default async function CatalogTableBody({ products }: any) {
           >
           See Images
           </button>
+        </td>
+
+        <td className="whitespace-nowrap px-6 py-4 text-slate-900">
+          <Link
+          key={p.id}
+          href={`/manage/catalog/${p.id}`}
+          className="group text-center bg-black p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 w-full text-white"
+          > See more
+          </Link>
         </td>
 
         <td>

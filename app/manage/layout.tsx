@@ -22,7 +22,6 @@ export default async function DashboardLayout({
                 <Link href={"/manage"} >
                     <h1 className="text-3xl font-bold text-primary">General Management</h1>
                 </Link>
-                <p className="text-muted">Welcome back, Admin. Select a module to manage.</p>
 
             </div>
 
@@ -51,7 +50,6 @@ export default async function DashboardLayout({
         <div className="mx-auto max-w-7xl px-6 py-12">
             
             <h1 className="text-3xl font-bold text-primary">My orders</h1>
-            <p className="text-muted">Hello! These are your orders up until now.</p>
 
         </div>
         )}

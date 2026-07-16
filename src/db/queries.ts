@@ -32,6 +32,32 @@ export async function fetchProducts() {
 }
 
 
+export async function fetchProductById(productId: string) {
+  try {
+    const data = await db
+      .select({
+        id: Product.id,
+        name: Product.name,
+        description: Product.description,
+        size: Product.size,
+        capacity: Product.capacity,
+        price: sql<number>`cast(${Product.price} as float)`,
+        imageUrl: Product.imageUrl,
+      })
+      .from(Product)
+      .where(eq(Product.id, productId))
+      
+
+      return data[0] || null;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch product data.");
+  }
+}
+
+
+
+
 export async function getAllOrders() {
 
   const allOrders = await db.select().from(Order);
@@ -81,5 +107,27 @@ export async function fetchAllOrdersByCustomerId(customerId: string) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch orders data.");
+  }
+}
+
+export async function fetchOrderById(orderId: string) {
+  try {
+    const data = await db
+      .select({
+        id: Order.id,
+        idReadable: Order.readableOrderCode,
+        clientName: Order.customerNameAtPurchase,
+        eventDate: Order.eventDate,
+        size: Order.arrangementSize,
+        status: Order.status,
+      })
+      .from(Order)
+      .where(eq(Order.id, orderId))
+      
+
+      return data[0] || null;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch order data.");
   }
 }

@@ -8,6 +8,8 @@ import { TableSkeleton } from "@/components/skeleton";
 import { Suspense } from "react";
 import CatalogTableBody from "@/components/manage/CatalogTableBody";
 import { fetchProducts } from "@/db/queries";
+import Link from "next/link";
+import { ChevronRightIcon } from "@heroicons/react/16/solid";
 
 export const metadata: Metadata = {
     title: 'Catalog Admin',
@@ -25,7 +27,23 @@ export default async function CatalogManagementPage() {
 
     return (
         <>
+
             <div className="max-w-7xl m-auto py-5">
+
+                <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+
+                    <Link
+                        href="/manage"
+                        className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
+                    >
+                    Management
+                    </Link>
+
+                    <ChevronRightIcon className="w-3 h-3" />
+
+                    <span className="text-[#6b4f3f] truncate max-w-50">Catalog</span>
+                </nav>
+            
                 <h1 className="text-2xl font-bold text-primary">Catalog Overview</h1>
                 <p className="text-muted mt-2">Manage products details here.</p>
                 <p className="text-muted mt-2"><b>Note:</b> Price set on 0 is stated as <i>Upon request</i>.</p>
@@ -47,6 +65,8 @@ export default async function CatalogManagementPage() {
                         <th scope="col" className="hidden md:table-cell px-6 py-4">Price (USD)</th>
 
                         <th scope="col" className="hidden md:table-cell px-6 py-4">Images</th>
+
+                        <th scope="col" className="px-6 py-4">Details</th>
 
                         <th scope="col" className="px-6 py-4">Actions</th>
 
