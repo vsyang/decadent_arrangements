@@ -53,7 +53,7 @@ export default async function OrderManagementPage() {
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-medium">
                     <Suspense fallback={<TableSkeleton rows={5} />}>
-                        <OrdersTableBody orders={orders} />
+                        <OrdersTableBody ordersList={orders} actions={true} />
                     </Suspense>
                 </tbody>
             </table>
