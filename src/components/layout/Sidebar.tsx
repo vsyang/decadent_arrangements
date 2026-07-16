@@ -1,23 +1,38 @@
+// src/components/layout/Sidebar.tsx
 import Link from "next/link";
 
 export function Sidebar() {
     return (
         <aside className="fixed inset-y-0 left-0 z-20 flex w-64 flex-col border-r border-border bg-background">
             <div className="flex h-16 items-center px-6 border-b border-border">
-                <Link href="/dashboard" className="text-lg font-bold tracking-tight text-accent">
+                {/* Redirige de manera predeterminada al panel de órdenes administrativas */}
+                <Link href="/admin/orders" className="text-lg font-bold tracking-tight text-accent hover:opacity-90 transition-opacity">
                     DA Dashboard
                 </Link>
             </div>
 
             <nav className="flex-1 space-y-1 px-4 py-6 text-sm font-medium">
+                {/* Gestión de Órdenes */}
                 <Link
-                    href="/dashboard"
+                    href="/admin/orders"
                     className="flex items-center rounded-lg px-3 py-2 text-primary hover:bg-muted/30 transition-colors"
                 >
-                    Orders Overview
+                    Orders Management
                 </Link>
+
+                {/* Gestión del Catálogo */}
                 <Link
-                    href="/catalog" 
+                    href="/admin/catalog"
+                    className="flex items-center rounded-lg px-3 py-2 text-muted hover:bg-muted/30 hover:text-foreground transition-colors"
+                >
+                    Catalog Management
+                </Link>
+
+                <hr className="my-4 border-border/50" />
+
+                {/* Acceso directo a la vista pública del catálogo */}
+                <Link
+                    href="/catalog"
                     className="flex items-center rounded-lg px-3 py-2 text-muted hover:bg-muted/30 hover:text-foreground transition-colors"
                 >
                     View Live Catalog

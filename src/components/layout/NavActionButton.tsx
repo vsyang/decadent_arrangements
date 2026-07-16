@@ -62,7 +62,7 @@ export function NavActionButton() {
 
     return (
         <Link
-            href={session.isAuthenticated ? "/manage/orders" : "/api/auth/signin"}
+            href={session.isAuthenticated ? "/admin/orders" : "/api/auth/signin"}
             className="rounded-full bg-stone-100 px-4 py-1.5 text-xs text-stone-900 font-semibold hover:opacity-90 transition-opacity border border-stone-200"
         >
             {session.isAuthenticated ? "My orders" : "Sign In"}
