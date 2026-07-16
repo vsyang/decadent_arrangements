@@ -75,7 +75,7 @@ export default function AccountForm({ initialData, updateAccountAction }: Accoun
             )}
 
             <div>
-                <label className="block text-sm font-medium text-muted-foreground">Full Name</label>
+                <label className="block text-sm font-medium ">Full Name</label>
                 <input
                     type="text"
                     disabled
@@ -85,7 +85,7 @@ export default function AccountForm({ initialData, updateAccountAction }: Accoun
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-muted-foreground">Email Address</label>
+                <label className="block text-sm font-medium ">Email Address</label>
                 <input
                     type="email"
                     disabled

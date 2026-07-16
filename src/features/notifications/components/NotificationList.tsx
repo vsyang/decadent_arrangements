@@ -85,8 +85,8 @@ export function NotificationList({ initialNotifications, userRole }: Notificatio
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors capitalize whitespace-nowrap ${activeTab === tab
-                                ? "border-primary text-foreground"
-                                : "border-transparent text-muted hover:text-foreground" // Corregido de 'text-muted-foreground' a 'text-muted'
+                            ? "border-primary text-foreground"
+                            : "border-transparent text-muted hover:text-foreground" // Corregido de '' a 'text-muted'
                             }`}
                     >
                         {tab}
@@ -106,18 +106,18 @@ export function NotificationList({ initialNotifications, userRole }: Notificatio
                         <div
                             key={notif.id}
                             className={`p-4 rounded-xl border transition-all duration-200 flex items-start justify-between gap-4 ${notif.isRead
-                                    ? "bg-background border-border/40 opacity-70"
-                                    : "bg-border/20 border-border shadow-sm" // Corregido: Usamos opacidades del color de borde semántico
+                                ? "bg-background border-border/40 opacity-70"
+                                : "bg-border/20 border-border shadow-sm" // Corregido: Usamos opacidades del color de borde semántico
                                 }`}
                         >
                             <div className="space-y-1">
                                 <div className="flex items-center gap-2 flex-wrap">
                                     {/* Badges de Categorías adaptados a las paletas semánticas */}
                                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${notif.category === "orders"
-                                            ? "bg-secondary/15 text-secondary"
-                                            : notif.category === "promotions"
-                                                ? "bg-accent/15 text-accent"
-                                                : "bg-primary/15 text-primary"
+                                        ? "bg-secondary/15 text-secondary"
+                                        : notif.category === "promotions"
+                                            ? "bg-accent/15 text-accent"
+                                            : "bg-primary/15 text-primary"
                                         }`}>
                                         {notif.category}
                                     </span>

@@ -42,7 +42,7 @@ export default async function AccountPage() {
         <div className="max-w-7xl mx-auto px-4 py-12">
             <div className="mb-8">
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">Account Settings</h1>
-                <p className="text-muted-foreground mt-1">
+                <p className=" mt-1">
                     Keep your contact details and delivery preferences up-to-date.
                 </p>
             </div>
@@ -55,7 +55,7 @@ export default async function AccountPage() {
                 <div className="space-y-4">
                     <div className="p-5 rounded-lg border border-border bg-muted/10">
                         <h3 className="font-semibold text-foreground text-sm">Security & Access</h3>
-                        <p className="text-xs text-muted-foreground mt-2">
+                        <p className="text-xs  mt-2">
                             Your profile is managed securely via Google authentication. Change your password and account credentials directly through your Google Account settings.
                         </p>
                     </div>
