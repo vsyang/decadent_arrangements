@@ -90,58 +90,39 @@ function BellIcon(props: React.SVGProps<SVGSVGElement>) {
 // ==========================================
 
 export function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [hasUnread, setHasUnread] = useState<boolean>(true); // Mock temporal del indicador activo
-
-  useEffect(() => {
-    async function checkSession() {
-      try {
-        const session = await getSessionAction();
-        setIsAuthenticated(!!session?.user);
-      } catch (error) {
-        console.error("Error al determinar estado de autenticación en el Navbar:", error);
-      }
-    }
-    checkSession();
-  }, []);
-
   return (
     <>
       {/* DESKTOP HEADER */}
       <header className="hidden md:sticky md:top-0 md:z-50 md:block w-full border-b border-border bg-background/80 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+          <Link
+            href="/"
+            className="text-xl font-bold tracking-tight text-primary"
+          >
             Decadent Arrangements
           </Link>
 
           <nav className="flex items-center gap-6 text-sm font-medium">
-            <Link href="/catalog" className="text-muted hover:text-foreground transition-colors">
+            <Link
+              href="/catalog"
+              className="text-muted hover:text-foreground transition-colors"
+            >
               Catalog
             </Link>
-            <Link href="/order" className="text-muted hover:text-foreground transition-colors">
+
+            <Link
+              href="/order"
+              className="text-muted hover:text-foreground transition-colors"
+            >
               Order
             </Link>
-            <Link href="/contact" className="text-muted hover:text-foreground transition-colors">
+
+            <Link
+              href="/contact"
+              className="text-muted hover:text-foreground transition-colors"
+            >
               Contact
             </Link>
-
-            {/* Desktop Notifications Bell - Corregido sin colores hardcodeados */}
-            {isAuthenticated && (
-              <Link
-                href="/notifications"
-                className="relative p-1.5 rounded-full text-muted hover:text-foreground hover:bg-border/20 transition-all duration-200"
-                aria-label="Notifications"
-              >
-                <BellIcon className="h-5 w-5" />
-                {hasUnread && (
-                  <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-danger opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-danger"></span>
-                  </span>
-                )}
-              </Link>
-            )}
-
             <NavActionButton />
           </nav>
         </div>
@@ -150,31 +131,18 @@ export function Navbar() {
       {/* MOBILE TOP BRAND HEADER */}
       <header className="sticky top-0 z-50 block md:hidden w-full border-b border-border bg-background/80 backdrop-blur">
         <div className="flex h-14 items-center justify-between px-4">
-          <Link href="/" className="text-md font-bold tracking-tight text-primary">
+          <Link
+            href="/"
+            className="text-md font-bold tracking-tight text-primary"
+          >
             Decadent Arrangements
           </Link>
 
-          <div className="flex items-center gap-2">
-            {/* Mobile Notifications Bell - Corregido sin colores hardcodeados */}
-            {isAuthenticated && (
-              <Link
-                href="/notifications"
-                className="relative p-2 rounded-full text-muted hover:text-foreground hover:bg-border/10 transition-colors"
-                aria-label="Notifications"
-              >
-                <BellIcon className="h-5 w-5" />
-                {hasUnread && (
-                  <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-danger opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-danger"></span>
-                  </span>
-                )}
-              </Link>
-            )}
-
-            {/* Div para Breadcrumbs */}
-            <div id="mobile-breadcrumbs" className="text-xs text-muted font-medium" />
-          </div>
+          {/* TO-DO Breadcrumbs */}
+          <div
+            id="mobile-breadcrumbs"
+            className="text-xs text-muted font-medium"
+          />
         </div>
       </header>
 
