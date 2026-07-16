@@ -20,11 +20,7 @@ export default async function IsAdminProtection(): Promise<boolean> {
 
   const whitelist = JSON.parse(process.env.WHITELIST ?? '[]');
 
-  // console.log(whitelist);
-
   const sessionEmail = session.user.email.toLowerCase(); // prod
-
-  // const sessionEmail = "" // dev
 
   return whitelist.includes(sessionEmail);
 }
