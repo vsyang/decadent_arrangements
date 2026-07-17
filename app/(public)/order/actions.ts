@@ -8,7 +8,8 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/db";
-import { Order } from "@/db/schema";
+import { Order, users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 // These values must match the product_size enum in the database schema.
 type ArrangementSize = "S" | "M" | "L" | "XL";
@@ -78,6 +79,9 @@ export async function createOrder(formData: FormData) {
   const eventTime = formData.get("eventTime")?.toString().trim() ?? "";
   const specialRequests =
     formData.get("specialRequests")?.toString().trim() ?? "";
+  const dietaryRestrictions =
+    formData.get("dietaryRestrictions")?.toString().trim() ?? "";
+  
 
   // Get delivery information from the form.
   const streetAddress =
@@ -94,6 +98,7 @@ export async function createOrder(formData: FormData) {
     !email ||
     !phone ||
     !arrangementSize ||
+    !dietaryRestrictions ||
     !eventDate ||
     !eventTime ||
     !streetAddress ||
@@ -126,6 +131,14 @@ export async function createOrder(formData: FormData) {
   // Make sure the date is valid before saving it.
   if (Number.isNaN(combinedEventDate.getTime())) {
     throw new Error("Invalid event date or time.");
+  }
+
+  // Get the payment preference from the form and validate it.
+  const paymentPreference =
+    formData.get("paymentPreference")?.toString().trim().toLowerCase() ?? "";
+    
+  if (!["venmo", "paypal", "zelle"].includes(paymentPreference)) {
+    throw new Error("Please select a valid payment preference.");
   }
 
   // Generate the customer-friendly order code.
@@ -162,12 +175,36 @@ export async function createOrder(formData: FormData) {
       deliveryNotes,
     },
 
-    // This can be improved later if we add a separate dietary restrictions field.
-    dietaryRestrictions: [],
+    // Dietary restrictions field.
+    dietaryRestrictions: dietaryRestrictions ? [dietaryRestrictions] : [],
+
+    // Store payment preference.
+    paymentPreference,
 
     // New orders start as pending.
     status: "pending",
   });
+
+  // Save the customer's latest contact and delivery information.This allows the order form to prefill these fields next time.
+  await db
+    .update(users)
+    .set({
+      name: fullName,
+      phones: [phone],
+      addresses: [
+        {
+          id: crypto.randomUUID(),
+          label: "Default Address",
+          streetAddress,
+          city,
+          state,
+          postalCode,
+          deliveryNotes,
+        },
+      ],
+      updatedAt: new Date(),
+    })
+    .where(eq(users.id, session.user.id));
 
   // Redirect the customer to the confirmation page after the order is saved.
   redirect(`/order/confirmation?code=${readableOrderCode}`);
