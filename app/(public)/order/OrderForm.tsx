@@ -5,9 +5,25 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createOrder } from "./actions";
+// If repeat customer information is available, it will be passed to the order form so it can be prefilled.
+type SavedCustomer = {
+  name: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  deliveryNotes: string;
+};
+
+type OrderFormProps = {
+  savedCustomer?: SavedCustomer;
+};
 
 // This displays the customer order form.
-export default function OrderForm() {
+export default function OrderForm({ savedCustomer }: OrderFormProps) {
   // Reads the arrangement size from the URL if the customer came from the catalog page.
   const searchParams = useSearchParams();
   const querySize = searchParams.get("arrangement") || "";
@@ -16,7 +32,7 @@ export default function OrderForm() {
   const [arrangementSize, setArrangementSize] = useState(querySize);
 
   // Tracks the customer's phone number.
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(savedCustomer?.phone ?? "");
 
   // Checks if the customer selected the table arrangement option.
   const isTableArrangement = arrangementSize === "50-plus";
@@ -45,12 +61,25 @@ export default function OrderForm() {
           {/* Customer full name */}
           <div className="mb-4">
             <label className="mb-1 block font-medium text-[#545454]">
-              Full Name
+              First Name
             </label>
             <input
               type="text"
-              name="fullName"
+              name="name"
               required
+              defaultValue={savedCustomer?.name ?? ""}
+              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="mb-1 block font-medium text-[#545454]">
+              Last Name
+            </label>
+            <input
+              type="text"
+              name="lastname"
+              required
+              defaultValue={savedCustomer?.lastname ?? ""}
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
           </div>
@@ -64,6 +93,7 @@ export default function OrderForm() {
               type="email"
               name="email"
               required
+              defaultValue={savedCustomer?.email ?? ""}
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
           </div>
