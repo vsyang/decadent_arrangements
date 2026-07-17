@@ -10,6 +10,7 @@ import { authOptions } from "@/lib/auth";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { IsAdminProtection } from "../adminAction";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
     title: 'Orders Admin',
