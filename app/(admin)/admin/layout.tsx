@@ -1,3 +1,5 @@
+// app/(admin)/admin/layout.tsx 
+
 import Link from "next/link";
 import { IsAdminProtection } from "./adminAction";
 
