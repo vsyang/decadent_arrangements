@@ -10,6 +10,7 @@ import { authOptions } from "@/lib/auth";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { IsAdminProtection } from "../adminAction";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
     title: 'Orders Admin',
@@ -22,8 +23,10 @@ export default async function OrderManagementPage() {
     const authorized = await IsAdminProtection();
 
 
+
+
     if (!session?.user?.id) {
-        throw new Error("User ID not found.");
+        redirect("/");
     }
     
     const orders = authorized
