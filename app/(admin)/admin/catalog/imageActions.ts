@@ -22,7 +22,7 @@ type ImageActionResult = {
 };
 
 // Maximum allowed upload size: 5 MB
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
 // File types the business owner is allowed to upload
 const allowedImageTypes = [
