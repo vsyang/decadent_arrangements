@@ -182,7 +182,21 @@ export default function OrderForm() {
                 <textarea
                   name="specialRequests"
                   rows={4}
-                  placeholder="Colors, theme, allergies, dietary restrictions, or other details."
+                  placeholder="Colors, theme, or other details."
+                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                />
+              </div>
+
+              {/* Dietary restrictions */}
+              <div className="mb-4">
+                <label className="mb-1 block font-medium text-[#545454]">
+                  Dietary Restrictions
+                </label>
+                <textarea
+                  name="dietaryRestrictions"
+                  rows={4}
+                  placeholder="Any dietary restrictions or allergies. If none, type 'None'."
+                  required
                   className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                 />
               </div>
@@ -316,6 +330,56 @@ export default function OrderForm() {
                   placeholder="Apartment number, gate code, or drop-off instructions."
                   className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                 />
+              </div>
+            </div>
+
+            {/* Payment preference section */}
+            <div className="rounded-lg border border-[#807973]/30 bg-[#ffffff] p-6 shadow-sm">
+              <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
+                Payment Preference
+              </h3>
+
+              <p className="mb-4 text-[#545454]">
+                Please select your preferred payment method. Payment
+                instructions will be provided after your order is reviewed.
+              </p>
+
+              <div className="space-y-3">
+                {/* Venmo option */}
+                <label className="flex items-center gap-3 rounded-md border border-[#807973]/30 p-4 text-[#545454] hover:border-[#03989e]/60">
+                  <input
+                    type="radio"
+                    name="paymentPreference"
+                    value="venmo"
+                    required
+                    className="accent-[#03989e]"
+                  />
+                  <span className="font-medium">Venmo</span>
+                </label>
+
+                {/* PayPal option */}
+                <label className="flex items-center gap-3 rounded-md border border-[#807973]/30 p-4 text-[#545454] hover:border-[#03989e]/60">
+                  <input
+                    type="radio"
+                    name="paymentPreference"
+                    value="paypal"
+                    required
+                    className="accent-[#03989e]"
+                  />
+                  <span className="font-medium">PayPal</span>
+                </label>
+
+                {/* Zelle option */}
+                <label className="flex items-center gap-3 rounded-md border border-[#807973]/30 p-4 text-[#545454] hover:border-[#03989e]/60">
+                  <input
+                    type="radio"
+                    name="paymentPreference"
+                    value="zelle"
+                    required
+                    className="accent-[#03989e]"
+                  />
+                  <span className="font-medium">Zelle</span>
+                </label>
               </div>
             </div>
 

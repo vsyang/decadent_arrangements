@@ -78,6 +78,9 @@ export async function createOrder(formData: FormData) {
   const eventTime = formData.get("eventTime")?.toString().trim() ?? "";
   const specialRequests =
     formData.get("specialRequests")?.toString().trim() ?? "";
+  const dietaryRestrictions =
+    formData.get("dietaryRestrictions")?.toString().trim().toLowerCase() ?? "";
+  
 
   // Get delivery information from the form.
   const streetAddress =
@@ -94,6 +97,7 @@ export async function createOrder(formData: FormData) {
     !email ||
     !phone ||
     !arrangementSize ||
+    !dietaryRestrictions ||
     !eventDate ||
     !eventTime ||
     !streetAddress ||
@@ -126,6 +130,14 @@ export async function createOrder(formData: FormData) {
   // Make sure the date is valid before saving it.
   if (Number.isNaN(combinedEventDate.getTime())) {
     throw new Error("Invalid event date or time.");
+  }
+
+  // Get the payment preference from the form and validate it.
+  const paymentPreference =
+    formData.get("paymentPreference")?.toString().trim().toLowerCase() ?? "";
+    
+  if (!["venmo", "paypal", "zelle"].includes(paymentPreference)) {
+    throw new Error("Please select a valid payment preference.");
   }
 
   // Generate the customer-friendly order code.
@@ -162,8 +174,11 @@ export async function createOrder(formData: FormData) {
       deliveryNotes,
     },
 
-    // This can be improved later if we add a separate dietary restrictions field.
-    dietaryRestrictions: [],
+    // Dietary restrictions field.
+    dietaryRestrictions: dietaryRestrictions ? [dietaryRestrictions] : [],
+
+    // Store payment preference.
+    paymentPreference,
 
     // New orders start as pending.
     status: "pending",
