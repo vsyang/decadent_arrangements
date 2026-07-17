@@ -8,7 +8,8 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/db";
-import { Order } from "@/db/schema";
+import { Order, users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 // These values must match the product_size enum in the database schema.
 type ArrangementSize = "S" | "M" | "L" | "XL";
@@ -183,6 +184,27 @@ export async function createOrder(formData: FormData) {
     // New orders start as pending.
     status: "pending",
   });
+
+  // Save the customer's latest contact and delivery information.This allows the order form to prefill these fields next time.
+  await db
+    .update(users)
+    .set({
+      name: fullName,
+      phones: [phone],
+      addresses: [
+        {
+          id: crypto.randomUUID(),
+          label: "Default Address",
+          streetAddress,
+          city,
+          state,
+          postalCode,
+          deliveryNotes,
+        },
+      ],
+      updatedAt: new Date(),
+    })
+    .where(eq(users.id, session.user.id));
 
   // Redirect the customer to the confirmation page after the order is saved.
   redirect(`/order/confirmation?code=${readableOrderCode}`);

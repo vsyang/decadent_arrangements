@@ -34,7 +34,7 @@ export default async function OrderPage() {
     <OrderForm
       savedCustomer={{
         name: savedUser?.name ?? "",
-        lastname: savedUser?.lastname ?? "",
+        // lastname: savedUser?.lastname ?? "",
         email: savedUser?.email ?? session.user.email ?? "",
         phone: savedPhone,
         streetAddress: savedAddress?.streetAddress ?? "",

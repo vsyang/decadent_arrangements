@@ -8,7 +8,7 @@ import { createOrder } from "./actions";
 // If repeat customer information is available, it will be passed to the order form so it can be prefilled.
 type SavedCustomer = {
   name: string;
-  lastname: string;
+  // lastname: string;
   email: string;
   phone: string;
   streetAddress: string;
@@ -61,17 +61,17 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
           {/* Customer full name */}
           <div className="mb-4">
             <label className="mb-1 block font-medium text-[#545454]">
-              First Name
+              Full Name
             </label>
             <input
               type="text"
-              name="name"
+              name="fullName"
               required
               defaultValue={savedCustomer?.name ?? ""}
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="mb-1 block font-medium text-[#545454]">
               Last Name
             </label>
@@ -82,7 +82,7 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
               defaultValue={savedCustomer?.lastname ?? ""}
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
-          </div>
+          </div> */}
 
           {/* Customer email */}
           <div className="mb-4">
@@ -252,6 +252,7 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                   type="text"
                   name="streetAddress"
                   required
+                  defaultValue={savedCustomer?.streetAddress ?? ""}
                   className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                 />
               </div>
@@ -267,6 +268,7 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                     type="text"
                     name="city"
                     required
+                    defaultValue={savedCustomer?.city ?? ""}
                     className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   />
                 </div>
@@ -279,6 +281,7 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                   <select
                     name="state"
                     required
+                    defaultValue={savedCustomer?.state ?? ""}
                     className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   >
                     <option value="">Select a state</option>
@@ -344,6 +347,7 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                     type="text"
                     name="postalCode"
                     required
+                    defaultValue={savedCustomer?.postalCode ?? ""}
                     className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   />
                 </div>
@@ -357,6 +361,7 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                 <textarea
                   name="deliveryNotes"
                   rows={3}
+                  defaultValue={savedCustomer?.deliveryNotes ?? ""}
                   placeholder="Apartment number, gate code, or drop-off instructions."
                   className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                 />
