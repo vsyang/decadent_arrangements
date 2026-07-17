@@ -79,7 +79,7 @@ export async function createOrder(formData: FormData) {
   const specialRequests =
     formData.get("specialRequests")?.toString().trim() ?? "";
   const dietaryRestrictions =
-    formData.get("dietaryRestrictions")?.toString().trim().toLowerCase() ?? "";
+    formData.get("dietaryRestrictions")?.toString().trim() ?? "";
   
 
   // Get delivery information from the form.
