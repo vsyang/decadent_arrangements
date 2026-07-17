@@ -1,7 +1,7 @@
 "use server";
 
 
-import { del, put } from "@vercel/blob";
+import { del,list, put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
@@ -97,56 +97,70 @@ function validateImageFile(file: File) {
     return "Only JPG, PNG, and WebP images are allowed.";
   }
 
-  // Reject files larger than 5 MB
+  // Reject files larger than 4 MB
   if (file.size > MAX_FILE_SIZE) {
-    return "Each image must be 5 MB or smaller.";
+    return "Each image must be 4 MB or smaller.";
   }
 
   return null;
 }
 
-// Generates the next available filename for a new product image. This ensures that filenames are sequential and do not overwrite existing files.
+// Generates the next available filename for a new product image. This ensures that filenames are sequential and do not overwrite existing files
 async function getNextFileName(
   productSize: ProductSize,
   extension: string,
 ) {
-  // Retrieve all images already assigned to this size
-  const existingImages = await fetchImagesByProductSize(productSize);
-
-  // Get the matching size prefix
   const prefix = getSizePrefix(productSize);
+  const folder = getSizeFolder(productSize);
 
-  // Extract the numeric portion of each matching filename
-  const existingNumbers = existingImages
-    .map((image) => {
-      // Remove the extension from the filename
-      const fileNameWithoutExtension = image.fileName.replace(
+  // Retrieve image records already registered in the database
+  const databaseImages =
+    await fetchImagesByProductSize(productSize);
+
+  // Retrieve files that already exist in the matching Blob folder
+  const blobResult = await list({
+    prefix: `${folder}/`,
+  });
+
+  // Combine database filenames and Blob pathnames into one list
+  const existingFileNames = [
+    ...databaseImages.map((image) => image.fileName),
+
+    ...blobResult.blobs.map((blob) => {
+      return blob.pathname.split("/").pop() ?? "";
+    }),
+  ];
+
+  // Extract the number from matching filenames
+  const existingNumbers = existingFileNames
+    .map((fileName) => {
+      // Remove the extension
+      const fileNameWithoutExtension = fileName.replace(
         /\.[^/.]+$/,
         "",
       );
 
-      // Ignore filenames that do not match the current size prefix
+      // Ignore files that do not match this size prefix
       if (!fileNameWithoutExtension.startsWith(prefix)) {
         return null;
       }
 
-      // Remove the prefix to get the numeric part
-      const numberPart = fileNameWithoutExtension.slice(prefix.length);
+      const numberPart = fileNameWithoutExtension.slice(
+        prefix.length,
+      );
 
-      // Convert the numeric part into an actual number
       const number = Number.parseInt(numberPart, 10);
 
       return Number.isNaN(number) ? null : number;
     })
     .filter((number): number is number => number !== null);
 
-  // Use the highest existing number plus one
+  // Start at 1 when no matching images exist otherwise use the largest number plus one.
   const nextNumber =
     existingNumbers.length > 0
       ? Math.max(...existingNumbers) + 1
       : 1;
 
-  // Pad the number to three digits
   return `${prefix}${String(nextNumber).padStart(3, "0")}.${extension}`;
 }
 
@@ -225,8 +239,6 @@ export async function uploadProductImages(
       // Upload the file to Vercel Blob
       const blob = await put(pathname, file, {
         access: "public",
-
-        // Keeps the exact filename instead of adding random characters
         addRandomSuffix: false,
       });
 
@@ -332,8 +344,6 @@ export async function replaceProductImage(
       {
         access: "public",
         addRandomSuffix: false,
-
-        // Allows an existing pathname to be replaced
         allowOverwrite: true,
       },
     );
