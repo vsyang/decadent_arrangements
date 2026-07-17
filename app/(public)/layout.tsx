@@ -12,7 +12,7 @@ export default function PublicLayout({
             <main className="flex-1 pb-16 md:pb-0">
                 {children}
             </main>
-            <footer className="mt-6 border-t border-border bg-background py-6 text-center text-xs ">
+            <footer className="mt-6 border-t border-border bg-background py-6 text-center text-xs text-muted-foreground">
                 &copy; {new Date().getFullYear()} Decadent Arrangements. All rights reserved.
             </footer>
         </div>
