@@ -1,3 +1,4 @@
+import { ProductInput } from '../../app/(admin)/admin/actions';
 import { db } from './index';
 import { Order, Product } from './schema';
 import { asc, eq, sql } from 'drizzle-orm';
@@ -9,7 +10,7 @@ export async function getProducts() {
   return allProducts;
 }
 
-export async function fetchProducts() {
+export async function fetchProducts(): Promise<ProductInput[]> {
   try {
     const data = await db
       .select({
@@ -24,7 +25,7 @@ export async function fetchProducts() {
       .from(Product)
       .orderBy(asc(Product.size));
 
-    return data;
+    return data as ProductInput[];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch products data.');

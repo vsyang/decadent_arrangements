@@ -1,16 +1,12 @@
-// app/actions/isAdmin.ts
-
-"use server";
-
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-export default async function IsAdminProtection(): Promise<boolean> {
+export async function IsAdminProtection(): Promise<boolean> {
 
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
+  if (!session || !session.user || !session.user.email) {
     redirect("/not-found");
   }
 
@@ -22,5 +18,7 @@ export default async function IsAdminProtection(): Promise<boolean> {
 
   const sessionEmail = session.user.email.toLowerCase(); // prod
 
-  return whitelist.includes(sessionEmail);
+  const isAdmin = whitelist.includes(sessionEmail);
+
+  return isAdmin;
 }

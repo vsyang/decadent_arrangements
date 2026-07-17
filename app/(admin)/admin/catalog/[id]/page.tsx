@@ -19,7 +19,7 @@ export default async function ProductDetailsPage(props: {
 <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
 
 <Link
-  href="/manage"
+  href="/admin"
   className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
 >
   Management
@@ -27,7 +27,7 @@ export default async function ProductDetailsPage(props: {
 <ChevronRightIcon className="w-3 h-3" />
 
 <Link
-  href={`/manage/catalog`}
+  href={`/admin/catalog`}
   className="hover:text-[#c97c5d] transition-colors"
 >
   Catalog

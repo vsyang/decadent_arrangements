@@ -3,8 +3,6 @@ import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Suspense } from "react";
-
 export default async function OrderDetailsPage(props: { 
   params: Promise<{ id: string }>;
 }) {
@@ -20,7 +18,7 @@ export default async function OrderDetailsPage(props: {
     <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
 
       <Link
-        href="/manage"
+        href="/admin"
         className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
       >
         Management
@@ -28,7 +26,7 @@ export default async function OrderDetailsPage(props: {
       <ChevronRightIcon className="w-3 h-3" />
 
       <Link
-        href={`/manage/orders`}
+        href={`/admin/orders`}
         className="hover:text-[#c97c5d] transition-colors"
       >
         Orders

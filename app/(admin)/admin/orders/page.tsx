@@ -1,15 +1,15 @@
-import "../../globals.css";
+import "../../../globals.css";
 
 import type { Metadata } from "next";
-import IsAdminProtection from "../actions";
 import { fetchAllOrders, fetchAllOrdersByCustomerId } from "@/db/queries";
-import OrdersTableBody from "@/components/manage/OrdersTableBody";
+import OrdersTableBody from "@/components/admin/OrdersTableBody";
 import { TableSkeleton } from "@/components/skeleton";
 import { Suspense } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
+import { IsAdminProtection } from "../adminAction";
 
 export const metadata: Metadata = {
     title: 'Orders Admin',
@@ -43,7 +43,7 @@ export default async function OrderManagementPage() {
                 <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
 
                     <Link
-                        href="/manage"
+                        href="/admin"
                         className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
                     >
                     Management

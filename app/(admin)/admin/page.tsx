@@ -1,10 +1,10 @@
 //app/(admin)/dashboard/page.tsx
 
-import "../globals.css";
+import "../../globals.css"
 
 import type { Metadata } from "next";
-import IsAdminProtection from "./actions";
 import { redirect } from "next/navigation";
+import { IsAdminProtection } from "./adminAction";
 
 export const metadata: Metadata = {
     title: 'Management',
@@ -15,7 +15,7 @@ export default async function DashboardPage() {
     const authorized = await IsAdminProtection();
 
     if (!authorized) {
-        redirect("/manage/orders");
+        redirect("/admin/orders");
     }
 
     return (

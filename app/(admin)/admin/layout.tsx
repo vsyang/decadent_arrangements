@@ -1,5 +1,5 @@
 import Link from "next/link";
-import IsAdminProtection from "./actions";
+import { IsAdminProtection } from "./adminAction";
 
 export default async function DashboardLayout({
     children,
@@ -19,7 +19,7 @@ export default async function DashboardLayout({
         <div>
             <div className="mx-auto max-w-7xl px-6 py-12">
 
-                <Link href={"/manage"} >
+                <Link href={"/admin"} >
                     <h1 className="text-3xl font-bold text-primary">General Management</h1>
                 </Link>
 
@@ -29,7 +29,7 @@ export default async function DashboardLayout({
                 {managementPages?.map((p) => (
                 <Link
                     key={p}
-                    href={`/manage/${p.toLowerCase()}`}
+                    href={`/admin/${p.toLowerCase()}`}
                     className="group text-center bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 w-full"
                 >
 
