@@ -1,6 +1,6 @@
 import { ProductInput } from '../../app/(admin)/admin/actions';
 import { db } from './index';
-import { Order, Product } from './schema';
+import { Order, Product, ProductImage } from './schema';
 import { asc, eq, sql } from 'drizzle-orm';
 
 export async function getProducts() {
@@ -50,6 +50,43 @@ export async function fetchProductById(productId: string) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch product data.");
+  }
+}
+// Get all product images by product size
+export async function fetchImagesByProductSize(
+  productSize: "S" | "M" | "L" | "XL"
+) {
+  try {
+    return await db
+      .select({
+        id: ProductImage.id,
+        size: ProductImage.size,
+        imageUrl: ProductImage.imageUrl,
+        pathname: ProductImage.pathname,
+        fileName: ProductImage.fileName,
+        createdAt: ProductImage.createdAt,
+        updatedAt: ProductImage.updatedAt,
+      })
+      .from(ProductImage)
+      .where(eq(ProductImage.size, productSize))
+      .orderBy(asc(ProductImage.fileName));
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch product images.");
+  }
+}
+
+export async function fetchProductImageById(imageId: string) {
+  try {
+    const data = await db
+      .select()
+      .from(ProductImage)
+      .where(eq(ProductImage.id, imageId));
+
+    return data[0] || null;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch product image.");
   }
 }
 

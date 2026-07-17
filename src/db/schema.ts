@@ -118,6 +118,29 @@ export const Product = pgTable('products', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const ProductImage = pgTable('product_images', {
+  id: uuid('id').defaultRandom().primaryKey(),
+
+  size: productSizeEnum('size').notNull(),
+
+  imageUrl: text('image_url').notNull(),
+
+  pathname: text('pathname').notNull().unique(),
+
+  fileName: text('file_name').notNull(),
+
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
+
+  updatedAt: timestamp('updated_at', {
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
+});
 export const Order = pgTable('orders', {
   id: uuid('id').defaultRandom().primaryKey(),
   readableOrderCode: text('readable_order_code').notNull().unique(),

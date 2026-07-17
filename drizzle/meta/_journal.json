@@ -29,6 +29,13 @@
       "when": 1784161530233,
       "tag": "0003_curved_marauders",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1784315807072,
+      "tag": "0004_nappy_karen_page",
+      "breakpoints": true
     }
   ]
 }
