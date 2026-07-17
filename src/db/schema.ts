@@ -137,7 +137,7 @@ export const Order = pgTable('orders', {
   eventDate: timestamp('event_date', { withTimezone: true }).notNull(),
   deliveryAddress: jsonb('delivery_address').$type<UserAddress>().notNull(),
   dietaryRestrictions: text('dietary_restrictions').array().notNull().default([]),
-  paymentPreference: text("payment_preference").notNull(),
+  paymentPreference: text("payment_preference").notNull().default('venmo'),
   status: orderStatusEnum('status').notNull().default('pending'),
 
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
