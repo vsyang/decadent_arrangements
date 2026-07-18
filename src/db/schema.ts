@@ -1,13 +1,4 @@
-import {
-  pgTable,
-  uuid,
-  text,
-  timestamp,
-  jsonb,
-  pgEnum,
-  numeric,
-  primaryKey,
-} from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp, jsonb, pgEnum, numeric, primaryKey, boolean } from 'drizzle-orm/pg-core';
 import type { AdapterAccount } from 'next-auth/adapters';
 
 export interface UserAddress {
@@ -23,6 +14,8 @@ export interface UserAddress {
 // ==========================================
 // ENUMS
 // ==========================================
+export const userRoleEnum = pgEnum('user_role', ['user', 'admin']);
+
 export const productSizeEnum = pgEnum('product_size', ['S', 'M', 'L', 'XL']);
 
 export const orderStatusEnum = pgEnum('order_status', [
@@ -30,6 +23,12 @@ export const orderStatusEnum = pgEnum('order_status', [
   'preparing',
   'delivered',
   'cancelled',
+]);
+
+export const notificationCategoryEnum = pgEnum('notification_category', [
+  'orders',
+  'promotions',
+  'account',
 ]);
 
 // ==========================================
@@ -44,9 +43,10 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   emailVerified: timestamp('email_verified', { mode: 'date' }),
   image: text('image'),
-  phones: text('phones').array().notNull().default([]),
+  phones: text('phones').array(),
+  addresses: jsonb('addresses').$type<UserAddress[]>().default([]),
   preferredContactMethod: text('preferred_contact_method').notNull().default('whatsapp'),
-  addresses: jsonb('addresses').$type<UserAddress[]>().notNull().default([]),
+  role: userRoleEnum('role').notNull().default('user'),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
@@ -130,11 +130,7 @@ export const Order = pgTable('orders', {
   customerPhoneAtPurchase: text('customer_phone_at_purchase').notNull(),
   customerEmailAtPurchase: text('customer_email_at_purchase').notNull(),
 
-  // Stores S, M, L, or XL.
-  // Your form can still show 10-20, 20-30, 30-40,
-  // but actions.ts should convert those values before inserting.
   arrangementSize: productSizeEnum('arrangement_size').notNull(),
-
   specialRequests: text('special_requests'),
 
   totalPrice: numeric('total_price', { precision: 10, scale: 2 }).notNull(),
@@ -142,6 +138,26 @@ export const Order = pgTable('orders', {
   deliveryAddress: jsonb('delivery_address').$type<UserAddress>().notNull(),
   dietaryRestrictions: text('dietary_restrictions').array().notNull().default([]),
   status: orderStatusEnum('status').notNull().default('pending'),
+
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const Notification = pgTable('notifications', {
+  id: uuid('id').defaultRandom().primaryKey(),
+
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+
+  title: text('title').notNull(),
+  message: text('message').notNull(),
+
+  category: notificationCategoryEnum('category').notNull().default('orders'),
+
+  isRead: boolean('is_read').notNull().default(false),
+
+  actionUrl: text('action_url'),
 
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),

@@ -17,18 +17,16 @@ export const metadata: Metadata = {
 };
 
 export default async function OrderManagementPage() {
-
     const session = await getServerSession(authOptions);
 
-    const authorized = await IsAdminProtection();
-
-
-
-
+    // Si no hay sesión activa, redirigimos limpiamente al login o home en lugar de romper con un Error
     if (!session?.user?.id) {
         redirect("/");
     }
-    
+
+    const authorized = await IsAdminProtection();
+
+    // Si es admin, ve todas las órdenes. Si es cliente, solo las suyas.
     const orders = authorized
         ? await fetchAllOrders()
         : await fetchAllOrdersByCustomerId(session.user.id);

@@ -1,5 +1,3 @@
-// app/actions/isAdmin.ts
-
 "use server";
 
 import { db } from "@/db";
