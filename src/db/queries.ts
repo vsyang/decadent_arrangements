@@ -1,4 +1,4 @@
-import { ProductInput } from '../../app/(admin)/admin/actions';
+import { ProductInput } from '../../app/(admin)/dashboard/actions';
 import { db } from './index';
 import { Order, Product, ProductImage } from './schema';
 import { asc, eq, sql } from 'drizzle-orm';

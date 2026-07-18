@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function Sidebar() {
+export function SidebarClient() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -29,7 +29,7 @@ export function Sidebar() {
                     href="/orders"
                     className="text-lg font-bold tracking-tight text-accent"
                 >
-                    DA Dashboard
+                    My Account
                 </Link>
                 <button
                     onClick={() => setIsOpen(!isOpen)}
@@ -67,47 +67,28 @@ export function Sidebar() {
                         href="/orders"
                         className="text-lg font-bold tracking-tight text-accent hover:opacity-90 transition-opacity"
                     >
-                        DA Dashboard
+                        My Account
                     </Link>
                 </div>
 
                 <nav className="flex-1 space-y-6 px-4 py-6 overflow-y-auto">
 
-                    {/* ADMIN OPERATIONS */}
-                    <div className="space-y-2">
-                        <span className="px-3 text-xs font-bold uppercase tracking-wider  block">
-                            Admin Operations
-                        </span>
-                        <div className="space-y-1">
-                            <Link href="/orders" className={getLinkClass("/orders")}>
-                                Orders Management
-                            </Link>
-                            <Link href="/products" className={getLinkClass("/products")}>
-                                Catalog Management
-                            </Link>
-                        </div>
-                    </div>
 
                     {/* PERSONAL SETTINGS */}
                     <div className="space-y-2">
-                        <span className="px-3 text-xs font-bold uppercase tracking-wider  block">
-                            Personal Settings
-                        </span>
                         <div className="space-y-1">
                             <Link href="/account" className={getLinkClass("/account")}>
-                                My Profile Settings
+                                Profile Info
                             </Link>
                         </div>
-                    </div>
-
-                    {/* STOREFRONT */}
-                    <div className="space-y-2">
-                        <span className="px-3 text-xs font-bold uppercase tracking-wider  block">
-                            Storefront
-                        </span>
-                        <div className="space-y-1">
-                            <Link href="/catalog" className={getLinkClass("/catalog")}>
-                                View Live Catalog
+                        <div>
+                            <Link href="/orders" className={getLinkClass("/orders")}>
+                                My Orders
+                            </Link>
+                        </div>
+                        <div>
+                            <Link href="/#" className={getLinkClass("/#")}>
+                               Sign OUT (No funciona)
                             </Link>
                         </div>
                     </div>

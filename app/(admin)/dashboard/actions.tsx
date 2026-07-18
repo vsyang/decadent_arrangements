@@ -49,8 +49,8 @@ export async function CreateProduct(data: ProductInput) {
     throw new Error("Failed to create product.");
   }
 
-  revalidatePath("/admin/catalog");
-  redirect("/admin/catalog");
+  revalidatePath("/products");
+  redirect("/products");
 }
 
 
@@ -78,8 +78,8 @@ export async function UpdateProductById(
     throw new Error("Failed to update product.");
   }
 
-  revalidatePath("/admin/catalog");
-  redirect("/admin/catalog");
+  revalidatePath("/products");
+  redirect("/products");
 }
 
 
@@ -95,6 +95,6 @@ export async function DeleteProductById(productId: string) {
     throw new Error("Failed to delete product.");
   }
 
-  revalidatePath("/admin/catalog");
-  redirect("/admin/catalog");
+  revalidatePath("/products");
+  redirect("/products");
 }

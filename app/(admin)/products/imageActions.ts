@@ -252,7 +252,7 @@ export async function uploadProductImages(
     }
 
     // Refresh the product details page
-    revalidatePath(`/admin/catalog/${productId}`);
+    revalidatePath(`/products/${productId}`);
 
     // Return the updated list of images
     return {
@@ -365,7 +365,7 @@ export async function replaceProductImage(
     }
 
     // Refresh the product details page
-    revalidatePath(`/admin/catalog/${productId}`);
+    revalidatePath(`/products/${productId}`);
 
     return {
       success: true,
@@ -413,7 +413,7 @@ export async function deleteProductImage(input: {
       .where(eq(ProductImage.id, imageId));
 
     // Refresh the product details page
-    revalidatePath(`/admin/catalog/${productId}`);
+    revalidatePath(`/products/${productId}`);
 
     return {
       success: true,

@@ -51,7 +51,7 @@ export default async function OrdersTableBody(props: {
         <td className="whitespace-nowrap px-6 py-4 text-slate-900">
           <Link
           key={o.id}
-          href={`/admin/orders/${o.id}`}
+          href={`/orders/${o.id}`}
           className="group text-center bg-black p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 w-full text-white"
           > See more
           </Link>

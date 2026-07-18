@@ -1,12 +1,12 @@
 import ProductForm from "@/components/admin/ProductForm";
 import { redirect } from "next/navigation";
-import { CreateProduct } from "../../actions";
+import { CreateProduct } from "../../dashboard/actions";
 
 export default async function NewProductPage() {
 
   const handleCancel = async () => {
     "use server";
-    redirect("/admin/catalog");
+    redirect("/products");
   };
 
 

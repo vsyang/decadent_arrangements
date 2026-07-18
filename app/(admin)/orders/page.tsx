@@ -1,4 +1,4 @@
-import "../../../globals.css";
+import "../../globals.css";
 
 import type { Metadata } from "next";
 import { fetchAllOrders, fetchAllOrdersByCustomerId } from "@/db/queries";
@@ -9,17 +9,17 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
-import { IsAdminProtection } from "../adminAction";
 import { redirect } from "next/navigation";
+import { IsAdminProtection } from "../dashboard/adminAction";
 
 export const metadata: Metadata = {
-    title: 'Orders Admin',
+    title: 'Orders Overview',
 };
 
 export default async function OrderManagementPage() {
     const session = await getServerSession(authOptions);
 
-    // Si no hay sesión activa, redirigimos limpiamente al login o home en lugar de romper con un Error
+    // Si no hay sesión activa, redirigimos limpiamente al home
     if (!session?.user?.id) {
         redirect("/");
     }
@@ -41,30 +41,34 @@ export default async function OrderManagementPage() {
 
             <div className="max-w-7xl m-auto py-5">
 
-                <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
-
-                    <Link
-                        href="/admin"
-                        className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
-                    >
-                    Management
-                    </Link>
-                    
-                    <ChevronRightIcon className="w-3 h-3" />
-
-                    <span className="text-[#6b4f3f] truncate max-w-50">Orders</span>
-                </nav>
-
                 {(authorized) ? (
 
+
                     <>
+                        <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+
+                            <Link
+                                href="/dashboard"
+                                className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
+                            >
+                            Management
+                            </Link>
+
+                            <ChevronRightIcon className="w-3 h-3" />
+
+                            <span className="text-[#6b4f3f] truncate max-w-50">Orders</span>
+                        </nav>
+
                         <h1 className="text-2xl font-bold text-primary">Orders Overview</h1>
                         <p className="text-muted mt-2">Manage products orders here.</p>
                         <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as <Link href="#">Completed</Link> or <Link href="#">Canceled</Link>.</p>
                     </>
 
                     ) : (
-                        <p className="text-muted mt-2">This are your orders up until now.</p>
+                        <div>
+                            <h1 className="text-3xl font-bold text-primary">My orders</h1>
+                            <p className="text-muted mt-2">This are your orders up until now.</p>
+                        </div>
                     )}
 
                 <div className="max-w-7xl m-auto py-5">
