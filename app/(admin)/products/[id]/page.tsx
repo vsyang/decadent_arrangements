@@ -59,7 +59,7 @@ export default async function ProductDetailsPage({
       {/* Product information */}
       <section className="mb-10">
         <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-[#c97c5d]">
-          Catalog Image Management
+          {product.name} Management
         </p>
 
         <h1 className="font-serif text-4xl italic leading-tight text-[#2e2e2e] md:text-5xl">
@@ -68,35 +68,62 @@ export default async function ProductDetailsPage({
 
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
           <span className="rounded-full bg-slate-100 px-4 py-2 font-medium text-slate-700">
-            Size: {product.size}
+          <b>Size:</b> {product.size}
           </span>
 
           <span className="rounded-full bg-slate-100 px-4 py-2 font-medium text-slate-700">
-            Capacity: {product.capacity}
+          <b>Capacity:</b> {product.capacity}
           </span>
 
           <span className="rounded-full bg-slate-100 px-4 py-2 font-medium text-slate-700">
-            Price:{" "}
+          <b>Price:</b>{" "}
             {product.price === 0
               ? "Upon request"
               : `$${product.price.toFixed(2)}`}
           </span>
+
         </div>
 
-        <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-500">
+        <div className="pt-2 flex flex-col gap-2 justify-center text-center">
+          <Link
+            href={`/products/${product.id}/edit`}
+              className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+            Edit
+            </Link>
+
+            <Link
+            href={`/products/${product.id}/delete`}
+              className="flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+            Delete
+            </Link>
+
+        </div>
+
+      </section>
+
+      <div>
+
+        <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-[#c97c5d]">
+          {product.name} Image Management
+        </p>
+
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-500 pb-2">
           Add, replace, or delete images associated with the{" "}
           <span className="font-semibold text-slate-700">{product.size}</span>{" "}
           arrangement size.
         </p>
-      </section>
 
-      {/* Interactive image upload and management component */}
-      <ProductImageManager
-        productId={product.id}
-        productName={product.name}
-        productSize={product.size}
-        initialImages={images}
-      />
+        {/* Interactive image upload and management component */}
+        <ProductImageManager
+          productId={product.id}
+          productName={product.name}
+          productSize={product.size}
+          initialImages={images}
+        />
+      </div>
+
     </main>
   );
 }

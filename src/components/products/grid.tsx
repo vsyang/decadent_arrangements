@@ -82,7 +82,7 @@ export default async function ProductsGrid() {
           <div className="pb-4 px-8">
 
             <Link
-              href={`/order?arrangement=${p.capacity}`}
+              href={`/orders/new?arrangement=${p.capacity}`}
               className="flex w-full items-center justify-center text-sm line-clamp-2 border text-[#2e2e2e] font-serif text-xl leading-tight hover:text-[#c97c5d] transition-colors line-clamp-1 p-2"
             >
               Place Order

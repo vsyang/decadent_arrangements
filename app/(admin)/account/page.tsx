@@ -1,4 +1,4 @@
-// app/(public)/account/page.tsx
+// app/(admin)/account/page.tsx
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -39,7 +39,7 @@ export default async function AccountPage() {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="max-w-7xl mx-auto">
             <div className="mb-8">
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">Account Settings</h1>
                 <p className=" mt-1">

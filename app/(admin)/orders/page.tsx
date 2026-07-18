@@ -41,35 +41,50 @@ export default async function OrderManagementPage() {
 
             <div className="max-w-7xl m-auto py-5">
 
-                {(authorized) ? (
+                {(authorized) && 
+                    <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
 
+                        <Link
+                            href="/dashboard"
+                            className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
+                        >
+                        Management
+                        </Link>
 
-                    <>
-                        <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                        <ChevronRightIcon className="w-3 h-3" />
 
-                            <Link
-                                href="/dashboard"
-                                className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
-                            >
-                            Management
-                            </Link>
+                        <span className="text-[#6b4f3f] truncate max-w-50">Orders</span>
+                    </nav>
+                }
 
-                            <ChevronRightIcon className="w-3 h-3" />
+                <div className="flex justify-between items-start gap-4">
 
-                            <span className="text-[#6b4f3f] truncate max-w-50">Orders</span>
-                        </nav>
+                    {(authorized) ? (
 
-                        <h1 className="text-2xl font-bold text-primary">Orders Overview</h1>
-                        <p className="text-muted mt-2">Manage products orders here.</p>
-                        <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as <Link href="#">Completed</Link> or <Link href="#">Canceled</Link>.</p>
-                    </>
-
-                    ) : (
                         <div>
-                            <h1 className="text-3xl font-bold text-primary">My orders</h1>
-                            <p className="text-muted mt-2">This are your orders up until now.</p>
+                            <h1 className="text-2xl font-bold text-primary">Orders Overview</h1>
+                            <p className="text-muted mt-2">Manage products orders here.</p>
+                            <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as <Link href="#">Completed</Link> or <Link href="#">Canceled</Link>.</p>
                         </div>
-                    )}
+
+                        ) : (
+                            <div>
+                                <h1 className="text-3xl font-bold text-primary">My orders</h1>
+                                <p className="text-muted mt-2">This are your orders up until now.</p>
+                            </div>
+                        )}
+
+                        <Link
+                            href="/orders/new"
+                            className="bg-black h-10 w-10 md:w-40 md:h-auto p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 mr-0 ml-auto"
+                        >
+                            <span className="md:hidden text-xl font-bold">+</span>
+                            <span className="hidden md:inline">New Order</span>
+                        </Link>
+                    <div>
+                    </div>
+
+                </div>
 
                 <div className="max-w-7xl m-auto py-5">
                     
@@ -109,7 +124,6 @@ export default async function OrderManagementPage() {
                             </Suspense>
 
                         </tbody>
-
                     </table>
                 </div>
             </div>

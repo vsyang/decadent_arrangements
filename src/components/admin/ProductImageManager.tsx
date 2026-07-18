@@ -159,7 +159,7 @@ export default function ProductImageManager({
       <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-xl font-semibold text-slate-800">
-            {productSize} Product Images
+            Product Images
           </h2>
 
           <p className="mt-1 text-sm text-slate-500">

@@ -1,4 +1,4 @@
-// app/(public)/account/actions.ts
+// app/(admin)/account/actions.ts
 "use server";
 
 import { db } from "@/db";
