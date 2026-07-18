@@ -44,15 +44,22 @@ export default async function CatalogManagementPage() {
 
                     <span className="text-[#6b4f3f] truncate max-w-50">Catalog</span>
                 </nav>
+
+                <div className="flex justify-between items-start gap-4">
+                    <div>
+                        <h1 className="text-2xl font-bold text-primary">Catalog Overview</h1>
+                        <p className="text-muted mt-2">Manage products details here.</p>
+                        <p className="text-muted mt-2"><b>Note:</b> Price set on 0 is stated as <i>Upon request</i>.</p>
+                    </div>
+                    <Link
+                        href="/products/new"
+                        className="bg-black h-10 w-10 md:w-40 md:h-auto p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 mr-0 ml-auto"
+                    >
+                        <span className="md:hidden text-xl font-bold">+</span>
+                        <span className="hidden md:inline">New product</span>
+                    </Link>
+                </div>
             
-                <h1 className="text-2xl font-bold text-primary">Catalog Overview</h1>
-                <p className="text-muted mt-2">Manage products details here.</p>
-                <p className="text-muted mt-2"><b>Note:</b> Price set on 0 is stated as <i>Upon request</i>.</p>
-                <Link
-                    href="/products/new"
-                    className="text-center bg-black p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 w-40 text-white hover:text-[#c97c5d] transition-colors flex items-center gap-1"
-                > Add new product
-                </Link>
             </div>
 
             <div className="max-w-7xl m-auto py-5">
@@ -69,10 +76,6 @@ export default async function CatalogManagementPage() {
                         <th scope="col" className="px-6 py-4">Size</th>
 
                         <th scope="col" className="hidden md:table-cell px-6 py-4">Price (USD)</th>
-
-                        <th scope="col" className="hidden md:table-cell px-6 py-4">Images</th>
-
-                        <th scope="col" className="px-6 py-4">Details</th>
 
                         <th scope="col" className="px-6 py-4">Actions</th>
 

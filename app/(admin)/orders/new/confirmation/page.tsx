@@ -1,4 +1,4 @@
-// app/(public)/order/confirmation/page.tsx
+// app/(admin)/orders/new/confirmation/page.tsx
 
 import Link from "next/link";
 import { db } from "@/db";

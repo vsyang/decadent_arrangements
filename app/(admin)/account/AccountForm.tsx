@@ -1,4 +1,4 @@
-// app/(public)/account/AccountForm.tsx
+// app/(admin)/account/AccountForm.tsx
 "use client";
 
 import { useState } from "react";
