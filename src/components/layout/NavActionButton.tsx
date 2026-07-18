@@ -110,7 +110,7 @@ export function NavActionButton() {
         // REGULAR USER
         return (
             <Link
-                href="admin/orders"
+                href="/orders"
                 title={`Orders for ${session.userName ?? "User"}`}
                 className="group flex items-center gap-2 rounded-full bg-stone-50 pl-3 pr-1.5 py-1 text-xs text-stone-800 font-semibold border border-stone-200 hover:border-stone-400 hover:bg-stone-100 transition-all duration-200"
             >

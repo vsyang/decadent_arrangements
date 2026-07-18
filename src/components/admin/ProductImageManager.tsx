@@ -7,7 +7,7 @@ import {
   deleteProductImage,
   replaceProductImage,
   uploadProductImages,
-} from "../../../app/(admin)/admin/catalog/imageActions";
+} from "../../../app/(admin)/products/imageActions";
 
 // These values match the product_size enum in schema.ts
 type ProductSize = "S" | "M" | "L" | "XL";

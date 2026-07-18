@@ -1,6 +1,6 @@
 import { fetchProductById } from "@/db/queries";
 import { notFound, redirect } from "next/navigation";
-import { DeleteProductById } from "../../../actions";
+import { DeleteProductById } from "../../../dashboard/actions";
 import ProductForm from "@/components/admin/ProductForm";
 
 
@@ -31,7 +31,7 @@ export default async function DeleteProductPage(props: {
 
   const handleCancel = async () => {
     "use server";
-    redirect(`/admin/catalog/${productId}/edit`); // Si cancela, lo devolvemos a edición
+    redirect(`/products/${productId}/edit`); // Si cancela, lo devolvemos a edición
   };
 
   return (

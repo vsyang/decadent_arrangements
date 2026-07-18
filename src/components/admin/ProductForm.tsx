@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ProductInput } from "../../../app/(admin)/admin/actions";
+import { ProductInput } from "../../../app/(admin)/dashboard/actions";
 
 interface ProductFormProps {
     mode: "create" | "edit" | "delete";

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import "../../../app/globals.css";
-import { ProductInput } from "../../../app/(admin)/admin/actions";
+import { ProductInput } from "../../../app/(admin)/dashboard/actions";
 
 
 
@@ -57,7 +57,7 @@ export default async function CatalogTableBody({ products }: { products: Product
 
         <td className="whitespace-nowrap px-6 py-4 text-slate-900">
           <Link
-          href={`/admin/catalog/${p.id}`}
+          href={`/products/${p.id}`}
           className="group text-center bg-black p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 w-full text-white"
           > See more
           </Link>
@@ -65,14 +65,14 @@ export default async function CatalogTableBody({ products }: { products: Product
 
         <td>
         <Link
-          href={`/admin/catalog/${p.id}/edit`}
+          href={`/products/${p.id}/edit`}
             className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-150 m-auto"
           >
           Edit
           </Link>
 
           <Link
-          href={`/admin/catalog/${p.id}/delete`}
+          href={`/products/${p.id}/delete`}
             className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-150 m-auto"
           >
           Delete

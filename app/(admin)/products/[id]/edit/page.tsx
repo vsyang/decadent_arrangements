@@ -1,7 +1,7 @@
 import { fetchProductById } from "@/db/queries";
 import { notFound, redirect } from "next/navigation";
-import { ProductInput, UpdateProductById } from "../../../actions";
 import ProductForm from "@/components/admin/ProductForm";
+import { ProductInput, UpdateProductById } from "../../../dashboard/actions";
 
 
 export default async function EditProductPage(props: { 
@@ -31,12 +31,12 @@ export default async function EditProductPage(props: {
 
   const handleDeleteRedirect = async () => {
     "use server";
-    redirect(`/admin/catalog/${productId}/delete`);
+    redirect(`/products/${productId}/delete`);
   };
 
   const handleCancel = async () => {
     "use server";
-    redirect("/admin/catalog");
+    redirect("/products");
   };
 
   return (

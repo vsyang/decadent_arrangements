@@ -1,4 +1,4 @@
-// app/(admin)/admin/catalog/[id]/page.tsx
+// app/(admin)/products/[id]/page.tsx
 
 import ProductImageManager from "@/components/admin/ProductImageManager";
 import { fetchImagesByProductSize, fetchProductById } from "@/db/queries";
@@ -7,7 +7,7 @@ import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// Defines the route parameter expected from /admin/catalog/[id]
+// Defines the route parameter expected from /products/[id]
 type ProductDetailsPageProps = {
   params: Promise<{
     id: string;
@@ -36,7 +36,7 @@ export default async function ProductDetailsPage({
       {/* Breadcrumb navigation */}
       <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
         <Link
-          href="/admin"
+          href="/dashboard"
           className="flex items-center gap-1 transition-colors hover:text-[#c97c5d]"
         >
           Management
@@ -45,7 +45,7 @@ export default async function ProductDetailsPage({
         <ChevronRightIcon className="h-3 w-3" />
 
         <Link
-          href="/admin/catalog"
+          href="/products"
           className="transition-colors hover:text-[#c97c5d]"
         >
           Catalog
