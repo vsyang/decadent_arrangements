@@ -1,7 +1,7 @@
 import { ProductInput } from '../../app/(admin)/dashboard/actions';
 import { db } from './index';
 import { Order, Product, ProductImage } from './schema';
-import { asc, eq, sql } from 'drizzle-orm';
+import { asc, eq, or, sql } from 'drizzle-orm';
 
 export async function getProducts() {
   const allProducts = await db.select().from(Product);
@@ -157,5 +157,61 @@ export async function fetchOrderById(orderId: string) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch order data.");
+  }
+}
+
+export type Status = "pending" | "preparing" | "delivered" | "cancelled";
+
+export async function fetchAllOrdersCompleted() {
+  try {
+    const data = await db
+      .select({
+        id: Order.id,
+        idReadable: Order.readableOrderCode,
+        clientName: Order.customerNameAtPurchase,
+        eventDate: Order.eventDate,
+        size: Order.arrangementSize,
+        status: Order.status,
+      })
+      .from(Order)
+      .where(
+        or(
+          eq(Order.status, "delivered"),
+          eq(Order.status, "cancelled")
+        )
+      )
+      .orderBy(asc(Order.eventDate));
+
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch orders data.");
+  }
+}
+
+export async function fetchAllOrdersIncompleted() {
+  try {
+    const data = await db
+      .select({
+        id: Order.id,
+        idReadable: Order.readableOrderCode,
+        clientName: Order.customerNameAtPurchase,
+        eventDate: Order.eventDate,
+        size: Order.arrangementSize,
+        status: Order.status,
+      })
+      .from(Order)
+      .where(
+        or(
+          eq(Order.status, "pending"),
+          eq(Order.status, "preparing")
+        )
+      )
+      .orderBy(asc(Order.eventDate));
+
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch orders data.");
   }
 }
