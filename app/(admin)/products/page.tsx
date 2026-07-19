@@ -45,7 +45,7 @@ export default async function CatalogManagementPage() {
                     <span className="text-[#6b4f3f] truncate max-w-50">Catalog</span>
                 </nav>
 
-                <div className="flex justify-between items-start gap-4">
+                <div className="flex justify-between items-start">
                     <div>
                         <h1 className="text-2xl font-bold text-primary">Catalog Overview</h1>
                         <p className="text-muted mt-2">Manage products details here.</p>
@@ -78,7 +78,7 @@ export default async function CatalogManagementPage() {
 
                         <th scope="col" className="hidden md:table-cell px-6 py-4">Price (USD)</th>
 
-                        <th scope="col" className="px-6 py-4">Details</th>
+                        <th scope="col" className="px-6 py-4 text-center">Details</th>
 
                     </tr>
 

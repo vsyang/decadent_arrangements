@@ -30,102 +30,95 @@ export default async function OrderManagementPage() {
     const orders = authorized
         ? await fetchAllOrders()
         : await fetchAllOrdersByCustomerId(session.user.id);
-
-    const actAction = authorized
-        ? true
-        : false
     
 
     return (
         <>
 
-            <div className="max-w-7xl m-auto py-5">
+            {(authorized) && 
+                <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
 
-                {(authorized) && 
-                    <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    <Link
+                        href="/dashboard"
+                        className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
+                    >
+                    Management
+                    </Link>
 
-                        <Link
-                            href="/dashboard"
-                            className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
-                        >
-                        Management
-                        </Link>
+                    <ChevronRightIcon className="w-3 h-3" />
 
-                        <ChevronRightIcon className="w-3 h-3" />
+                    <span className="text-[#6b4f3f] truncate max-w-50">Orders</span>
+                </nav>
+            }
 
-                        <span className="text-[#6b4f3f] truncate max-w-50">Orders</span>
-                    </nav>
-                }
+            <div className="flex justify-between items-start">
 
-                <div className="flex justify-between items-start gap-4">
+                {(authorized) ? (
 
-                    {(authorized) ? (
-
-                        <div>
-                            <h1 className="text-2xl font-bold text-primary">Orders Overview</h1>
-                            <p className="text-muted mt-2">Manage products orders here.</p>
-                            <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as <Link href="#">Completed</Link> or <Link href="#">Canceled</Link>.</p>
-                        </div>
-
-                        ) : (
-                            <div>
-                                <h1 className="text-3xl font-bold text-primary">My orders</h1>
-                                <p className="text-muted mt-2">This are your orders up until now.</p>
-                            </div>
-                        )}
-
-                        <Link
-                            href="/orders/new"
-                            className="bg-black h-10 w-10 md:w-40 md:h-auto p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 mr-0 ml-auto"
-                        >
-                            <span className="md:hidden text-xl font-bold">+</span>
-                            <span className="hidden md:inline">New Order</span>
-                        </Link>
                     <div>
+                        <h1 className="text-2xl font-bold text-primary">Orders Overview</h1>
+                        <p className="text-muted mt-2">Manage products orders here.</p>
+                        <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as <Link href="#" className="bg-green-600 rounded-full py-1 px-2 text-slate-100">Completed</Link> or <Link href="#" className="bg-red-600 rounded-full py-1 px-2 text-slate-100">Canceled</Link>.</p>
                     </div>
 
+                    ) : (
+                        <div>
+                            <h1 className="text-3xl font-bold text-primary">My orders</h1>
+                            <p className="text-muted mt-2">This are your orders up until now.</p>
+                        </div>
+                    )}
+
+                    <Link
+                        href="/orders/new"
+                        className="bg-black h-10 w-10 md:w-40 md:h-auto p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 mr-0 ml-auto"
+                    >
+                        <span className="md:hidden text-xl font-bold">+</span>
+                        <span className="hidden md:inline">New Order</span>
+                    </Link>
+                <div>
                 </div>
 
-                <div className="max-w-7xl m-auto py-5">
-                    
+            </div>
 
-                    <table className="w-full min-w-[800px] border-collapse text-left text-sm text-slate-600">
+            <div className="m-auto py-5">
+                
+                <table className="w-full text-left text-sm text-slate-600">
 
-                        <thead className="text-s uppercase tracking-wider text-slate-700 border-b border-slate-200">
-                        <tr>
+                    <thead className="text-s uppercase text-slate-700 border-b border-slate-200">
+                    <tr>
 
-                            <th scope="col" className="px-6 py-4">Order Code</th>
+                        <th scope="col" className="px-6 py-4 [@media(max-width:1000px)]:px-2">
+                            <span className="[@media(min-width:880px)]:hidden">Order (Size)</span>
+                            <span className="hidden [@media(min-width:880px)]:inline">Order Code</span>
+                        </th>
 
-                            <th scope="col" className="hidden md:table-cell px-6 py-4">Customer Name</th>
+                        <th scope="col" className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden">Customer Name</th>
 
-                            <th scope="col" className="px-6 py-4">Date of Event</th>
+                        <th scope="col" className="px-6 py-4 [@media(max-width:1000px)]:px-2">
+                            <span className="md:hidden">Date</span>
+                            <span className="hidden md:inline">Date of Event</span>
+                        </th>
 
-                            <th scope="col" className="hidden md:table-cell px-6 py-4">Arrang. Size</th>
+                        <th scope="col" className="md:table-cell px-6 py-4 [@media(max-width:880px)]:hidden">Arrang. Size</th>
 
-                            <th scope="col" className="hidden md:table-cell px-6 py-4">Status</th>
+                        <th scope="col" className="hidden md:table-cell px-6 py-4">Status</th>
 
-                            <th scope="col" className="px-6 py-4">Details</th>
+                        <th scope="col" className="px-6 py-4 [@media(max-width:1000px)]:px-2 text-center">Details</th>
 
-                            {(actAction) &&
+                    </tr>
 
-                                <th scope="col" className="px-6 py-4">Actions</th>
-                            }
+                    </thead>
 
-                        </tr>
+                    <tbody className="divide-y divide-slate-100 font-medium">
 
-                        </thead>
+                        <Suspense
+                            fallback={ <TableSkeleton rows={2} /> } 
+                            >
+                            <OrdersTableBody orders={orders} />
+                        </Suspense>
 
-                        <tbody className="divide-y divide-slate-100 font-medium">
-
-                            <Suspense
-                                fallback={ <TableSkeleton rows={2} /> } 
-                                >
-                                <OrdersTableBody ordersList={orders} actions={actAction} />
-                            </Suspense>
-
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </>
     );
