@@ -2,13 +2,11 @@
 
 import "../../globals.css";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { TableSkeleton } from "@/components/skeleton";
 import { Suspense } from "react";
 import { fetchProducts } from "@/db/queries";
 import Link from "next/link";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
-import { IsAdminProtection } from "../dashboard/adminAction";
 import CatalogTableBody from "@/components/admin/CatalogTableBody";
 
 export const metadata: Metadata = {
@@ -16,13 +14,6 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogManagementPage() {
-
-
-    const authorized = await IsAdminProtection();
-
-    if (!authorized) {
-        redirect("/not-found");
-    }
 
     const products = await fetchProducts();
 

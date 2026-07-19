@@ -31,6 +31,14 @@ export default async function OrdersTableBody({ orders}: any) {
         key={o.id}
         className="hover:bg-slate-50/70 transition-colors duration-200"
       >
+        <td className={`md:hidden px-1 py-4 text-center uppercase ${
+              o.status === "preparing" ? "bg-yellow-500 text-black" :
+              o.status === "delivered" ? "bg-green-500 text-white" :
+              o.status === "cancelled" ? "bg-red-500 text-white" : "bg-gray-100 border-1"
+            }`
+          }>
+        </td>
+
         <td className="whitespace-nowrap [@media(max-width:1000px)]:px-2 px-6 py-4 font-semibold text-slate-900">
           <span className="[@media(min-width:880px)]:hidden ">{o.idReadable} ({o.size})</span>
           <span className="hidden [@media(min-width:880px)]:inline">{o.idReadable}</span>
@@ -42,7 +50,16 @@ export default async function OrdersTableBody({ orders}: any) {
 
         <td className="[@media(max-width:880px)]:hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900">{o.size}</td>
 
-        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-center">{o.status}</td>
+        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-center uppercase">
+          <span className={`rounded-full py-1 px-2 ${
+              o.status === "preparing" ? "bg-yellow-500 text-black" :
+              o.status === "delivered" ? "bg-green-500 text-white" :
+              o.status === "cancelled" ? "bg-red-500 text-white" : "bg-gray-100 border-1"
+            }`
+          }>
+            {o.status?.slice(0, 4)}
+          </span>
+        </td>
 
         <td className="whitespace-nowrap py-4 text-slate-900 m-auto">
           <Link
