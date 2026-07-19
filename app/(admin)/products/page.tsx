@@ -62,22 +62,23 @@ export default async function CatalogManagementPage() {
             
             </div>
 
-            <div className="max-w-7xl m-auto py-5">
+            <div className="m-auto py-5">
 
-                <table className="w-full min-w-[800px] border-collapse text-left text-sm text-slate-600">
+                <table className="w-full text-left text-sm text-slate-600">
 
-                    <thead className="text-s uppercase tracking-wider text-slate-700 border-b border-slate-200">
+                    <thead className="text-s uppercase text-slate-700 border-b border-slate-200">
                     <tr>
 
-                        <th scope="col" className="px-6 py-4">Name</th>
+                        <th scope="col" className="px-6 py-4">
+                            <span className="hidden md:inline">Name</span>
+                            <span className="md:hidden">Name (Size)</span>
+                        </th>
 
-                        <th scope="col" className="hidden md:table-cell px-6 py-4">Capacity</th>
-
-                        <th scope="col" className="px-6 py-4">Size</th>
+                        <th scope="col" className="hidden md:table-cell px-6 py-4">Capacity (Size)</th>
 
                         <th scope="col" className="hidden md:table-cell px-6 py-4">Price (USD)</th>
 
-                        <th scope="col" className="px-6 py-4">Actions</th>
+                        <th scope="col" className="px-6 py-4">Details</th>
 
                     </tr>
 
