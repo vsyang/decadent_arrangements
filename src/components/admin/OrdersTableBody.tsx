@@ -1,28 +1,21 @@
 import Link from "next/link";
 import "../../../app/globals.css";
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
 
-export default async function OrdersTableBody(props: { 
-  ordersList: any;
-  actions: boolean;
- }) {
+export default async function OrdersTableBody({ orders}: any) {
 
-  const orders = props.ordersList;
 
   if (!orders || orders.length === 0) {
     return (
       <tr
       className="hover:bg-slate-50/70 transition-colors duration-200"
     >
-        <td className="whitespace-nowrap px-6 py-4 font-semibold text-slate-900">No orders data yet.</td>
+        <td className="px-6 py-4 font-semibold text-slate-900">No orders data yet.</td>
 
-        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900"></td>
+        <td className="hidden md:table-cell px-6 py-4 text-slate-900"></td>
 
-        <td className="whitespace-nowrap px-6 py-4 text-slate-900"></td>
-
-        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900"></td>
-
-        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-center"></td>
+        <td className="px-6 py-4 text-slate-900"></td>
 
     </tr>
     );
@@ -38,44 +31,28 @@ export default async function OrdersTableBody(props: {
         key={o.id}
         className="hover:bg-slate-50/70 transition-colors duration-200"
       >
-        <td className="whitespace-nowrap px-6 py-4 font-semibold text-slate-900">{o.idReadable}</td>
+        <td className="whitespace-nowrap [@media(max-width:1000px)]:px-2 px-6 py-4 font-semibold text-slate-900">
+          <span className="[@media(min-width:880px)]:hidden ">{o.idReadable} ({o.size})</span>
+          <span className="hidden [@media(min-width:880px)]:inline">{o.idReadable}</span>
+        </td>
 
-        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900">{o.clientName}</td>
+        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900 [@media(max-width:1010px)]:hidden">{o.clientName}</td>
 
-        <td className="whitespace-nowrap px-6 py-4 text-slate-900">{o.eventDate.toLocaleDateString()}</td>
+        <td className="whitespace-nowrap px-6 [@media(max-width:1000px)]:px-2 py-4 text-slate-900">{o.eventDate.toLocaleDateString()}</td>
 
-        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900">{o.size}</td>
+        <td className="[@media(max-width:880px)]:hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900">{o.size}</td>
 
         <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-center">{o.status}</td>
 
-        <td className="whitespace-nowrap px-6 py-4 text-slate-900">
+        <td className="whitespace-nowrap py-4 text-slate-900 m-auto">
           <Link
           key={o.id}
           href={`/orders/${o.id}`}
-          className="group text-center bg-black p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 w-full text-white"
-          > See more
+          className="bg-black h-10 w-10 p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 m-auto"
+          >
+            <MagnifyingGlassIcon className="h-6 w-6 text-xl font-bold" />
           </Link>
         </td>
-
-        {(props.actions) &&
-
-        <td>
-          <button 
-            type="button"
-            className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-150 m-auto"
-            >
-          Edit
-          </button>
-
-          <button 
-            type="button"
-            className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-150 m-auto"
-            >
-          Delete
-          </button>
-        </td>
-
-          }
       </tr>
       ))}
 
