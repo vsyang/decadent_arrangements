@@ -1,6 +1,6 @@
 import { fetchProductById } from "@/db/queries";
 import { notFound, redirect } from "next/navigation";
-import { DeleteProductById } from "../../../dashboard/actions";
+import { DeleteProductById } from "../../actions";
 import ProductForm from "@/components/admin/ProductForm";
 
 

@@ -1,7 +1,9 @@
-import { ProductInput } from '../../app/(admin)/dashboard/actions';
+import { ProductInput } from '../../app/(admin)/products/actions';
 import { db } from './index';
 import { Order, Product, ProductImage } from './schema';
 import { asc, eq, or, sql } from 'drizzle-orm';
+
+// --- PRODUCTS QUERIES --- //
 
 export async function getProducts() {
   const allProducts = await db.select().from(Product);
@@ -90,6 +92,11 @@ export async function fetchProductImageById(imageId: string) {
   }
 }
 
+
+
+// --- ORDERS QUERIES --- //
+
+
 export async function getAllOrders() {
   const allOrders = await db.select().from(Order);
   return allOrders;
@@ -146,9 +153,18 @@ export async function fetchOrderById(orderId: string) {
         id: Order.id,
         idReadable: Order.readableOrderCode,
         clientName: Order.customerNameAtPurchase,
+        phone: Order.customerPhoneAtPurchase,
+        email: Order.customerEmailAtPurchase,
+        price: Order.totalPrice,
         eventDate: Order.eventDate,
         size: Order.arrangementSize,
         status: Order.status,
+        address: Order.deliveryAddress,
+        dietaryRestrictions: Order.dietaryRestrictions,
+        createdAt: Order.createdAt,
+        updatedAt: Order.updatedAt,
+        specialRequest: Order.specialRequests,
+        payment: Order.paymentPreference,
       })
       .from(Order)
       .where(eq(Order.id, orderId));
@@ -160,7 +176,6 @@ export async function fetchOrderById(orderId: string) {
   }
 }
 
-export type Status = "pending" | "preparing" | "delivered" | "cancelled";
 
 export async function fetchAllOrdersCompleted() {
   try {

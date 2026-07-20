@@ -1,6 +1,6 @@
 import ProductForm from "@/components/admin/ProductForm";
 import { redirect } from "next/navigation";
-import { CreateProduct } from "../../dashboard/actions";
+import { CreateProduct } from "../actions";
 
 export default async function NewProductPage() {
 

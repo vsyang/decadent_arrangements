@@ -7,8 +7,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 
-// PRODUCTS ACTIONS
-
 export type ProductSize = typeof productSizeEnum.enumValues[number];
 
 export interface ProductInput { // Defining el input
