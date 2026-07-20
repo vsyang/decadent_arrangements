@@ -1,8 +1,13 @@
 // ** Just playing with some things here. 
 
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+
+  const session = await getServerSession(authOptions);
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <section className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
@@ -27,12 +32,22 @@ export default function Home() {
             View Arrangements
           </Link>
 
-          <Link
-            href="/order"
-            className="rounded-full border border-primary text-primary px-8 py-3 font-medium transition-colors hover:bg-primary/5"
-          >
-            Place an Order
-          </Link>
+          {(!session?.user?.id) ? (
+              <Link
+              href={"/api/auth/signin"}
+              className="rounded-full border border-primary text-primary px-8 py-3 font-medium transition-colors hover:bg-primary/5"
+            >
+              Place Order
+            </Link>
+            ) : (
+              <Link
+                href="/orders/new"
+                className="rounded-full border border-primary text-primary px-8 py-3 font-medium transition-colors hover:bg-primary/5"
+              >
+                Place Order
+              </Link>
+            )}
+
         </div>
       </section>
     </main>
