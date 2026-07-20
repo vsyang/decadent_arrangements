@@ -3,6 +3,7 @@ import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IsAdminProtection } from "../../dashboard/adminAction";
+import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
 
 export default async function OrderDetailsPage(props: { 
   params: Promise<{ id: string }>;
@@ -62,12 +63,53 @@ export default async function OrderDetailsPage(props: {
       )}
 
     
+      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
 
-        <div className="flex flex-col">
-          <h1 className="font-serif italic text-4xl md:text-5xl text-[#2e2e2e] leading-tight mb-2">
-            {orderId}
-          </h1>
+        <h1 className="text-2xl font-bold text-slate-900">
+          Order #{order.idReadable}
+        </h1>
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+          
+
+          <div className="flex mt-2 flex-wrap gap-3 text-sm text-slate-600 my-2">
+
+            <span>
+              <b>Created:</b>{" "}
+              {new Date(order.createdAt).toLocaleDateString()}
+            </span>
+
+            {(authorized) && (
+              <span>
+                <b>Last updated:</b>{" "}
+                {new Date(order.updatedAt).toLocaleDateString()}
+              </span>
+            )}
+
+          </div>
+
+          <div className="flex items-center gap-3">
+
+            <label htmlFor="order-status" className="text-sm font-semibold text-slate-700">
+                Status:
+            </label>
+
+            {(authorized) ? (
+              
+              <OrderStatusSelect orderId={order.id} currentStatus={order.status}
+                />
+            ) : (
+              <span className={`w-full appearance-none rounded-lg border-3 py-2 px-2 text-sm font-semibold text-slate-700 shadow-sm ${
+                order.status === "preparing" ? "border-yellow-500 bg-yellow-500/10" :
+                order.status === "delivered" ? "border-green-500 bg-green-500/5" :
+                order.status === "cancelled" ? "border-red-500 bg-red-500/5" : "bg-gray-100/50"}`
+              }>{order.status}</span>
+            )}
+
+          </div>
+
         </div>
+      </div>
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import "../../../app/globals.css";
-import { ProductInput } from "../../../app/(admin)/dashboard/actions";
+import { ProductInput } from "../../../app/(admin)/products/actions";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
 

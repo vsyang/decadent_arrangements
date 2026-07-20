@@ -1,7 +1,7 @@
 import { fetchProductById } from "@/db/queries";
 import { notFound, redirect } from "next/navigation";
 import ProductForm from "@/components/admin/ProductForm";
-import { ProductInput, UpdateProductById } from "../../../dashboard/actions";
+import { ProductInput, UpdateProductById } from "../../actions";
 
 
 export default async function EditProductPage(props: { 
