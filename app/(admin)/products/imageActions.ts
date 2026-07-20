@@ -327,24 +327,20 @@ export async function replaceProductImage(
     // Determine the extension of the replacement file
     const extension = getFileExtension(replacementFile);
 
-    // Keep the same filename number while changing the extension if needed
+    // Keep the same numbered filename but create a unique Blob pathname.
     const baseName = existingImage.fileName.replace(/\.[^/.]+$/, "");
     const newFileName = `${baseName}.${extension}`;
 
-    // Determine the correct Blob folder
     const folder = getSizeFolder(productSize);
 
-    // Build the replacement pathname
-    const newPathname = `${folder}/${newFileName}`;
+    const uniquePathname = `${folder}/${baseName}-${Date.now()}.${extension}`;
 
-    // Upload the replacement image
     const replacementBlob = await put(
-      newPathname,
+      uniquePathname,
       replacementFile,
       {
         access: "public",
         addRandomSuffix: false,
-        allowOverwrite: true,
       },
     );
 
