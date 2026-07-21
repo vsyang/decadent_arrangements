@@ -2,7 +2,6 @@
 
 import { IsAdminProtection } from "./dashboard/adminAction";
 import { Sidebar } from "@/components/admin/Sidebar";
-import { Navbar } from "@/components/layout/Navbar";
 import { SidebarClient } from "@/components/admin/SidebarClient";
 
 export default async function AdminLayout({
