@@ -1,4 +1,4 @@
-// app/(public)/order/page.tsx
+// app/(admin)/orders/new/page.tsx
 
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";

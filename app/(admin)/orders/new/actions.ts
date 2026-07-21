@@ -1,4 +1,4 @@
-// app/(public)/order/actions.ts
+// app/(admin)/orders/new/actions.ts
 
 "use server";
 
@@ -10,6 +10,7 @@ import { authOptions } from "@/lib/auth";
 import { db } from "@/db";
 import { Order, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { sendOwnerEmail } from "@/lib/notification";
 
 // These values must match the product_size enum in the database schema.
 type ArrangementSize = "S" | "M" | "L" | "XL";
@@ -185,7 +186,7 @@ export async function createOrder(formData: FormData) {
     status: "pending",
   });
 
-  // Save the customer's latest contact and delivery information.This allows the order form to prefill these fields next time.
+  // Save the customer's latest contact and delivery information. This allows the order form to prefill these fields next time.
   await db
     .update(users)
     .set({
@@ -205,7 +206,16 @@ export async function createOrder(formData: FormData) {
       updatedAt: new Date(),
     })
     .where(eq(users.id, session.user.id));
+  
+  // Send a short email notification to the business owner after the order is saved.
+  try {
+    await sendOwnerEmail({
+      orderCode: readableOrderCode,
+    });
+  } catch (error) {
+    console.error("Failed to send owner email notification:", error);
+  }
 
   // Redirect the customer to the confirmation page after the order is saved.
-  redirect(`/order/confirmation?code=${readableOrderCode}`);
+  redirect(`/orders/new/confirmation?code=${readableOrderCode}`);
 }
