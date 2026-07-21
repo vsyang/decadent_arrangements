@@ -72,14 +72,6 @@ export function TableSkeleton({
             <div className="h-5 w-16 rounded bg-slate-200 animate-pulse" />
           </td>
 
-          <td className="px-6 py-5">
-            <div className="h-5 w-20 rounded bg-slate-200 animate-pulse" />
-          </td>
-
-          <td className="px-6 py-5 hidden md:table-cell">
-            <div className="h-5 w-20 rounded bg-slate-200 animate-pulse" />
-          </td>
-
           <td className="px-6 py-5 hidden md:table-cell">
             <div className="h-9 w-28 rounded-lg bg-slate-200 animate-pulse" />
           </td>

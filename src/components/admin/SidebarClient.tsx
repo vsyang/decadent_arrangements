@@ -1,16 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function SidebarClient() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
-
-    useEffect(() => {
-        setIsOpen(false);
-    }, [pathname]);
 
     const getLinkClass = (href: string) => {
         const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -24,17 +20,11 @@ export function SidebarClient() {
     return (
         <>
             {/* TOP BAR */}
-            <div className="flex h-16 items-center justify-between border-b border-border bg-background px-4 md:hidden sticky top-0 z-30 w-full">
-                <Link
-                    href="/orders"
-                    className="text-lg font-bold tracking-tight text-accent"
-                >
-                    My Account
-                </Link>
+            <div className="absolute z-500 top-0 right-0 border-border m-2">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     type="button"
-                    className="rounded-md p-2  hover:bg-muted/50 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="md:hidden rounded-md p-2 hover:bg-muted/50 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
                     aria-label={isOpen ? "Close menu" : "Open menu"}
                 >
                     {isOpen ? (
@@ -59,44 +49,34 @@ export function SidebarClient() {
 
             {/* SIDEBAR */}
             <aside
-                className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-background transition-transform duration-300 ease-in-out md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"
-                    }`}
+                className={`md:sticky fixed inset-y-0 left-0 md:z-0 z-50 md:top-0 md:h-[calc(100vh-68px)] w-64 flex flex-col justify-between border-r border-border bg-background transition-transform duration-300 ease-in-out md:translate-x-0 pt-6 ${isOpen ? "translate-x-0" : "-translate-x-full"
+                }`}
             >
-                <div className="hidden h-16 items-center px-6 border-b border-border md:flex">
-                    <Link
-                        href="/orders"
-                        className="text-lg font-bold tracking-tight text-accent hover:opacity-90 transition-opacity"
-                    >
-                        My Account
-                    </Link>
-                </div>
 
-                <nav className="flex-1 space-y-6 px-4 py-6 overflow-y-auto">
+                <nav className="space-y-2 px-4 flex-1">
 
-
-                    {/* PERSONAL SETTINGS */}
-                    <div className="space-y-2">
+                    <span className="px-3 text-sm font-bold uppercase tracking-wider block">
+                        Personal Settings
+                    </span>
+                    <div>
                         <div className="space-y-1">
-                            <Link href="/account" className={getLinkClass("/account")}>
+                            <Link href="/account" className={getLinkClass("/account")} onClick={() => setIsOpen(false)}>
                                 Profile Info
                             </Link>
                         </div>
-                        <div>
-                            <Link href="/orders" className={getLinkClass("/orders")}>
+                        <div className="space-y-1">
+                            <Link href="/orders" className={getLinkClass("/orders")} onClick={() => setIsOpen(false)}>
                                 My Orders
-                            </Link>
-                        </div>
-                        <div>
-                            <Link href="/#" className={getLinkClass("/#")}>
-                               Sign OUT (No funciona)
                             </Link>
                         </div>
                     </div>
                 </nav>
 
-                <footer className="mt-6 border-t border-border bg-background py-6 text-center text-xs text-muted-foreground">
-                    &copy; {new Date().getFullYear()} Decadent Arrangements. All rights reserved.
-                </footer>
+                <div className="p-4 bg-background">
+                    <Link href="/api/auth/signout" onClick={() => setIsOpen(false)} className="rounded px-3 text-sm uppercase tracking-wider block bg-foreground/80 text-white p-2 text-center">
+                        Sign OUT
+                    </Link>
+                </div>
             </aside>
         </>
     );

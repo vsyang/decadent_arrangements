@@ -36,7 +36,7 @@ export default async function OrderManagementPage() {
         <>
 
             {(authorized) && 
-                <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                <nav className="mb-4 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
 
                     <Link
                         href="/dashboard"
@@ -61,7 +61,7 @@ export default async function OrderManagementPage() {
                         
                         <p className="md:hidden">Remember: <span className="bg-gray-100 rounded-full py-1 px-2 text-black border-1">Pending</span> <span className="bg-yellow-500 rounded-full py-1 px-2 text-slate-100">Preparing</span></p>
 
-                        <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as <span className="bg-green-600 rounded-full py-1 px-2 text-slate-100">Delivered</span> or <span className="bg-red-600 rounded-full py-1 px-2 text-slate-100">Cancelled</span> <Link href={"/orders/completed"} className="font-bold text-black underline">HERE</Link>.</p>
+                        <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as completed <Link href={"/orders/completed"} className="font-bold text-black underline">HERE</Link>.</p>
                     </div>
 
                     ) : (
@@ -73,17 +73,17 @@ export default async function OrderManagementPage() {
 
                     <Link
                         href="/orders/new"
-                        className="bg-black h-10 w-10 md:w-40 md:h-auto p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 mr-0 ml-auto"
+                        className="bg-black h-10 w-10 [@media(min-width:805px)]:w-40 md:h-auto p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 mr-0 ml-auto"
                     >
-                        <span className="md:hidden text-xl font-bold">+</span>
-                        <span className="hidden md:inline">New Order</span>
+                        <span className="text-xl font-bold [@media(min-width:805px)]:hidden">+</span>
+                        <span className="hidden [@media(min-width:805px)]:inline">New Order</span>
                     </Link>
                 <div>
                 </div>
 
             </div>
 
-            <div className="m-auto py-5">
+            <div className="m-auto py-5 w-full">
                 
                 <table className="w-full text-left text-sm text-slate-600">
 
@@ -97,7 +97,9 @@ export default async function OrderManagementPage() {
                             <span className="hidden [@media(min-width:880px)]:inline">Order Code</span>
                         </th>
 
-                        <th scope="col" className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden">Customer Name</th>
+                        {(authorized) && (
+                            <th scope="col" className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden">Customer Name</th>
+                        )}
 
                         <th scope="col" className="px-6 py-4 [@media(max-width:1000px)]:px-2">
                             <span className="md:hidden">Date</span>
@@ -119,7 +121,7 @@ export default async function OrderManagementPage() {
                         <Suspense
                             fallback={ <TableSkeleton rows={2} /> } 
                             >
-                            <OrdersTableBody orders={orders} />
+                            <OrdersTableBody orders={orders} isAdmin={authorized} />
                         </Suspense>
 
                     </tbody>

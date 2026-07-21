@@ -94,7 +94,7 @@ export default async function CompletedOrdersPage() {
                         <Suspense
                             fallback={ <TableSkeleton rows={2} /> } 
                             >
-                            <OrdersTableBody orders={orders} />
+                            <OrdersTableBody orders={orders} isAdmin={true} />
                         </Suspense>
 
                     </tbody>

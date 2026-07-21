@@ -20,9 +20,9 @@ export default async function CatalogManagementPage() {
     return (
         <>
 
-            <div className="max-w-7xl m-auto py-5">
+            <div className="max-w-7xl m-auto">
 
-                <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                <nav className="mb-4 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
 
                     <Link
                         href="/dashboard"
@@ -44,16 +44,16 @@ export default async function CatalogManagementPage() {
                     </div>
                     <Link
                         href="/products/new"
-                        className="bg-black h-10 w-10 md:w-40 md:h-auto p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 mr-0 ml-auto"
+                        className="bg-black h-10 w-10 [@media(min-width:805px)]:w-40 md:h-auto p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 mr-0 ml-auto"
                     >
-                        <span className="md:hidden text-xl font-bold">+</span>
-                        <span className="hidden md:inline">New product</span>
+                        <span className="text-xl font-bold [@media(min-width:805px)]:hidden">+</span>
+                        <span className="hidden [@media(min-width:805px)]:inline">New product</span>
                     </Link>
                 </div>
             
             </div>
 
-            <div className="m-auto py-5">
+            <div className="m-auto py-5 w-full">
 
                 <table className="w-full text-left text-sm text-slate-600">
 
