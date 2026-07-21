@@ -37,7 +37,7 @@ export default function RootLayout({
         <div>
           {children}
         </div>
-        <footer className="w-full mt-auto mb-0 border-t border-border bg-background py-6 text-center text-xs text-muted-foreground">
+        <footer className="w-full mt-auto mb-16 md:mb-0 md:border-t border-border bg-background md:py-6 py-2 text-center text-xs text-muted-foreground">
           &copy; {new Date().getFullYear()} Decadent Arrangements. All rights reserved.
         </footer>
       </body>
