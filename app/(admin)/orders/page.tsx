@@ -61,7 +61,7 @@ export default async function OrderManagementPage() {
                         
                         <p className="md:hidden">Remember: <span className="bg-gray-100 rounded-full py-1 px-2 text-black border-1">Pending</span> <span className="bg-yellow-500 rounded-full py-1 px-2 text-slate-100">Preparing</span></p>
 
-                        <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as <span className="bg-green-600 rounded-full py-1 px-2 text-slate-100">Delivered</span> or <span className="bg-red-600 rounded-full py-1 px-2 text-slate-100">Cancelled</span> <Link href={"/orders/completed"} className="font-bold text-black underline">HERE</Link>.</p>
+                        <p className="text-muted mt-2"><b>Note:</b> Some orders might appear as completed <Link href={"/orders/completed"} className="font-bold text-black underline">HERE</Link>.</p>
                     </div>
 
                     ) : (
@@ -97,7 +97,9 @@ export default async function OrderManagementPage() {
                             <span className="hidden [@media(min-width:880px)]:inline">Order Code</span>
                         </th>
 
-                        <th scope="col" className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden">Customer Name</th>
+                        {(authorized) && (
+                            <th scope="col" className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden">Customer Name</th>
+                        )}
 
                         <th scope="col" className="px-6 py-4 [@media(max-width:1000px)]:px-2">
                             <span className="md:hidden">Date</span>
@@ -119,7 +121,7 @@ export default async function OrderManagementPage() {
                         <Suspense
                             fallback={ <TableSkeleton rows={2} /> } 
                             >
-                            <OrdersTableBody orders={orders} />
+                            <OrdersTableBody orders={orders} isAdmin={authorized} />
                         </Suspense>
 
                     </tbody>
