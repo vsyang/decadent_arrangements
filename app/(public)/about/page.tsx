@@ -34,9 +34,9 @@ export default function AboutPage() {
         {/* The two-column layout for the main content */}
         <div className="grid items-center gap-12 md:grid-cols-2">
           {/* Owner Image and her perspective of why Decadent Arrangements started */}
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-primary/10">
+          <div className="relative aspect-[4/4] overflow-hidden rounded-3xl bg-primary/10">
             <Image
-              src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/coming-soon.webp"
+              src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/business-owner1.webp"
               alt="Jessica, owner of Decadent Arrangements"
               fill
               className="object-cover"
