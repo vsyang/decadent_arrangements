@@ -1,16 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function SidebarClient() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
-
-    useEffect(() => {
-        setIsOpen(false);
-    }, [pathname]);
 
     const getLinkClass = (href: string) => {
         const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -62,12 +58,12 @@ export function SidebarClient() {
                     </span>
                     <div>
                         <div className="space-y-1">
-                            <Link href="/account" className={getLinkClass("/account")}>
+                            <Link href="/account" className={getLinkClass("/account")} onClick={() => setIsOpen(false)}>
                                 Profile Info
                             </Link>
                         </div>
                         <div className="space-y-1">
-                            <Link href="/orders" className={getLinkClass("/orders")}>
+                            <Link href="/orders" className={getLinkClass("/orders")} onClick={() => setIsOpen(false)}>
                                 My Orders
                             </Link>
                         </div>
@@ -75,7 +71,7 @@ export function SidebarClient() {
                 </nav>
 
                 <div className="p-4 bg-background">
-                    <Link href="/api/auth/signout" className="rounded px-3 text-sm uppercase tracking-wider block bg-foreground/80 text-white p-2 text-center">
+                    <Link href="/api/auth/signout" onClick={() => setIsOpen(false)} className="rounded px-3 text-sm uppercase tracking-wider block bg-foreground/80 text-white p-2 text-center">
                         Sign OUT
                     </Link>
                 </div>
