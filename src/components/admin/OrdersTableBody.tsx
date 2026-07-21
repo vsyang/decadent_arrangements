@@ -3,7 +3,13 @@ import "../../../app/globals.css";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
 
-export default async function OrdersTableBody({ orders}: any) {
+export default async function OrdersTableBody({ 
+  orders,
+  isAdmin,
+}: {
+  orders: any;
+  isAdmin: boolean;
+}) {
 
 
   if (!orders || orders.length === 0) {
@@ -43,14 +49,16 @@ export default async function OrdersTableBody({ orders}: any) {
           <span className="[@media(min-width:880px)]:hidden ">{o.idReadable} ({o.size})</span>
           <span className="hidden [@media(min-width:880px)]:inline">{o.idReadable}</span>
         </td>
-
-        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900 [@media(max-width:1010px)]:hidden">{o.clientName}</td>
+        
+        {(isAdmin) && 
+          <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900 [@media(max-width:1010px)]:hidden">{o.clientName}</td>
+        }
 
         <td className="whitespace-nowrap px-6 [@media(max-width:1000px)]:px-2 py-4 text-slate-900">{o.eventDate.toLocaleDateString()}</td>
 
         <td className="[@media(max-width:880px)]:hidden md:table-cell whitespace-nowrap px-6 py-4 text-slate-900">{o.size}</td>
 
-        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-center uppercase">
+        <td className="hidden md:table-cell whitespace-nowrap px-6 py-4 text-left uppercase">
           <span className={`rounded-full py-1 px-2 ${
               o.status === "preparing" ? "bg-yellow-500 text-black" :
               o.status === "delivered" ? "bg-green-500 text-white" :
