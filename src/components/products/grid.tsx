@@ -1,15 +1,13 @@
 import Link from "next/link";
-import { asc } from "drizzle-orm";
 import { getServerSession } from "next-auth";
 
-import { db } from "@/db";
-import { ProductImage } from "@/db/schema";
-import { fetchProducts } from "@/db/queries";
+import {
+  fetchAllProductImages,
+  fetchProducts,
+} from "@/db/queries";
 import { authOptions } from "@/lib/auth";
 
 import CatalogImageCard from "./catalog-image-card";
-
-type ProductSize = "S" | "M" | "L" | "XL";
 
 type GalleryImage = {
   id: string;
@@ -20,35 +18,28 @@ type GalleryImage = {
 export default async function ProductsGrid() {
   const session = await getServerSession(authOptions);
 
-  // Get the regular product/category information.
+  // Get every product/category created by the owner.
   const products = await fetchProducts();
 
-  // Get every image uploaded through the admin catalog.
-  const storedImages = await db
-    .select({
-      id: ProductImage.id,
-      size: ProductImage.size,
-      imageUrl: ProductImage.imageUrl,
-      fileName: ProductImage.fileName,
-    })
-    .from(ProductImage)
-    .orderBy(asc(ProductImage.fileName));
+  // Get every gallery image connected to a product.
+  const storedImages = await fetchAllProductImages();
 
-  // Group all uploaded images by product size.
-  const imagesBySize: Record<ProductSize, GalleryImage[]> = {
-    S: [],
-    M: [],
-    L: [],
-    XL: [],
-  };
+  // Group images dynamically by their product ID.
+  const imagesByProduct = storedImages.reduce<
+    Record<string, GalleryImage[]>
+  >((groups, image) => {
+    if (!groups[image.productId]) {
+      groups[image.productId] = [];
+    }
 
-  storedImages.forEach((image) => {
-    imagesBySize[image.size].push({
+    groups[image.productId].push({
       id: image.id,
       imageUrl: image.imageUrl,
       fileName: image.fileName,
     });
-  });
+
+    return groups;
+  }, {});
 
   if (!products || products.length === 0) {
     return (
@@ -62,20 +53,21 @@ export default async function ProductsGrid() {
 
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {products.map((p) => {
-        // Match the product to images with the same "category" size.
-        const galleryImages = imagesBySize[p.size as ProductSize] ?? [];
+      {products.map((product) => {
+        // Get only the gallery images connected to this product.
+        const galleryImages = imagesByProduct[product.id] ?? [];
 
         return (
           <article
-            key={p.id}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-300 hover:shadow-xl"
+            key={product.id}
+            className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-shadow duration-300 hover:shadow-xl"
           >
+            {/* Clickable product image and gallery modal */}
             <div className="relative aspect-5/4 w-full overflow-hidden bg-[#faf7f2]">
               <CatalogImageCard
-                categoryName={p.name}
+                categoryName={product.name}
                 images={galleryImages}
-                fallbackImageUrl={p.imageUrl}
+                fallbackImageUrl={product.imageUrl}
               />
             </div>
 
@@ -83,11 +75,11 @@ export default async function ProductsGrid() {
             <div className="flex flex-grow flex-col justify-between bg-white p-5">
               <div>
                 <h3 className="line-clamp-1 font-serif text-xl leading-tight text-[#2e2e2e] transition-colors group-hover:text-[#c97c5d]">
-                  {p.name}
+                  {product.name}
                 </h3>
 
                 <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#6f6f6f]">
-                  {p.description}
+                  {product.description}
                 </p>
               </div>
 
@@ -98,9 +90,9 @@ export default async function ProductsGrid() {
                     Price
                   </span>
 
-                  {Number(p.price) > 0 ? (
+                  {Number(product.price) > 0 ? (
                     <p className="text-lg font-bold text-[#2e2e2e]">
-                      ${Number(p.price).toFixed(2)}
+                      ${Number(product.price).toFixed(2)}
                     </p>
                   ) : (
                     <span className="font-serif italic text-slate-700">
@@ -116,7 +108,10 @@ export default async function ProductsGrid() {
                   </span>
 
                   <p className="text-sm leading-relaxed text-[#2e2e2e]">
-                    {p.capacity === "50-plus" ? "+50" : p.capacity} people
+                    {product.capacity === "50-plus"
+                      ? "+50"
+                      : product.capacity}{" "}
+                    people
                   </p>
                 </div>
               </div>
@@ -133,7 +128,7 @@ export default async function ProductsGrid() {
                 </Link>
               ) : (
                 <Link
-                  href={`/orders/new?arrangement=${p.capacity}`}
+                  href={`/orders/new?productId=${product.id}`}
                   className="flex w-full items-center justify-center border p-2 font-serif text-xl leading-tight text-[#2e2e2e] transition-colors hover:text-[#c97c5d]"
                 >
                   Place Order
@@ -146,3 +141,4 @@ export default async function ProductsGrid() {
     </div>
   );
 }
+

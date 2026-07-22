@@ -1,38 +1,45 @@
-import { ProductInput } from '../../app/(admin)/products/actions';
-import { db } from './index';
-import { Order, Product, ProductImage } from './schema';
-import { asc, eq, or, sql } from 'drizzle-orm';
+import { ProductRecord } from "../../app/(admin)/products/actions";
+import { db } from "./index";
+import { Order, Product, ProductImage } from "./schema";
+import { asc, eq, or, sql } from "drizzle-orm";
 
-// --- PRODUCTS QUERIES --- //
+// ==========================================
+// PRODUCT QUERIES
+// ==========================================
 
+// Get every product.
 export async function getProducts() {
-  const allProducts = await db.select().from(Product);
+  const allProducts = await db
+    .select()
+    .from(Product)
+    .orderBy(asc(Product.name));
+
   return allProducts;
 }
 
-export async function fetchProducts(): Promise<ProductInput[]> {
+// Get every product for the public and admin product lists.
+export async function fetchProducts(): Promise<ProductRecord[]> {
   try {
     const data = await db
       .select({
         id: Product.id,
         name: Product.name,
         description: Product.description,
-        size: Product.size,
         capacity: Product.capacity,
         price: sql<number>`cast(${Product.price} as float)`,
         imageUrl: Product.imageUrl,
       })
       .from(Product)
-      .orderBy(asc(Product.size));
+      .orderBy(asc(Product.price));
 
-    return data as ProductInput[];
+    return data as ProductRecord[];
   } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch products data.');
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch products data.");
   }
 }
 
-// 🟢 INTEGRADO: Obtenido de main
+// Get one product using its product ID.
 export async function fetchProductById(productId: string) {
   try {
     const data = await db
@@ -40,7 +47,6 @@ export async function fetchProductById(productId: string) {
         id: Product.id,
         name: Product.name,
         description: Product.description,
-        size: Product.size,
         capacity: Product.capacity,
         price: sql<number>`cast(${Product.price} as float)`,
         imageUrl: Product.imageUrl,
@@ -54,15 +60,14 @@ export async function fetchProductById(productId: string) {
     throw new Error("Failed to fetch product data.");
   }
 }
-// Get all product images by product size
-export async function fetchImagesByProductSize(
-  productSize: "S" | "M" | "L" | "XL"
-) {
+
+// Get every gallery image connected to one product.
+export async function fetchImagesByProductId(productId: string) {
   try {
     return await db
       .select({
         id: ProductImage.id,
-        size: ProductImage.size,
+        productId: ProductImage.productId,
         imageUrl: ProductImage.imageUrl,
         pathname: ProductImage.pathname,
         fileName: ProductImage.fileName,
@@ -70,7 +75,7 @@ export async function fetchImagesByProductSize(
         updatedAt: ProductImage.updatedAt,
       })
       .from(ProductImage)
-      .where(eq(ProductImage.size, productSize))
+      .where(eq(ProductImage.productId, productId))
       .orderBy(asc(ProductImage.fileName));
   } catch (error) {
     console.error("Database Error:", error);
@@ -78,6 +83,28 @@ export async function fetchImagesByProductSize(
   }
 }
 
+// Get all product images.
+export async function fetchAllProductImages() {
+  try {
+    return await db
+      .select({
+        id: ProductImage.id,
+        productId: ProductImage.productId,
+        imageUrl: ProductImage.imageUrl,
+        pathname: ProductImage.pathname,
+        fileName: ProductImage.fileName,
+        createdAt: ProductImage.createdAt,
+        updatedAt: ProductImage.updatedAt,
+      })
+      .from(ProductImage)
+      .orderBy(asc(ProductImage.fileName));
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch product images.");
+  }
+}
+
+// Get one gallery image using its image ID.
 export async function fetchProductImageById(imageId: string) {
   try {
     const data = await db
@@ -92,10 +119,9 @@ export async function fetchProductImageById(imageId: string) {
   }
 }
 
-
-
-// --- ORDERS QUERIES --- //
-
+// ==========================================
+// ORDER QUERIES
+// ==========================================
 
 export async function getAllOrders() {
   const allOrders = await db.select().from(Order);
@@ -118,8 +144,8 @@ export async function fetchAllOrders() {
 
     return data;
   } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch orders data.');
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch orders data.");
   }
 }
 
@@ -145,7 +171,6 @@ export async function fetchAllOrdersByCustomerId(customerId: string) {
   }
 }
 
-// 🟢 INTEGRADO: Obtenido de main
 export async function fetchOrderById(orderId: string) {
   try {
     const data = await db
@@ -176,7 +201,6 @@ export async function fetchOrderById(orderId: string) {
   }
 }
 
-
 export async function fetchAllOrdersCompleted() {
   try {
     const data = await db
@@ -192,8 +216,8 @@ export async function fetchAllOrdersCompleted() {
       .where(
         or(
           eq(Order.status, "delivered"),
-          eq(Order.status, "cancelled")
-        )
+          eq(Order.status, "cancelled"),
+        ),
       )
       .orderBy(asc(Order.eventDate));
 
@@ -219,8 +243,8 @@ export async function fetchAllOrdersIncompleted() {
       .where(
         or(
           eq(Order.status, "pending"),
-          eq(Order.status, "preparing")
-        )
+          eq(Order.status, "preparing"),
+        ),
       )
       .orderBy(asc(Order.eventDate));
 
