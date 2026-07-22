@@ -39,10 +39,10 @@ export default async function CatalogTableBody({ products }: { products: Product
       >
         <td className=" px-6 py-4 font-semibold text-slate-900">
           <span className="hidden md:inline">{p.name}</span>
-          <span className="md:hidden">{p.name} ({p.size})</span>
+          <span className="md:hidden">{p.name}</span>
         </td>
 
-        <td className="hidden md:table-cell px-6 py-4 text-slate-900">{p.capacity} ({p.size})</td>
+        <td className="hidden md:table-cell px-6 py-4 text-slate-900">{p.capacity} </td>
 
         <td className="hidden md:table-cell px-6 py-4 text-slate-900">{p.price.toFixed(2)}</td>
 

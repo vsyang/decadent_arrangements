@@ -105,84 +105,183 @@ export const verificationTokens = pgTable(
 // BUSINESS TABLES
 // ==========================================
 
-export const Product = pgTable('products', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  name: text('name').notNull(),
-  description: text('description').notNull(),
-  size: productSizeEnum('size').notNull(),
-  capacity: text('capacity').notNull(),
-  price: numeric('price', { precision: 10, scale: 2 }).notNull(),
-  imageUrl: text('image_url'),
+// Each Product acts as a catalog category.
+export const Product = pgTable("products", {
+  id: uuid("id").defaultRandom().primaryKey(),
 
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-});
+  name: text("name").notNull(),
 
-export const ProductImage = pgTable('product_images', {
-  id: uuid('id').defaultRandom().primaryKey(),
+  description: text("description").notNull(),
 
-  size: productSizeEnum('size').notNull(),
+  // temporary: will delete this later once order form is updated to use productId instead of productSizeEnum
+  // size: productSizeEnum("size").notNull(),
 
-  imageUrl: text('image_url').notNull(),
+  capacity: text("capacity").notNull(),
 
-  pathname: text('pathname').notNull().unique(),
+  price: numeric("price", {
+    precision: 10,
+    scale: 2,
+  }).notNull(),
 
-  fileName: text('file_name').notNull(),
+  imageUrl: text("image_url"),
 
-  createdAt: timestamp('created_at', {
+  createdAt: timestamp("created_at", {
     withTimezone: true,
   })
     .defaultNow()
     .notNull(),
 
-  updatedAt: timestamp('updated_at', {
+  updatedAt: timestamp("updated_at", {
     withTimezone: true,
   })
     .defaultNow()
     .notNull(),
 });
-export const Order = pgTable('orders', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  readableOrderCode: text('readable_order_code').notNull().unique(),
 
-  userId: uuid('user_id')
+// Each gallery image is connected directly to a Product.
+export const ProductImage = pgTable("product_images", {
+  id: uuid("id").defaultRandom().primaryKey(),
+
+  productId: uuid("product_id")
     .notNull()
-    .references(() => users.id, { onDelete: 'restrict' }),
+    .references(() => Product.id, {
+      onDelete: "cascade",
+    }),
 
-  customerNameAtPurchase: text('customer_name_at_purchase').notNull(),
-  customerPhoneAtPurchase: text('customer_phone_at_purchase').notNull(),
-  customerEmailAtPurchase: text('customer_email_at_purchase').notNull(),
+  imageUrl: text("image_url").notNull(),
 
-  arrangementSize: productSizeEnum('arrangement_size').notNull(),
-  specialRequests: text('special_requests'),
+  pathname: text("pathname").notNull().unique(),
 
-  totalPrice: numeric('total_price', { precision: 10, scale: 2 }).notNull(),
-  eventDate: timestamp('event_date', { withTimezone: true }).notNull(),
-  deliveryAddress: jsonb('delivery_address').$type<UserAddress>().notNull(),
-  dietaryRestrictions: text('dietary_restrictions').array().notNull().default([]),
-  paymentPreference: text("payment_preference").notNull().default('venmo'),
-  status: orderStatusEnum('status').notNull().default('pending'),
+  fileName: text("file_name").notNull(),
 
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
+
+  updatedAt: timestamp("updated_at", {
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
 });
 
-export const Notification = pgTable('notifications', {
-  id: uuid('id').defaultRandom().primaryKey(),
+export const Order = pgTable("orders", {
+  id: uuid("id").defaultRandom().primaryKey(),
 
-  userId: uuid('user_id')
+  readableOrderCode: text("readable_order_code")
     .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
+    .unique(),
 
-  title: text('title').notNull(),
-  message: text('message').notNull(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "restrict",
+    }),
 
-  category: notificationCategoryEnum('category').notNull().default('orders'),
+  customerNameAtPurchase: text(
+    "customer_name_at_purchase",
+  ).notNull(),
 
-  isRead: boolean('is_read').notNull().default(false),
+  customerPhoneAtPurchase: text(
+    "customer_phone_at_purchase",
+  ).notNull(),
 
-  actionUrl: text('action_url'),
+  customerEmailAtPurchase: text(
+    "customer_email_at_purchase",
+  ).notNull(),
 
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  // Connect the order to the selected product.
+  productId: uuid("product_id")
+    .notNull()
+    .references(() => Product.id, {
+      onDelete: "restrict",
+    }),
+
+  // Save product details at the time of purchase.
+  productNameAtPurchase: text(
+    "product_name_at_purchase",
+  ).notNull(),
+
+  productCapacityAtPurchase: text(
+    "product_capacity_at_purchase",
+  ).notNull(),
+
+  specialRequests: text("special_requests"),
+
+  totalPrice: numeric("total_price", {
+    precision: 10,
+    scale: 2,
+  }).notNull(),
+
+  eventDate: timestamp("event_date", {
+    withTimezone: true,
+  }).notNull(),
+
+  deliveryAddress: jsonb("delivery_address")
+    .$type<UserAddress>()
+    .notNull(),
+
+  dietaryRestrictions: text("dietary_restrictions")
+    .array()
+    .notNull()
+    .default([]),
+
+  paymentPreference: text("payment_preference")
+    .notNull()
+    .default("venmo"),
+
+  status: orderStatusEnum("status")
+    .notNull()
+    .default("pending"),
+
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
+
+  updatedAt: timestamp("updated_at", {
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
 });
+
+export const Notification = pgTable("notifications", {
+  id: uuid("id").defaultRandom().primaryKey(),
+
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+
+  title: text("title").notNull(),
+
+  message: text("message").notNull(),
+
+  category: notificationCategoryEnum("category")
+    .notNull()
+    .default("orders"),
+
+  isRead: boolean("is_read")
+    .notNull()
+    .default(false),
+
+  actionUrl: text("action_url"),
+
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
+
+  updatedAt: timestamp("updated_at", {
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
+});
+

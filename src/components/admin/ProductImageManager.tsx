@@ -9,13 +9,10 @@ import {
   uploadProductImages,
 } from "../../../app/(admin)/products/imageActions";
 
-// These values match the product_size enum in schema.ts
-type ProductSize = "S" | "M" | "L" | "XL";
-
-// Shape of one image returned from fetchImagesByProductSize()
+// Shape of one image returned from the database.
 type ProductImage = {
   id: string;
-  size: ProductSize;
+  productId: string;
   imageUrl: string;
   pathname: string;
   fileName: string;
@@ -23,75 +20,72 @@ type ProductImage = {
   updatedAt: Date;
 };
 
-// Information received from the product details page
+// Information received from the product details page.
 type ProductImageManagerProps = {
   productId: string;
   productName: string;
-  productSize: ProductSize;
   initialImages: ProductImage[];
 };
 
 export default function ProductImageManager({
   productId,
   productName,
-  productSize,
   initialImages,
 }: ProductImageManagerProps) {
-  // Keeps the displayed image list updated without reloading the page
+  // Keeps the displayed image list updated without reloading the page.
   const [images, setImages] = useState(initialImages);
 
-  // Displays success and error messages
+  // Displays success and error messages.
   const [message, setMessage] = useState("");
 
-  // Tracks whether an upload, replacement, or deletion is running
+  // Tracks whether an upload, replacement, or deletion is running.
   const [isPending, startTransition] = useTransition();
 
-  // References the hidden file inputs
+  // References the hidden file inputs.
   const uploadInputRef = useRef<HTMLInputElement>(null);
   const replaceInputRef = useRef<HTMLInputElement>(null);
 
-  // Stores the ID of the image currently being replaced
+  // Stores the ID of the image currently being replaced.
   const [imageBeingReplaced, setImageBeingReplaced] = useState<string | null>(
     null,
   );
 
-  // Uploads one or more new product images to the server action
+  // Uploads one or more new product images.
   function handleUpload(event: ChangeEvent<HTMLInputElement>) {
     const selectedFiles = event.target.files;
 
-    // Stop if no files were selected
+    // Stop if no files were selected.
     if (!selectedFiles || selectedFiles.length === 0) {
       return;
     }
 
     const formData = new FormData();
 
-    // Add each selected image under the same "images" field name
+    // Add each selected image under the same field name.
     Array.from(selectedFiles).forEach((file) => {
       formData.append("images", file);
     });
 
-    // Include product information needed by the server action
+    // Connect the uploaded images directly to this product.
     formData.append("productId", productId);
-    formData.append("productSize", productSize);
 
     setMessage("");
 
     startTransition(async () => {
       const result = await uploadProductImages(formData);
 
-      // Replace the current image list with the updated database result
+      // Replace the current image list with the updated database result.
       setImages(result.images);
       setMessage(result.message);
 
-      // Clear the file input so the same file could be selected again
+      // Clear the file input so the same file can be selected again.
       if (uploadInputRef.current) {
         uploadInputRef.current.value = "";
       }
     });
   }
 
-  // Begin the update process
+  // Begins the image replacement process.
   function beginReplacingImage(imageId: string) {
     setImageBeingReplaced(imageId);
     setMessage("");
@@ -99,11 +93,11 @@ export default function ProductImageManager({
     replaceInputRef.current?.click();
   }
 
-  // Replaces an existing product image with a new file
+  // Replaces an existing image with a new file.
   function handleReplacement(event: ChangeEvent<HTMLInputElement>) {
     const replacementFile = event.target.files?.[0];
 
-    // Stop if no file was selected or no image was chosen for replacement
+    // Stop if no replacement file or image ID is available.
     if (!replacementFile || !imageBeingReplaced) {
       return;
     }
@@ -113,7 +107,6 @@ export default function ProductImageManager({
     formData.append("image", replacementFile);
     formData.append("imageId", imageBeingReplaced);
     formData.append("productId", productId);
-    formData.append("productSize", productSize);
 
     startTransition(async () => {
       const result = await replaceProductImage(formData);
@@ -121,7 +114,7 @@ export default function ProductImageManager({
       setImages(result.images);
       setMessage(result.message);
 
-      // Reset replacement state
+      // Reset replacement state.
       setImageBeingReplaced(null);
 
       if (replaceInputRef.current) {
@@ -130,7 +123,7 @@ export default function ProductImageManager({
     });
   }
 
-  // Deletes an existing image
+  // Deletes an existing product image.
   function handleDelete(imageId: string) {
     const confirmed = window.confirm(
       "Are you sure you want to permanently delete this image?",
@@ -146,7 +139,6 @@ export default function ProductImageManager({
       const result = await deleteProductImage({
         imageId,
         productId,
-        productSize,
       });
 
       setImages(result.images);
@@ -178,7 +170,7 @@ export default function ProductImageManager({
         >
           {isPending ? "Processing..." : "Add Images"}
 
-          {/* Hidden input opens the phone gallery or computer file browser */}
+          {/* Hidden input opens the phone gallery or file browser. */}
           <input
             ref={uploadInputRef}
             type="file"
@@ -191,7 +183,7 @@ export default function ProductImageManager({
         </label>
       </div>
 
-      {/* Hidden input used only for replacing one image */}
+      {/* Hidden input used only when replacing one image. */}
       <input
         ref={replaceInputRef}
         type="file"
@@ -211,7 +203,7 @@ export default function ProductImageManager({
         </div>
       )}
 
-      {/* Empty state message */}
+      {/* Empty state */}
       {images.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-16 text-center">
           <h3 className="text-lg font-semibold text-slate-700">
@@ -219,13 +211,12 @@ export default function ProductImageManager({
           </h3>
 
           <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
-            Add the first image for this product size. Images already uploaded
-            directly through the Vercel dashboard will not appear here until
-            they are added to the product_images database table.
+            Add the first image for this product. Images uploaded directly
+            through Vercel will not appear here until they are added to the
+            product_images database table.
           </p>
         </div>
       ) : (
-        // Image gallery
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {images.map((image) => (
             <article

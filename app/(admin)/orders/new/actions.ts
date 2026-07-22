@@ -2,104 +2,97 @@
 
 "use server";
 
-// This file contains the server action that saves customer orders to the database.
+// This server action validates and saves a customer order.
 
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { db } from "@/db";
-import { Order, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
+
+import { authOptions } from "@/lib/auth";
 import { sendOwnerEmail } from "@/lib/notification";
+import { db } from "@/db";
+import { Order, Product, users } from "@/db/schema";
 
-// These values must match the product_size enum in the database schema.
-type ArrangementSize = "S" | "M" | "L" | "XL";
-
-// Creates a simple readable order code, such as DA-123456. This is easier for customers and the owner to reference than a long database ID.
+// Creates a customer-friendly order code such as DA-123456.
 function generateOrderCode() {
-  const randomNumber = Math.floor(100000 + Math.random() * 900000);
+  const randomNumber = Math.floor(
+    100000 + Math.random() * 900000,
+  );
+
   return `DA-${randomNumber}`;
 }
 
-// Converts the form dropdown value into the database enum value.
-function getArrangementSizeEnum(size: string): ArrangementSize {
-  switch (size) {
-    case "10-20":
-      return "S";
-    case "20-30":
-      return "M";
-    case "30-40":
-      return "L";
-    case "50-plus":
-      return "XL";
-    default:
-      throw new Error("Invalid arrangement size.");
-  }
-}
-
-// Returns the price based on the selected arrangement size.
-function getPriceByArrangementSize(size: string) {
-  switch (size) {
-    case "10-20":
-      return "675.00";
-    case "20-30":
-      return "800.00";
-    case "30-40":
-      return "1050.00";
-    case "50-plus":
-      return "0.00";
-    default:
-      return "0.00";
-  }
-}
-
-// This server action runs when the customer submits the order form. It reads the form data, validates required fields, saves the order, and redirects the customer to the confirmation page.
+// This server action runs when the customer submits the order form.
 export async function createOrder(formData: FormData) {
   // Get the current signed-in user.
   const session = await getServerSession(authOptions);
 
-  // If the user is not signed in, redirect them to the sign-in page.
+  // Customers must sign in before placing an order.
   if (!session?.user?.id || !session.user.email) {
     redirect("/api/auth/signin");
   }
 
-  // Get customer information from the form.
-  const fullName = formData.get("fullName")?.toString().trim() ?? "";
-  const email = formData.get("email")?.toString().trim() ?? "";
-  const phone = formData.get("phone")?.toString().trim() ?? "";
+  // Read customer information.
+  const fullName =
+    formData.get("fullName")?.toString().trim() ?? "";
 
-  const phoneRegex = /^[0-9]{10}$/;
+  const email =
+    formData.get("email")?.toString().trim() ?? "";
 
-  if (!phoneRegex.test(phone)) {
-    throw new Error("Phone number must be exactly 10 digits.");
-  }
-  // Get arrangement information from the form.
-  const arrangementSize =
-    formData.get("arrangementSize")?.toString().trim() ?? "";
-  const eventDate = formData.get("eventDate")?.toString().trim() ?? "";
-  const eventTime = formData.get("eventTime")?.toString().trim() ?? "";
+  const phone =
+    formData.get("phone")?.toString().trim() ?? "";
+
+  // Read the selected product ID.
+  const productId =
+    formData.get("productId")?.toString().trim() ?? "";
+
+  // Read event information.
+  const eventDate =
+    formData.get("eventDate")?.toString().trim() ?? "";
+
+  const eventTime =
+    formData.get("eventTime")?.toString().trim() ?? "";
+
   const specialRequests =
     formData.get("specialRequests")?.toString().trim() ?? "";
-  const dietaryRestrictions =
-    formData.get("dietaryRestrictions")?.toString().trim() ?? "";
-  
 
-  // Get delivery information from the form.
+  const dietaryRestrictions =
+    formData
+      .get("dietaryRestrictions")
+      ?.toString()
+      .trim() ?? "";
+
+  // Read delivery information.
   const streetAddress =
     formData.get("streetAddress")?.toString().trim() ?? "";
-  const city = formData.get("city")?.toString().trim() ?? "";
-  const state = formData.get("state")?.toString().trim() ?? "";
-  const postalCode = formData.get("postalCode")?.toString().trim() ?? "";
+
+  const city =
+    formData.get("city")?.toString().trim() ?? "";
+
+  const state =
+    formData.get("state")?.toString().trim() ?? "";
+
+  const postalCode =
+    formData.get("postalCode")?.toString().trim() ?? "";
+
   const deliveryNotes =
     formData.get("deliveryNotes")?.toString().trim() ?? "";
 
-  // Basic validation to make sure required fields are present.
+  // Validate the phone number.
+  const phoneRegex = /^[0-9]{10}$/;
+
+  if (!phoneRegex.test(phone)) {
+    throw new Error(
+      "Phone number must be exactly 10 digits.",
+    );
+  }
+
+  // Make sure all required fields were submitted.
   if (
     !fullName ||
     !email ||
     !phone ||
-    !arrangementSize ||
-    !dietaryRestrictions ||
+    !productId ||
     !eventDate ||
     !eventTime ||
     !streetAddress ||
@@ -107,65 +100,108 @@ export async function createOrder(formData: FormData) {
     !state ||
     !postalCode
   ) {
-    throw new Error("Missing required order information.");
+    throw new Error(
+      "Missing required order information.",
+    );
   }
 
-  // Convert the form arrangement size into the database enum value.
-  const arrangementSizeEnum = getArrangementSizeEnum(arrangementSize);
+  // Find the product selected by the customer.
+  const selectedProducts = await db
+    .select({
+      id: Product.id,
+      name: Product.name,
+      capacity: Product.capacity,
+      price: Product.price,
+    })
+    .from(Product)
+    .where(eq(Product.id, productId));
 
-  // Combine the event date and event time into one Date object for the database.
-  const combinedEventDate = new Date(`${eventDate}T${eventTime}`);
+  const selectedProduct = selectedProducts[0];
 
-  // Make sure the event date is at least 10 days from today.
+  if (!selectedProduct) {
+    throw new Error(
+      "The selected product could not be found.",
+    );
+  }
+
+  // Combine the selected date and time.
+  const combinedEventDate = new Date(
+    `${eventDate}T${eventTime}`,
+  );
+
+  if (Number.isNaN(combinedEventDate.getTime())) {
+    throw new Error(
+      "Invalid event date or time.",
+    );
+  }
+
+  // Orders must be placed at least 10 days ahead.
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   const soonestAllowedDate = new Date(today);
-  soonestAllowedDate.setDate(today.getDate() + 10);
+  soonestAllowedDate.setDate(
+    soonestAllowedDate.getDate() + 10,
+  );
 
   const selectedEventDate = new Date(eventDate);
   selectedEventDate.setHours(0, 0, 0, 0);
 
   if (selectedEventDate < soonestAllowedDate) {
-    throw new Error("Orders must be placed at least 10 days in advance.");
-  }
-  // Make sure the date is valid before saving it.
-  if (Number.isNaN(combinedEventDate.getTime())) {
-    throw new Error("Invalid event date or time.");
+    throw new Error(
+      "Orders must be placed at least 10 days in advance.",
+    );
   }
 
-  // Get the payment preference from the form and validate it.
+  // Validate the selected payment method.
   const paymentPreference =
-    formData.get("paymentPreference")?.toString().trim().toLowerCase() ?? "";
-    
-  if (!["venmo", "paypal", "zelle"].includes(paymentPreference)) {
-    throw new Error("Please select a valid payment preference.");
+    formData
+      .get("paymentPreference")
+      ?.toString()
+      .trim()
+      .toLowerCase() ?? "";
+
+  if (
+    !["venmo", "paypal", "zelle"].includes(
+      paymentPreference,
+    )
+  ) {
+    throw new Error(
+      "Please select a valid payment preference.",
+    );
   }
 
-  // Generate the customer-friendly order code.
+  // Generate the readable confirmation code.
   const readableOrderCode = generateOrderCode();
 
-  // Save the order to the database.
+  // Save the order.
   await db.insert(Order).values({
     readableOrderCode,
 
-    // Connect the order to the signed-in user.
+    // Connect the order to the signed-in customer.
     userId: session.user.id,
 
-    // Store customer information at the time of purchase.
+    // Save customer information at the time of purchase.
     customerNameAtPurchase: fullName,
     customerPhoneAtPurchase: phone,
     customerEmailAtPurchase: email,
 
-    // Store arrangement details. The database uses S, M, L, XL instead of 10-20, 20-30, etc.
-    arrangementSize: arrangementSizeEnum,
+    // Connect the order to the selected product.
+    productId: selectedProduct.id,
+
+    // Save snapshots so old orders remain accurate
+    // even if the product is renamed later.
+    productNameAtPurchase: selectedProduct.name,
+    productCapacityAtPurchase:
+      selectedProduct.capacity,
+
     specialRequests,
 
-    // Store price.
-    totalPrice: getPriceByArrangementSize(arrangementSize),
+    // Use the price stored on the selected product.
+    totalPrice: selectedProduct.price,
 
-    // Store event and delivery details.
     eventDate: combinedEventDate,
+
     deliveryAddress: {
       id: crypto.randomUUID(),
       label: "Delivery Address",
@@ -176,17 +212,17 @@ export async function createOrder(formData: FormData) {
       deliveryNotes,
     },
 
-    // Dietary restrictions field.
-    dietaryRestrictions: dietaryRestrictions ? [dietaryRestrictions] : [],
+    dietaryRestrictions: dietaryRestrictions
+      ? [dietaryRestrictions]
+      : [],
 
-    // Store payment preference.
     paymentPreference,
 
-    // New orders start as pending.
+    // New orders begin as pending.
     status: "pending",
   });
 
-  // Save the customer's latest contact and delivery information. This allows the order form to prefill these fields next time.
+  // Save the customer's latest information for future autofill.
   await db
     .update(users)
     .set({
@@ -206,16 +242,21 @@ export async function createOrder(formData: FormData) {
       updatedAt: new Date(),
     })
     .where(eq(users.id, session.user.id));
-  
-  // Send a short email notification to the business owner after the order is saved.
+
+  // Notify the owner after the order is saved.
   try {
     await sendOwnerEmail({
       orderCode: readableOrderCode,
     });
   } catch (error) {
-    console.error("Failed to send owner email notification:", error);
+    console.error(
+      "Failed to send owner email notification:",
+      error,
+    );
   }
 
-  // Redirect the customer to the confirmation page after the order is saved.
-  redirect(`/orders/new/confirmation?code=${readableOrderCode}`);
+  // Send the customer to the confirmation page.
+  redirect(
+    `/orders/new/confirmation?code=${readableOrderCode}`,
+  );
 }
