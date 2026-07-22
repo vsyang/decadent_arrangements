@@ -123,11 +123,17 @@ export async function fetchProductImageById(imageId: string) {
 // ORDER QUERIES
 // ==========================================
 
+// Get every order.
 export async function getAllOrders() {
-  const allOrders = await db.select().from(Order);
+  const allOrders = await db
+    .select()
+    .from(Order)
+    .orderBy(asc(Order.eventDate));
+
   return allOrders;
 }
 
+// Get all orders for the admin orders list.
 export async function fetchAllOrders() {
   try {
     const data = await db
@@ -135,8 +141,12 @@ export async function fetchAllOrders() {
         id: Order.id,
         idReadable: Order.readableOrderCode,
         clientName: Order.customerNameAtPurchase,
+
+        // Product details saved at the time of purchase.
+        productName: Order.productNameAtPurchase,
+        capacity: Order.productCapacityAtPurchase,
+
         eventDate: Order.eventDate,
-        size: Order.arrangementSize,
         status: Order.status,
       })
       .from(Order)
@@ -149,15 +159,22 @@ export async function fetchAllOrders() {
   }
 }
 
-export async function fetchAllOrdersByCustomerId(customerId: string) {
+// Get all orders placed by one customer.
+export async function fetchAllOrdersByCustomerId(
+  customerId: string,
+) {
   try {
     const data = await db
       .select({
         id: Order.id,
         idReadable: Order.readableOrderCode,
         clientName: Order.customerNameAtPurchase,
+
+        // Product details saved at the time of purchase.
+        productName: Order.productNameAtPurchase,
+        capacity: Order.productCapacityAtPurchase,
+
         eventDate: Order.eventDate,
-        size: Order.arrangementSize,
         status: Order.status,
       })
       .from(Order)
@@ -171,25 +188,34 @@ export async function fetchAllOrdersByCustomerId(customerId: string) {
   }
 }
 
+// Get one complete order using its database ID.
 export async function fetchOrderById(orderId: string) {
   try {
     const data = await db
       .select({
         id: Order.id,
         idReadable: Order.readableOrderCode,
+
         clientName: Order.customerNameAtPurchase,
         phone: Order.customerPhoneAtPurchase,
         email: Order.customerEmailAtPurchase,
+
+        // Product relationship and purchase-time snapshots.
+        productId: Order.productId,
+        productName: Order.productNameAtPurchase,
+        capacity: Order.productCapacityAtPurchase,
+
         price: Order.totalPrice,
         eventDate: Order.eventDate,
-        size: Order.arrangementSize,
         status: Order.status,
+
         address: Order.deliveryAddress,
         dietaryRestrictions: Order.dietaryRestrictions,
-        createdAt: Order.createdAt,
-        updatedAt: Order.updatedAt,
         specialRequest: Order.specialRequests,
         payment: Order.paymentPreference,
+
+        createdAt: Order.createdAt,
+        updatedAt: Order.updatedAt,
       })
       .from(Order)
       .where(eq(Order.id, orderId));
@@ -201,6 +227,7 @@ export async function fetchOrderById(orderId: string) {
   }
 }
 
+// Get delivered and cancelled orders.
 export async function fetchAllOrdersCompleted() {
   try {
     const data = await db
@@ -208,8 +235,11 @@ export async function fetchAllOrdersCompleted() {
         id: Order.id,
         idReadable: Order.readableOrderCode,
         clientName: Order.customerNameAtPurchase,
+
+        productName: Order.productNameAtPurchase,
+        capacity: Order.productCapacityAtPurchase,
+
         eventDate: Order.eventDate,
-        size: Order.arrangementSize,
         status: Order.status,
       })
       .from(Order)
@@ -224,10 +254,11 @@ export async function fetchAllOrdersCompleted() {
     return data;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch orders data.");
+    throw new Error("Failed to fetch completed orders.");
   }
 }
 
+// Get pending and preparing orders.
 export async function fetchAllOrdersIncompleted() {
   try {
     const data = await db
@@ -235,8 +266,11 @@ export async function fetchAllOrdersIncompleted() {
         id: Order.id,
         idReadable: Order.readableOrderCode,
         clientName: Order.customerNameAtPurchase,
+
+        productName: Order.productNameAtPurchase,
+        capacity: Order.productCapacityAtPurchase,
+
         eventDate: Order.eventDate,
-        size: Order.arrangementSize,
         status: Order.status,
       })
       .from(Order)
@@ -251,6 +285,6 @@ export async function fetchAllOrdersIncompleted() {
     return data;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch orders data.");
+    throw new Error("Failed to fetch incomplete orders.");
   }
 }
