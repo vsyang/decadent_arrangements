@@ -1,6 +1,7 @@
 import Link from "next/link";
 import "../../../app/globals.css";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+import { OrderStatus } from "../../../app/(admin)/orders/actions";
 
 type OrderRow = {
   id: string;
@@ -9,7 +10,7 @@ type OrderRow = {
   productName: string;
   capacity: string;
   eventDate: Date;
-  status: "pending" | "preparing" | "delivered" | "cancelled";
+  status: OrderStatus;
 };
 
 type OrdersTableBodyProps = {
