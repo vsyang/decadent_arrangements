@@ -47,7 +47,7 @@ function getPriceByArrangementSize(size: string) {
     case "30-40":
       return "1050.00";
     case "50-plus":
-      return "5000.00";
+      return "10000.00";
     default:
       return "0.00";
   }
