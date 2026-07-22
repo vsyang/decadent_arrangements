@@ -192,8 +192,20 @@ export const Order = pgTable("orders", {
     "customer_email_at_purchase",
   ).notNull(),
 
-  arrangementSize: productSizeEnum(
-    "arrangement_size",
+  // Connect the order to the selected product.
+  productId: uuid("product_id")
+    .notNull()
+    .references(() => Product.id, {
+      onDelete: "restrict",
+    }),
+
+  // Save product details at the time of purchase.
+  productNameAtPurchase: text(
+    "product_name_at_purchase",
+  ).notNull(),
+
+  productCapacityAtPurchase: text(
+    "product_capacity_at_purchase",
   ).notNull(),
 
   specialRequests: text("special_requests"),
@@ -272,3 +284,4 @@ export const Notification = pgTable("notifications", {
     .defaultNow()
     .notNull(),
 });
+

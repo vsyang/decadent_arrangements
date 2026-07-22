@@ -1,83 +1,52 @@
 "use server";
 
-
-import { del,list, put } from "@vercel/blob";
+import { del, list, put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
+
 import { db } from "@/db";
 import { ProductImage } from "@/db/schema";
 import {
-  fetchImagesByProductSize,
+  fetchImagesByProductId,
   fetchProductImageById,
 } from "@/db/queries";
 
-// Product sizes
-type ProductSize = "S" | "M" | "L" | "XL";
-
-// Response shape returned by all image actions
+// Response returned by upload, replace, and delete actions.
 type ImageActionResult = {
   success: boolean;
   message: string;
-  images: Awaited<ReturnType<typeof fetchImagesByProductSize>>;
+  images: Awaited<ReturnType<typeof fetchImagesByProductId>>;
 };
 
-// Maximum allowed upload size: 5 MB
+// Maximum allowed upload size: 4 MB.
 const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
-// File types the business owner is allowed to upload
+// Image types the owner may upload.
 const allowedImageTypes = [
   "image/jpeg",
   "image/png",
   "image/webp",
 ];
 
-// Converts the database size value into the matching folder name used in Vercel Blob.
-function getSizeFolder(productSize: ProductSize) {
-  const folders: Record<ProductSize, string> = {
-    S: "small",
-    M: "medium",
-    L: "large",
-    XL: "xlarge",
-  };
-
-  return folders[productSize];
-}
-
-// Converts the database size value into the filename prefix.
-
-function getSizePrefix(productSize: ProductSize) {
-  const prefixes: Record<ProductSize, string> = {
-    S: "s",
-    M: "m",
-    L: "l",
-    XL: "xl",
-  };
-
-  return prefixes[productSize];
-}
-
-// Checks which extension should be used for the uploaded file. This checks the original filename first. If that is unavailable or unsupported, it checks the MIME type.
+// Determine the correct extension for an uploaded image.
 function getFileExtension(file: File) {
   const extensionFromName = file.name
     .split(".")
     .pop()
     ?.toLowerCase();
 
-  // Normalize .jpg files
-  if (extensionFromName === "jpg") {
-    return "jpg";
-  }
-
-  // Return supported extensions as-is
   if (
+    extensionFromName === "jpg" ||
     extensionFromName === "jpeg" ||
     extensionFromName === "png" ||
     extensionFromName === "webp"
   ) {
-    return extensionFromName;
+    return extensionFromName === "jpeg"
+      ? "jpg"
+      : extensionFromName;
   }
 
-  // Fall back to the browser-reported MIME type
+  // Fall back to the browser-provided MIME type.
   if (file.type === "image/jpeg") {
     return "jpg";
   }
@@ -86,18 +55,15 @@ function getFileExtension(file: File) {
     return "png";
   }
 
-  // Default to WebP if no other supported type is found
   return "webp";
 }
 
-// Validates a single uploaded file to ensure it is an allowed type and size.
+// Validate the uploaded file type and size.
 function validateImageFile(file: File) {
-  // Reject unsupported image types
   if (!allowedImageTypes.includes(file.type)) {
     return "Only JPG, PNG, and WebP images are allowed.";
   }
 
-  // Reject files larger than 4 MB
   if (file.size > MAX_FILE_SIZE) {
     return "Each image must be 4 MB or smaller.";
   }
@@ -105,24 +71,28 @@ function validateImageFile(file: File) {
   return null;
 }
 
-// Generates the next available filename for a new product image. This ensures that filenames are sequential and do not overwrite existing files
+// Create a safe folder name using the product ID.
+function getProductFolder(productId: string) {
+  return `products/${productId}`;
+}
+
+// Generate the next sequential filename for a product.
 async function getNextFileName(
-  productSize: ProductSize,
+  productId: string,
   extension: string,
 ) {
-  const prefix = getSizePrefix(productSize);
-  const folder = getSizeFolder(productSize);
+  const folder = getProductFolder(productId);
 
-  // Retrieve image records already registered in the database
+  // Get images registered for this product.
   const databaseImages =
-    await fetchImagesByProductSize(productSize);
+    await fetchImagesByProductId(productId);
 
-  // Retrieve files that already exist in the matching Blob folder
+  // Get files that exist in this product's Blob folder.
   const blobResult = await list({
     prefix: `${folder}/`,
   });
 
-  // Combine database filenames and Blob pathnames into one list
+  // Combine database filenames and Blob filenames.
   const existingFileNames = [
     ...databaseImages.map((image) => image.fileName),
 
@@ -131,51 +101,47 @@ async function getNextFileName(
     }),
   ];
 
-  // Extract the number from matching filenames
+  // Extract numbers from filenames and find the next available number.
   const existingNumbers = existingFileNames
     .map((fileName) => {
-      // Remove the extension
-      const fileNameWithoutExtension = fileName.replace(
-        /\.[^/.]+$/,
-        "",
+      const match = fileName.match(
+        /^image-(\d+)\.(jpg|jpeg|png|webp)$/i,
       );
 
-      // Ignore files that do not match this size prefix
-      if (!fileNameWithoutExtension.startsWith(prefix)) {
+      if (!match) {
         return null;
       }
 
-      const numberPart = fileNameWithoutExtension.slice(
-        prefix.length,
-      );
-
-      const number = Number.parseInt(numberPart, 10);
+      const number = Number.parseInt(match[1], 10);
 
       return Number.isNaN(number) ? null : number;
     })
-    .filter((number): number is number => number !== null);
+    .filter(
+      (number): number is number =>
+        number !== null,
+    );
 
-  // Start at 1 when no matching images exist otherwise use the largest number plus one.
   const nextNumber =
     existingNumbers.length > 0
       ? Math.max(...existingNumbers) + 1
       : 1;
 
-  return `${prefix}${String(nextNumber).padStart(3, "0")}.${extension}`;
+  return `image-${String(nextNumber).padStart(
+    3,
+    "0",
+  )}.${extension}`;
 }
 
-// Uploads one or more new product images. This action handles multiple files at once, validates them, uploads them to Vercel Blob, and saves their information in the database.
+// Upload one or more images and connect them to a product.
 export async function uploadProductImages(
   formData: FormData,
 ): Promise<ImageActionResult> {
-  // Read product information from the submitted form
-  const productSize = formData.get("productSize") as ProductSize;
-  const productId = formData.get("productId")?.toString();
+  const productId = formData
+    .get("productId")
+    ?.toString();
 
-  // Read all uploaded files using the "images" field name
   const files = formData.getAll("images");
 
-  // Product ID is required so we know which page to refresh
   if (!productId) {
     return {
       success: false,
@@ -184,81 +150,76 @@ export async function uploadProductImages(
     };
   }
 
-  // Confirm the product size matches the allowed enum values
-  if (!["S", "M", "L", "XL"].includes(productSize)) {
-    return {
-      success: false,
-      message: "The product size is invalid.",
-      images: [],
-    };
-  }
-
-  // Keep only valid File objects that contain actual content
   const imageFiles = files.filter(
-    (file): file is File => file instanceof File && file.size > 0,
+    (file): file is File =>
+      file instanceof File && file.size > 0,
   );
 
-  // At least one image must be selected
   if (imageFiles.length === 0) {
     return {
       success: false,
       message: "Please select at least one image.",
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   }
 
   try {
-    // Upload each selected image one at a time
     for (const file of imageFiles) {
-      // Validate file type and size
-      const validationError = validateImageFile(file);
+      const validationError =
+        validateImageFile(file);
 
       if (validationError) {
         return {
           success: false,
           message: validationError,
-          images: await fetchImagesByProductSize(productSize),
+          images:
+            await fetchImagesByProductId(
+              productId,
+            ),
         };
       }
 
-      // Determine the image extension
-      const extension = getFileExtension(file);
+      const extension =
+        getFileExtension(file);
 
-      // Generate the next available filename
       const fileName = await getNextFileName(
-        productSize,
+        productId,
         extension,
       );
 
-      // Determine the correct Blob folder
-      const folder = getSizeFolder(productSize);
+      const folder =
+        getProductFolder(productId);
 
-      // Build the full Blob pathname
       const pathname = `${folder}/${fileName}`;
 
-      // Upload the file to Vercel Blob
-      const blob = await put(pathname, file, {
-        access: "public",
-        addRandomSuffix: false,
-      });
+      // Upload the file to Vercel Blob.
+      const blob = await put(
+        pathname,
+        file,
+        {
+          access: "public",
+          addRandomSuffix: false,
+        },
+      );
 
-      // Save the uploaded image information in Neon
+      // Save the product relationship and Blob information.
       await db.insert(ProductImage).values({
-        size: productSize,
+        productId,
         imageUrl: blob.url,
         pathname: blob.pathname,
         fileName,
       });
     }
 
-    // Refresh the product details page
     revalidatePath(`/products/${productId}`);
+    revalidatePath("/catalog");
 
-    // Return the updated list of images
     return {
       success: true,
       message: "Images uploaded successfully.",
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   } catch (error) {
     console.error("Image upload error:", error);
@@ -266,24 +227,27 @@ export async function uploadProductImages(
     return {
       success: false,
       message: "The images could not be uploaded.",
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   }
 }
 
-// Updates an existing product image by replacing it with a new image
+// Replace an existing product image.
 export async function replaceProductImage(
   formData: FormData,
 ): Promise<ImageActionResult> {
-  // Read submitted image and product information
-  const imageId = formData.get("imageId")?.toString();
-  const productId = formData.get("productId")?.toString();
-  const productSize = formData.get("productSize") as ProductSize;
+  const imageId = formData
+    .get("imageId")
+    ?.toString();
 
-  // Read the replacement file
-  const replacementFile = formData.get("image");
+  const productId = formData
+    .get("productId")
+    ?.toString();
 
-  // Image ID and product ID are required
+  const replacementFile =
+    formData.get("image");
+
   if (!imageId || !productId) {
     return {
       success: false,
@@ -292,48 +256,73 @@ export async function replaceProductImage(
     };
   }
 
-  // Confirm a real replacement file was selected
-  if (!(replacementFile instanceof File) || replacementFile.size === 0) {
+  if (
+    !(replacementFile instanceof File) ||
+    replacementFile.size === 0
+  ) {
     return {
       success: false,
       message: "Please select a replacement image.",
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   }
 
-  // Validate the replacement file
-  const validationError = validateImageFile(replacementFile);
+  const validationError =
+    validateImageFile(replacementFile);
 
   if (validationError) {
     return {
       success: false,
       message: validationError,
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   }
 
   try {
-    // Find the existing image record in the database
-    const existingImage = await fetchProductImageById(imageId);
+    const existingImage =
+      await fetchProductImageById(imageId);
 
     if (!existingImage) {
       return {
         success: false,
         message: "The image could not be found.",
-        images: await fetchImagesByProductSize(productSize),
+        images:
+          await fetchImagesByProductId(productId),
       };
     }
 
-    // Determine the extension of the replacement file
-    const extension = getFileExtension(replacementFile);
+    // Prevent replacing an image through the wrong product page.
+    if (existingImage.productId !== productId) {
+      return {
+        success: false,
+        message:
+          "This image does not belong to the selected product.",
+        images:
+          await fetchImagesByProductId(productId),
+      };
+    }
 
-    // Keep the same numbered filename but create a unique Blob pathname.
-    const baseName = existingImage.fileName.replace(/\.[^/.]+$/, "");
-    const newFileName = `${baseName}.${extension}`;
+    const extension =
+      getFileExtension(replacementFile);
 
-    const folder = getSizeFolder(productSize);
+    // Keep the original sequential filename number.
+    const baseName =
+      existingImage.fileName.replace(
+        /\.[^/.]+$/,
+        "",
+      );
 
-    const uniquePathname = `${folder}/${baseName}-${Date.now()}.${extension}`;
+    const newFileName =
+      `${baseName}.${extension}`;
+
+    const folder =
+      getProductFolder(productId);
+
+    // Prevent Blob from returning a cached old image.
+    const uniquePathname =
+      `${folder}/${baseName}-${Date.now()}.${extension}`;
 
     const replacementBlob = await put(
       uniquePathname,
@@ -344,7 +333,6 @@ export async function replaceProductImage(
       },
     );
 
-    // Update the existing database row
     await db
       .update(ProductImage)
       .set({
@@ -355,66 +343,85 @@ export async function replaceProductImage(
       })
       .where(eq(ProductImage.id, imageId));
 
-    // If the new extension changed the pathname, delete the old file from Blob storage
-    if (existingImage.pathname !== replacementBlob.pathname) {
+    // Delete the old Blob file after the new one succeeds.
+    if (
+      existingImage.pathname !==
+      replacementBlob.pathname
+    ) {
       await del(existingImage.pathname);
     }
 
-    // Refresh the product details page
     revalidatePath(`/products/${productId}`);
+    revalidatePath("/catalog");
 
     return {
       success: true,
       message: "Image replaced successfully.",
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   } catch (error) {
-    console.error("Image replacement error:", error);
+    console.error(
+      "Image replacement error:",
+      error,
+    );
 
     return {
       success: false,
       message: "The image could not be replaced.",
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   }
 }
 
-// Deletes a product image from both the database and Vercel Blob storage
+// Delete an image from both Vercel Blob and Neon.
 export async function deleteProductImage(input: {
   imageId: string;
   productId: string;
-  productSize: ProductSize;
 }): Promise<ImageActionResult> {
-  // Extract submitted values
-  const { imageId, productId, productSize } = input;
+  const { imageId, productId } = input;
 
   try {
-    // Find the image record before deleting anything
-    const image = await fetchProductImageById(imageId);
+    const image =
+      await fetchProductImageById(imageId);
 
     if (!image) {
       return {
         success: false,
         message: "The image could not be found.",
-        images: await fetchImagesByProductSize(productSize),
+        images:
+          await fetchImagesByProductId(productId),
       };
     }
 
-    // Delete the actual file from Vercel Blob
+    // Prevent deleting an image through the wrong product page.
+    if (image.productId !== productId) {
+      return {
+        success: false,
+        message:
+          "This image does not belong to the selected product.",
+        images:
+          await fetchImagesByProductId(productId),
+      };
+    }
+
+    // Remove the physical file from Vercel Blob.
     await del(image.pathname);
 
-    // Delete its matching database row
+    // Remove its matching database record.
     await db
       .delete(ProductImage)
       .where(eq(ProductImage.id, imageId));
 
-    // Refresh the product details page
     revalidatePath(`/products/${productId}`);
+    revalidatePath("/catalog");
 
     return {
       success: true,
       message: "Image deleted successfully.",
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   } catch (error) {
     console.error("Image deletion error:", error);
@@ -422,7 +429,8 @@ export async function deleteProductImage(input: {
     return {
       success: false,
       message: "The image could not be deleted.",
-      images: await fetchImagesByProductSize(productSize),
+      images:
+        await fetchImagesByProductId(productId),
     };
   }
 }
