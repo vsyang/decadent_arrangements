@@ -28,7 +28,7 @@ export async function CreateProduct(data: ProductInput) {
       description: data.description,
       capacity: data.capacity,
       price: String(data.price),
-      imageUrl: data.imageUrl || null,
+      imageUrl: data.imageUrl || "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/coming-soon.webp",
     });
   } catch (error) {
     console.error("Database Error:", error);
