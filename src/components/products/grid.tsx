@@ -63,15 +63,14 @@ export default async function ProductsGrid() {
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((p) => {
-        // Match the product to images with the same S, M, L, or XL size.
+        // Match the product to images with the same "category" size.
         const galleryImages = imagesBySize[p.size as ProductSize] ?? [];
 
         return (
           <article
             key={p.id}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-300 hover:shadow-xl"
           >
-            {/* Clickable catalog image */}
             <div className="relative aspect-5/4 w-full overflow-hidden bg-[#faf7f2]">
               <CatalogImageCard
                 categoryName={p.name}
