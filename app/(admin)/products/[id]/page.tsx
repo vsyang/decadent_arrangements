@@ -1,7 +1,7 @@
 // app/(admin)/products/[id]/page.tsx
 
 import ProductImageManager from "@/components/admin/ProductImageManager";
-import { fetchImagesByProductSize, fetchProductById } from "@/db/queries";
+import { fetchImagesByProductId, fetchProductById } from "@/db/queries";
 
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
@@ -29,7 +29,7 @@ export default async function ProductDetailsPage({
   }
 
   // Retrieve every image assigned to this product's size
-  const images = await fetchImagesByProductSize(product.size);
+  const images = await fetchImagesByProductId(product.id);
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
@@ -68,7 +68,7 @@ export default async function ProductDetailsPage({
 
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
           <span className="rounded-full bg-slate-100 px-4 py-2 font-medium text-slate-700">
-          <b>Size:</b> {product.size}
+          <b>Size:</b> {product.id}
           </span>
 
           <span className="rounded-full bg-slate-100 px-4 py-2 font-medium text-slate-700">
@@ -111,7 +111,7 @@ export default async function ProductDetailsPage({
 
         <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-500 pb-2">
           Add, replace, or delete images associated with the{" "}
-          <span className="font-semibold text-slate-700">{product.size}</span>{" "}
+          <span className="font-semibold text-slate-700">{product.name}</span>{" "}
           arrangement size.
         </p>
 
@@ -119,7 +119,6 @@ export default async function ProductDetailsPage({
         <ProductImageManager
           productId={product.id}
           productName={product.name}
-          productSize={product.size}
           initialImages={images}
         />
       </div>
