@@ -34,8 +34,8 @@ export function Navbar() {
   return (
     <>
       {/* DESKTOP HEADER */}
-      <header className="hidden [@media(min-width:800px)]:sticky [@media(min-width:800px)]:top-0 [@media(min-width:800px)]:z-50 [@media(min-width:800px)]:block w-full border-b border-border bg-background/80 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+      <header className="hidden [@media(min-width:805px)]:sticky [@media(min-width:805px)]:top-0 [@media(min-width:805px)]:z-50 [@media(min-width:805px)]:block w-full border-b border-border bg-background/80 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-8xl items-center justify-between px-6 [@media(min-width:900px)]:pr-16">
           <Link href="/" className="flex gap-1 items-center text-xl font-bold tracking-tight text-primary">
             <Image
               src={logo}
@@ -77,14 +77,13 @@ export function Navbar() {
                 )}
               </Link>
             )}
-
-            <NavActionButton />
+              <NavActionButton />
           </nav>
         </div>
       </header>
 
       {/* MOBILE TOP BRAND HEADER */}
-      <header className="sticky top-0 z-50 block [@media(min-width:800px)]:hidden w-full border-b border-border bg-background/80 backdrop-blur h-14">
+      <header className="sticky top-0 z-50 block [@media(min-width:805px)]:hidden w-full border-b border-border bg-background/80 backdrop-blur h-14">
         <div className="flex h-14 items-center justify-between pl-2">
           <Link href="/" className="flex gap-1 items-center text-md font-bold tracking-tight text-primary">
           <Image
@@ -116,7 +115,7 @@ export function Navbar() {
       </header>
 
       {/* MOBILE BOTTOM NAVIGATION */}
-      <nav className="fixed bottom-0 w-full h-16 z-50 block border-t border-border bg-background/95 backdrop-blur [@media(min-width:800px)]:hidden grid grid-cols-[1fr_1fr_2fr_1fr_1fr] place-items-center">
+      <nav className="fixed bottom-0 w-full h-16 z-50 block border-t border-border bg-background/95 backdrop-blur [@media(min-width:805px)]:hidden grid grid-cols-[1fr_1fr_2fr_1fr_1fr] place-items-center">
 
           {/* Home Link */}
           <Link
@@ -137,7 +136,7 @@ export function Navbar() {
           </Link>
 
           {/* Orders / Admin Action CTA */}
-          <div className="relative flex flex-col items-center justify-center scale-105 drop-shadow-sm z-10">
+          <div className="relative flex flex-col items-center justify-center scale-105 drop-shadow-sm z-10 w-full">
             <NavActionButton />
           </div>
 
