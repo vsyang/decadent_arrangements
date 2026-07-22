@@ -54,22 +54,6 @@ function formatDeliveryAddress(address: unknown) {
   );
 }
 
-// This helper turns the database arrangement size into a customer-friendly label.
-function formatArrangementSize(size: string) {
-  switch (size) {
-    case "S":
-      return "10-20 people";
-    case "M":
-      return "20-30 people";
-    case "L":
-      return "30-40 people";
-    case "XL":
-      return "Table arrangement, 50+ people";
-    default:
-      return size;
-  }
-}
-
 // This helper formats the event date and time in a cleaner way.
 function formatEventDate(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -180,8 +164,13 @@ export default async function ConfirmationPage({
 
               {/* Arrangement size / number of people */}
               <p>
+                <span className="font-semibold">Product:</span>{" "}
+                {order.productNameAtPurchase}
+              </p>
+
+              <p>
                 <span className="font-semibold">Serving Size:</span>{" "}
-                {formatArrangementSize(order.arrangementSize)}
+                {order.productCapacityAtPurchase}
               </p>
 
               {/* Event date and time */}
