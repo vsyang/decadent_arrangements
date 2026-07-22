@@ -90,7 +90,6 @@ export function Navbar() {
           <Image
             src={logo}
             alt="Decadent Arrangements Logo"
-            placeholder="blur"
             width={32}
             height={32}
           />
