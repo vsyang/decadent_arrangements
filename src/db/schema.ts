@@ -114,7 +114,7 @@ export const Product = pgTable("products", {
   description: text("description").notNull(),
 
   // temporary: will delete this later once order form is updated to use productId instead of productSizeEnum
-  //size: productSizeEnum("size").notNull(),
+  // size: productSizeEnum("size").notNull(),
 
   capacity: text("capacity").notNull(),
 
