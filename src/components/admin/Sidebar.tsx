@@ -23,7 +23,7 @@ export function Sidebar() {
     return (
         <>
             {/* TOP BAR */}
-            <div className="absolute z-500 top-0 right-0 border-border m-2">
+            <div className="absolute z-500 top-0 right-11 border-border m-2 border-r">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     type="button"

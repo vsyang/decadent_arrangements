@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image"
 import { getSessionAction } from "@/app/actions/auth";
+import { useEffect, useState } from "react";
 
 interface SessionState {
     isAuthenticated: boolean;
@@ -12,6 +13,7 @@ interface SessionState {
 }
 
 export function NavActionButton() {
+
     const [loading, setLoading] = useState<boolean>(true);
     const [session, setSession] = useState<SessionState>({
         isAuthenticated: false,
@@ -26,45 +28,42 @@ export function NavActionButton() {
                 const res = await getSessionAction();
 
                 if (!res || !res.user) {
+
                     setSession({
                         isAuthenticated: false,
                         isAdmin: false,
                         userName: null,
                         userImage: null,
                     });
-                } else {
-                    // VALIDACIÓN SENIOR DEFENSIVA DE ADMINISTRADOR
-                    const userEmail = res.user.email?.trim().toLowerCase();
-                    let isUserAdmin = false;
 
-                    // Leemos la variable pública o la provista por el servidor
-                    const whitelistStr = process.env.NEXT_PUBLIC_WHITELIST || "[]";
-                    try {
-                        const adminList = JSON.parse(whitelistStr);
-                        if (Array.isArray(adminList) && userEmail) {
-                            isUserAdmin = adminList.includes(userEmail);
-                        }
-                    } catch (e) {
-                        console.error("Error parseando NEXT_PUBLIC_WHITELIST en cliente", e);
-                    }
+                    return;
+                } 
 
-                    setSession({
-                        isAuthenticated: true,
-                        // Incrementamos la seguridad: Si no coincide con la lista, jamás será admin
-                        isAdmin: isUserAdmin,
-                        userName: res.user.name,
-                        userImage: res.user.image,
-                    });
-                }
+                setSession({
+
+                    isAuthenticated: true,
+                    isAdmin: res.isAdmin,
+                    userName: res.user.name,
+                    userImage: res.user.image,
+                });
+
             } catch (error) {
-                console.error("Error validando la sesión en el cliente:", error);
-                setSession({ isAuthenticated: false, isAdmin: false, userName: null, userImage: null });
+
+                console.error("Error valiting session:", error);
+
+                setSession({
+                    isAuthenticated: false,
+                    isAdmin: false,
+                    userName: null,
+                    userImage: null,
+                });
             } finally {
                 setLoading(false);
             }
         }
 
         checkAuth();
+
     }, []);
 
     const getInitial = (name?: string | null): string => {
@@ -79,66 +78,60 @@ export function NavActionButton() {
         );
     }
 
-    if (session.isAuthenticated) {
-        // PANEL DE ADMINISTRACIÓN AUTORIZADO (SÓLO SI ESTÁ EN LA WHITELIST)
-        if (session.isAdmin) {
-            return (
-                <Link
-                    href="/dashboard"
-                    title={`Admin Panel - ${session.userName ?? "Admin"}`}
-                    className="group flex items-center gap-2 rounded-full bg-stone-900 pl-3 pr-1.5 py-1 text-xs text-white font-semibold border border-stone-900 hover:bg-stone-800 transition-all duration-200"
-                >
-                    <span className="tracking-tight">Admin Board</span>
-                    <div className="h-6 w-6 rounded-full bg-stone-700 overflow-hidden flex items-center justify-center border border-white/20">
-                        {session.userImage ? (
-                            <img
-                                src={session.userImage}
-                                alt={session.userName ?? "Admin"}
-                                className="h-full w-full object-cover"
-                                referrerPolicy="no-referrer"
-                            />
-                        ) : (
-                            <span className="text-[10px] font-bold text-stone-200">
-                                {getInitial(session.userName)}
-                            </span>
-                        )}
-                    </div>
-                </Link>
-            );
-        }
-
-        // REGULAR USER
+    if (!session.isAuthenticated) {
         return (
             <Link
-                href="/orders"
-                title={`Orders for ${session.userName ?? "User"}`}
-                className="group flex items-center gap-2 rounded-full bg-stone-50 pl-3 pr-1.5 py-1 text-xs text-stone-800 font-semibold border border-stone-200 hover:border-stone-400 hover:bg-stone-100 transition-all duration-200"
+                href="/api/auth/signin"
+                className="rounded-full bg-stone-100 px-4 py-1.5 text-xs text-stone-900 font-semibold hover:opacity-90 transition-opacity border border-stone-200"
             >
-                <span className="tracking-tight">My Orders</span>
-                <div className="h-6 w-6 rounded-full bg-stone-200 overflow-hidden flex items-center justify-center border border-stone-300 group-hover:border-stone-400 transition-colors">
-                    {session.userImage ? (
-                        <img
-                            src={session.userImage}
-                            alt={session.userName ?? "User"}
-                            className="h-full w-full object-cover"
-                            referrerPolicy="no-referrer"
-                        />
-                    ) : (
-                        <span className="text-[10px] font-bold text-stone-600">
-                            {getInitial(session.userName)}
-                        </span>
-                    )}
-                </div>
+                Sign In
             </Link>
         );
     }
 
+    const userName = session.userName;
+    const userImage = session.userImage;
+
     return (
-        <Link
-            href="/api/auth/signin"
-            className="rounded-full bg-stone-100 px-4 py-1.5 text-xs text-stone-900 font-semibold hover:opacity-90 transition-opacity border border-stone-200"
-        >
-            Orders
-        </Link>
+        <>
+            <Link
+                href={`${session.isAdmin ? "/orders" : "/dashboard"}`}
+                title={`${session.isAdmin ? "Admin Panel -" : "Orders for"} ${userName ?? (session.isAdmin ? "Admin" : "User")}`}
+                className={`text-xs font-semibold transition-all duration-200 [@media(min-width:805px)]:group [@media(min-width:805px)]:flex [@media(min-width:805px)]:flex-row-reverse [@media(min-width:805px)]:items-center [@media(min-width:805px)]:gap-2 [@media(min-width:805px)]:rounded-full [@media(min-width:805px)]:px-2 [@media(min-width:805px)]:py-1 [@media(min-width:805px)]:border ${
+                    session.isAdmin ? 
+                        "text-white [@media(min-width:805px)]:bg-stone-900 [@media(min-width:805px)]:border-stone-900 hover:bg-stone-800 hover:bg-stone-800" 
+                        : "text-stone-800 [@media(min-width:805px)]:bg-stone-50 [@media(min-width:805px)]:border-stone-200 hover:border-stone-400 hover:bg-stone-100"
+                    }
+                `}
+            >
+
+                <div className={`relative h-7 w-7 rounded-full overflow-hidden border  group-hover:border-stone-400 transition-colors mx-auto border-2 ${session.isAdmin ? "text-stone-900 border-stone-600" : "bg-stone-200 border-stone-300"}`}>
+                    {userImage ? (
+                        <Image
+                            src={userImage}
+                            alt={userName ?? (session.isAdmin ? "Admin" : "User")}
+                            fill
+                            sizes="24px"
+                            className="object-cover"
+                            referrerPolicy="no-referrer"
+                        />
+                    ) : (
+                        <span className={`text-[10px] font-bold ${session.isAdmin ? "text-stone-200" : "text-stone-600"}`}>
+                            {getInitial(userName)}
+                        </span>
+                    )}
+                </div>
+
+                <span className={`tracking-tight [@media(max-width:805px)]:rounded-full [@media(max-width:805px)]:px-3 [@media(max-width:805px)]:py-1 font-semibold [@media(max-width:805px)]:border ${
+                    session.isAdmin ? 
+                        "[@media(max-width:805px)]:bg-stone-900 [@media(max-width:805px)]:border-stone-900" 
+                        : "[@media(max-width:805px)]:bg-stone-50 [@media(max-width:805px)]:border-stone-200"
+                    }`}
+                >
+                    {session.isAdmin ? "Management" : userName ?? "My Profile"}
+                </span>
+
+            </Link>
+        </>
     );
 }

@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { NavActionButton } from "./NavActionButton";
 import { getSessionAction } from "@/app/actions/auth";
-import { BellIcon, BookOpenIcon, EnvelopeIcon, HomeIcon } from '@heroicons/react/24/outline'
-import { Apple, SunIcon } from "lucide-react";
+import { BellIcon, BookOpenIcon, EnvelopeIcon, HomeIcon, InformationCircleIcon } from '@heroicons/react/24/outline'
+import Image from "next/image";
+import logo from "../../../app/apple-icon.png"
+
 
 // ==========================================
 // MAIN NAVBAR COMPONENT
@@ -32,9 +34,16 @@ export function Navbar() {
   return (
     <>
       {/* DESKTOP HEADER */}
-      <header className="hidden md:sticky md:top-0 md:z-50 md:block w-full border-b border-border bg-background/80 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+      <header className="hidden [@media(min-width:805px)]:sticky [@media(min-width:805px)]:top-0 [@media(min-width:805px)]:z-50 [@media(min-width:805px)]:block w-full border-b border-border bg-background/80 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-8xl items-center justify-between px-6 [@media(min-width:900px)]:pr-16">
+          <Link href="/" className="flex gap-1 items-center text-xl font-bold tracking-tight text-primary">
+            <Image
+              src={logo}
+              alt="Decadent Arrangements Logo"
+              placeholder="blur"
+              width={40}
+              height={40}
+            />
             Decadent Arrangements
           </Link>
 
@@ -47,6 +56,9 @@ export function Navbar() {
             </Link>
             <Link href="/contact" className="text-muted hover:text-foreground transition-colors">
               Contact
+            </Link>
+            <Link href="/about" className="text-muted hover:text-foreground transition-colors">
+              About Us
             </Link>
 
             {/* Desktop Notifications Bell */}
@@ -65,27 +77,45 @@ export function Navbar() {
                 )}
               </Link>
             )}
-
-            <NavActionButton />
+              <NavActionButton />
           </nav>
         </div>
       </header>
 
       {/* MOBILE TOP BRAND HEADER */}
-      <header className="sticky top-0 z-50 block md:hidden w-full border-b border-border bg-background/80 backdrop-blur">
-        <div className="flex h-14 items-center justify-between px-4">
-          <Link href="/" className="text-md font-bold tracking-tight text-primary">
+      <header className="sticky top-0 z-50 block [@media(min-width:805px)]:hidden w-full border-b border-border bg-background/80 backdrop-blur h-14">
+        <div className="flex h-14 items-center justify-between pl-2">
+          <Link href="/" className="flex gap-1 items-center text-md font-bold tracking-tight text-primary">
+          <Image
+            src={logo}
+            alt="Decadent Arrangements Logo"
+            width={32}
+            height={32}
+          />
             Decadent Arrangements
           </Link>
 
           <div className="flex items-center gap-2">
-            {/* Menu */}
+            {isAuthenticated && (
+              <Link
+                href="/notifications"
+                className="relative flex flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted hover:text-foreground transition-colors w-16"
+              >
+                <BellIcon className="h-5 w-5" />
+                {hasUnread && (
+                  <span className="absolute top-0 right-5.5 flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                  </span>
+                )}
+              </Link>
+              )}
           </div>
         </div>
       </header>
 
       {/* MOBILE BOTTOM NAVIGATION */}
-      <nav className="fixed bottom-0 w-full h-16 z-50 block border-t border-border bg-background/95 pb-safe backdrop-blur md:hidden grid grid-cols-[1fr_1fr_2fr_1fr_1fr] place-items-center">
+      <nav className="fixed bottom-0 w-full h-16 z-50 block border-t border-border bg-background/95 backdrop-blur [@media(min-width:805px)]:hidden grid grid-cols-[1fr_1fr_2fr_1fr_1fr] place-items-center">
 
           {/* Home Link */}
           <Link
@@ -106,7 +136,7 @@ export function Navbar() {
           </Link>
 
           {/* Orders / Admin Action CTA */}
-          <div className="relative flex flex-col items-center justify-center scale-105 drop-shadow-sm z-10">
+          <div className="relative flex flex-col items-center justify-center scale-105 drop-shadow-sm z-10 w-full">
             <NavActionButton />
           </div>
 
@@ -119,28 +149,14 @@ export function Navbar() {
             <span>Contact</span>
           </Link>
 
-          {/* Mobile Notifications Bell */}
-          {isAuthenticated ? (
-
-            <Link
-              href="/notifications"
-              className="relative flex flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted hover:text-foreground transition-colors w-16"
-            >
-              <BellIcon className="h-5 w-5" />
-              {hasUnread && (
-                <span className="absolute top-0 right-5.5 flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                </span>
-              )}
-              <span>Notifications</span>
-            </Link>
-          ) : (
-            <div className="relative flex flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted hover:text-foreground transition-colors w-16">
-              <Apple className="h-5 w-5" />
-              <span>Hello!</span>
-            </div>
-          )}
+          {/* About Us Link */}
+          <Link
+            href="/about"
+            className="flex flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted hover:text-foreground transition-colors w-16"
+          >
+            <InformationCircleIcon className="h-5 w-5" />
+            <span>About Us</span>
+          </Link>
 
         <div id="mobile-breadcrumbs" className="text-xs text-muted font-medium" />
 
