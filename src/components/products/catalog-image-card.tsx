@@ -24,8 +24,7 @@ export default function CatalogImageCard({
 }: CatalogImageCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Use the first gallery image when available.
-  // Otherwise, use the original image saved on the product.
+  // Use the first gallery image when available. Otherwise, use the original image saved on the product.
   const previewImageUrl = images[0]?.imageUrl ?? fallbackImageUrl;
 
   if (!previewImageUrl) {
@@ -64,7 +63,7 @@ export default function CatalogImageCard({
           src={previewImageUrl}
           alt={categoryName}
           fill
-          className="object-cover transition-transform duration-500 group-hover/image:scale-110"
+          className="object-cover transition-transform duration-500 group-hover/image:scale-125"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
         />
 
