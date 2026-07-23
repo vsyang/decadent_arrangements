@@ -24,7 +24,6 @@ export default function CatalogImageCard({
 }: CatalogImageCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // La vista previa toma la primera imagen disponible o la de respaldo
   const previewImageUrl = images[0]?.imageUrl ?? fallbackImageUrl;
 
   if (!previewImageUrl) {

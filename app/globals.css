@@ -1,33 +1,33 @@
 @import "tailwindcss";
 
 @theme {
-  /* Surface & Canvas (Lino artesanal / Papel crema) */
+  /* Surface & Canvas */
   --color-background: #F9F6F0;
   --color-surface: #FFFFFF;
   --color-surface-elevated: #F3EEE7;
   --color-foreground: #1F1614;
 
-  /* Primary: Madera Noble / Espresso (Estructura y Jerarquía) */
+  /* Primary */
   --color-primary: #2C1A14;
   --color-primary-hover: #3E2720;
   --color-primary-foreground: #F9F6F0;
 
-  /* Secondary: Verde Oliva / Romero (Frescura Orgánica) */
+  /* Secondary */
   --color-secondary: #4A5D4E;
   --color-secondary-hover: #3A4A3E;
   --color-secondary-foreground: #F9F6F0;
 
-  /* Accent: Pinot Noir / Granate Curado (Elegancia & Destacos) */
+  /* Accent */
   --color-accent: #5C1D2A;
   --color-accent-hover: #46141F;
   --color-accent-foreground: #F9F6F0;
 
-  /* Warm Gold / Honey (Detalles Gourmet, Badges, CTA Secundarios) */
+  /* Warm Gold */
   --color-honey: #D9822B;
   --color-honey-light: #F7E9D7;
   --color-honey-foreground: #2C1A14;
 
-  /* Estados del Sistema (Ajustados al tono cálido) */
+  /* Status */
   --color-success: #2D6A4F;
   --color-success-foreground: #FFFFFF;
   --color-warning: #D97706;
@@ -35,14 +35,14 @@
   --color-danger: #9B2226;
   --color-danger-foreground: #FFFFFF;
 
-  /* Neutros & Bordes Finos */
+  /* Borders */
   --color-muted: #786C68;
   --color-muted-foreground: #4A403D;
   --color-border: #E5DDD3;
   --color-border-subtle: #EEE8E0;
 }
 
-/* Estilos Base Globales */
+/* Globals */
 @layer base {
   body {
     background-color: var(--color-background);
@@ -51,7 +51,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Selección de texto personalizada con tono Pinot Noir */
   ::selection {
     background-color: var(--color-accent);
     color: var(--color-accent-foreground);

@@ -56,7 +56,6 @@ export default async function ProductsGrid() {
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => {
-        // 🔑 CLAVE DE LA SOLUCIÓN: Si no hay fotos secundarias, empaquetamos la foto principal
         let galleryImages = imagesByProduct[product.id] ?? [];
 
         if (galleryImages.length === 0 && product.imageUrl) {
@@ -76,7 +75,6 @@ export default async function ProductsGrid() {
             key={product.id}
             className="group relative flex flex-col overflow-hidden rounded-3xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           >
-            {/* Visor de imágenes / Galería interactiva */}
             <div className="relative aspect-[5/4] w-full overflow-hidden bg-[var(--color-surface)]">
               <CatalogImageCard
                 categoryName={product.name}
@@ -85,7 +83,6 @@ export default async function ProductsGrid() {
               />
             </div>
 
-            {/* Información del producto */}
             <div className="flex flex-grow flex-col justify-between p-6">
               <div>
                 <h3 className="font-serif text-xl font-bold text-[var(--color-primary)] transition-colors group-hover:text-[var(--color-accent)] line-clamp-1">
@@ -97,7 +94,6 @@ export default async function ProductsGrid() {
                 </p>
               </div>
 
-              {/* Especificaciones: Precio & Capacidad */}
               <div className="mt-6 flex items-center justify-between border-t border-[var(--color-border-subtle)] pt-4">
                 <div className="flex flex-col text-left">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-muted)]">
@@ -127,7 +123,6 @@ export default async function ProductsGrid() {
                 </div>
               </div>
 
-              {/* Botón CTA */}
               <div className="mt-6 pt-1">
                 <Link
                   href={

@@ -13,7 +13,6 @@ export default function AboutPage() {
     <main className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors">
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-12 md:py-20">
 
-        {/* Encabezado Principal */}
         <div className="mb-12 text-center md:mb-16">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-1.5 shadow-sm">
             <Sparkles className="h-4 w-4 text-[var(--color-honey)]" />
@@ -31,13 +30,10 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* Sección Biográfica de 2 Columnas */}
         <div className="grid w-full items-center gap-12 lg:grid-cols-12">
 
-          {/* COLUMNA IZQUIERDA: Presentación Visual de la Creadora (5 Cols) */}
           <div className="relative w-full lg:col-span-5 flex justify-center">
             <div className="relative w-full max-w-md">
-              {/* Halo orgánico con gradiente Pinot Noir & Miel */}
               <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-[var(--color-accent)] via-[var(--color-honey)] to-[var(--color-secondary)] opacity-30 blur-lg" />
 
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-2xl">
@@ -54,7 +50,6 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* COLUMNA DERECHA: Historia & Valores (7 Cols) */}
           <div className="flex w-full flex-col lg:col-span-7">
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">
               Meet the Artist
@@ -78,7 +73,6 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Tarjetas de Valores y Compromiso */}
             <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] p-4">
                 <Heart className="mb-2 h-5 w-5 text-[var(--color-accent)]" />
@@ -99,7 +93,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Acciones CTA */}
+            {/* CTA */}
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/catalog"

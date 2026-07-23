@@ -66,10 +66,9 @@ export function NavActionButton() {
         return trimmed.charAt(0).toUpperCase();
     };
 
-    // 💡 Helper Senior: Formatea nombres largos para la UI
     const getFormattedName = (name?: string | null): string => {
         if (!name) return "My Profile";
-        const firstName = name.trim().split(" ")[0]; // Extrae solo el primer nombre (e.g. "Andrea")
+        const firstName = name.trim().split(" ")[0]; 
         return firstName;
     };
 
@@ -131,7 +130,6 @@ export function NavActionButton() {
                 )}
             </div>
 
-            {/* ⚠️ Bloqueamos el salto de línea y limitamos el ancho en móviles */}
             <span className={`tracking-tight whitespace-nowrap truncate [@media(max-width:805px)]:max-w-[90px] [@media(max-width:805px)]:block [@media(max-width:805px)]:rounded-full [@media(max-width:805px)]:px-2.5 [@media(max-width:805px)]:py-0.5 font-semibold [@media(max-width:805px)]:border ${session.isAdmin
                     ? "[@media(max-width:805px)]:bg-stone-900 [@media(max-width:805px)]:text-white [@media(max-width:805px)]:border-stone-900"
                     : "[@media(max-width:805px)]:bg-stone-100 [@media(max-width:805px)]:text-stone-900 [@media(max-width:805px)]:border-stone-200"

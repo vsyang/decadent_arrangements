@@ -29,12 +29,10 @@ export default function ImageGalleryModal({
   const [currentIndex, setCurrentIndex] = useState(startingImageIndex);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Asegura que el portal solo se ejecute en el cliente (evita errores de SSR/Hydration)
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Manejo de eventos de teclado y bloqueo del scroll del body
   useEffect(() => {
     if (!isOpen) return;
 
@@ -76,7 +74,6 @@ export default function ImageGalleryModal({
     onClose();
   }
 
-  // 🚀 Teletransportamos el JSX directamente al document.body
   return createPortal(
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6"
@@ -89,7 +86,6 @@ export default function ImageGalleryModal({
         className="relative w-full max-w-4xl rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-5 sm:p-8 shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
-        {/* Botón de cierre */}
         <button
           type="button"
           onClick={closeModal}
@@ -99,7 +95,6 @@ export default function ImageGalleryModal({
           <X className="h-5 w-5" />
         </button>
 
-        {/* Encabezado */}
         <div className="mb-4 pr-10">
           <h2 className="font-serif text-2xl font-bold text-[var(--color-primary)] sm:text-3xl">
             {categoryName}
@@ -109,7 +104,6 @@ export default function ImageGalleryModal({
           </p>
         </div>
 
-        {/* Visor Principal */}
         <div className="relative aspect-[4/3] max-h-[60vh] w-full overflow-hidden rounded-2xl bg-[var(--color-surface)]">
           <Image
             src={currentImage.imageUrl}
@@ -124,7 +118,6 @@ export default function ImageGalleryModal({
             priority
           />
 
-          {/* Botones de navegación (Flechas) */}
           {images.length > 1 && (
             <>
               <button
@@ -148,7 +141,6 @@ export default function ImageGalleryModal({
           )}
         </div>
 
-        {/* Carrusel inferior de miniaturas (Thumbnails) */}
         {images.length > 1 && (
           <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
             {images.map((image, index) => (
@@ -175,6 +167,6 @@ export default function ImageGalleryModal({
         )}
       </div>
     </div>,
-    document.body // Target de destino del Portal
+    document.body 
   );
 }

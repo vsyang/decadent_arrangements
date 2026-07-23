@@ -15,7 +15,6 @@ export default function CatalogPage() {
         <main className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors">
             <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-10 md:py-16">
 
-                {/* Header Hero del Catálogo */}
                 <div className="mb-10 text-center md:mb-14">
                     <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-1.5 shadow-sm">
                         <Sparkles className="h-4 w-4 text-[var(--color-honey)]" />
@@ -33,7 +32,6 @@ export default function CatalogPage() {
                     </p>
                 </div>
 
-                {/* Separador Elegante */}
                 <div className="relative mb-10 flex items-center justify-center">
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-[var(--color-border-subtle)]" />
@@ -43,7 +41,6 @@ export default function CatalogPage() {
                     </span>
                 </div>
 
-                {/* Grid de Productos con Suspense Skeleton */}
                 <div className="w-full">
                     <Suspense fallback={<ProductsGridSkeleton />}>
                         <ProductsGrid />

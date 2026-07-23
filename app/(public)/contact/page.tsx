@@ -13,7 +13,6 @@ export default function ContactPage() {
     <main className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors">
       <section className="mx-auto w-full max-w-7xl sm:px-6 py-8 md:py-20">
 
-        {/* Header Section */}
         <div className="mb-10 text-center md:mb-16">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-1.5 shadow-sm">
             <Sparkles className="h-4 w-4 text-[var(--color-honey)]" />
@@ -31,10 +30,8 @@ export default function ContactPage() {
           </p>
         </div>
 
-        {/* Grid de 2 Columnas: Imágenes & Tarjetas de Contacto */}
         <div className="grid w-full gap-8 lg:grid-cols-12 lg:items-center">
 
-          {/* COLUMNA IZQUIERDA: Composición Visual Gourmet (5 Cols) */}
           <div className="relative w-full lg:col-span-5">
             <div className="relative aspect-[4/3] sm:aspect-[4/5] w-full max-w-full overflow-hidden rounded-3xl border border-[var(--color-border)] shadow-xl">
               <Image
@@ -47,7 +44,6 @@ export default function ContactPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-primary)]/80 via-transparent to-transparent" />
 
-              {/* Badge Flotante de Atención */}
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 rounded-2xl border border-white/20 bg-white/10 p-3 sm:p-5 backdrop-blur-md">
                 <div className="flex items-center gap-3 text-white">
                   <div className="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-white">
@@ -66,7 +62,6 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* COLUMNA DERECHA: Tarjetas de Interacción y Canales (7 Cols) */}
           <div className="flex w-full flex-col gap-6 lg:col-span-7">
 
             {/* Email Card */}
@@ -80,7 +75,6 @@ export default function ContactPage() {
                     <Mail className="h-5 w-5 sm:h-6 sm:w-6" />
                   </div>
 
-                  {/* ⚠️ IMPORTANTE: min-w-0 permite que el texto respete los bordes */}
                   <div className="min-w-0 flex-1">
                     <h3 className="font-serif text-lg font-bold text-[var(--color-primary)] sm:text-xl">
                       Direct Email
@@ -89,7 +83,6 @@ export default function ContactPage() {
                       For order inquiries and private events.
                     </p>
 
-                    {/* ⚠️ break-all o truncate evita que el correo empuje el contenedor */}
                     <p className="mt-2 text-xs font-semibold text-[var(--color-accent)] break-all sm:text-sm">
                       decadentarrangements2023@gmail.com
                     </p>

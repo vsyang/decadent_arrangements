@@ -16,10 +16,9 @@ import logo from "../../../app/apple-icon.png";
 export function Navbar() {
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [hasUnread, setHasUnread] = useState<boolean>(true); // Mock temporal del indicador activo
+  const [hasUnread, setHasUnread] = useState<boolean>(true); 
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
-  // 1. Detección de Scroll para alternar la transparencia del Header
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -29,7 +28,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 2. Comprobación de estado de sesión
   useEffect(() => {
     async function checkSession() {
       try {
@@ -42,7 +40,6 @@ export function Navbar() {
     checkSession();
   }, []);
 
-  // 3. Helper para evaluar si un Path está activo
   const isActive = (path: string) => {
     if (path === "/") return pathname === "/";
     return pathname.startsWith(path);

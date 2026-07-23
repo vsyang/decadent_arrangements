@@ -28,7 +28,6 @@ export function HeroParallax({ isAuthenticated }: HeroParallaxProps) {
             ref={containerRef}
             className="relative min-h-[90vh] w-full overflow-hidden bg-[var(--color-background)] px-6 py-12 md:py-20 flex items-center justify-center"
         >
-            {/* 🎬 VIDEO BACKGROUND (Visible únicamente en Mobile/Tablet hasta 'md') */}
             <div className="absolute inset-0 z-0 block md:hidden overflow-hidden">
                 <video
                     autoPlay
@@ -40,11 +39,9 @@ export function HeroParallax({ isAuthenticated }: HeroParallaxProps) {
                     <source src="/videos/hero_home.mp4" type="video/mp4" />
                 </video>
 
-                {/* Dynamic Dark Gradient Overlay: Garantiza la legibilidad del texto */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-background)]/80 via-[var(--color-background)]/40 to-[var(--color-background)]" />
             </div>
 
-            {/* 🔮 Capas de Paralaje de Fondo (Visibles de 'md' en adelante) */}
             <motion.div
                 style={{ y: yImageLeft }}
                 className="absolute -left-12 top-20 hidden w-64 md:block lg:w-80 opacity-90 pointer-events-none z-0"
@@ -77,7 +74,6 @@ export function HeroParallax({ isAuthenticated }: HeroParallaxProps) {
                 </div>
             </motion.div>
 
-            {/* ✦ Hero Content animado */}
             <motion.div
                 style={{ y: yText, opacity: opacityText }}
                 className="relative z-10 max-w-3xl text-center flex flex-col items-center"
