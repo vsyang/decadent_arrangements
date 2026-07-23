@@ -1,23 +1,18 @@
-// app/(admin)/products/layout.tsx 
+// app/(admin)/products/layout.tsx
 
 import { IsAdminProtection } from "../dashboard/adminAction";
 import { redirect } from "next/navigation";
 
 export default async function CatalogManagementLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
+  const authorized = await IsAdminProtection();
 
-    const authorized = await IsAdminProtection();
+  if (!authorized) {
+    redirect("/not-found");
+  }
 
-    if (!authorized) {
-        redirect("/not-found");
-    }
-    
-    return (
-        <>
-            {children}
-        </>
-    );
+  return <>{children}</>;
 }

@@ -1,8 +1,8 @@
-import 'dotenv/config'
-import { defineConfig } from 'drizzle-kit';
-import * as dotenv from 'dotenv';
+import "dotenv/config";
+import { defineConfig } from "drizzle-kit";
+import * as dotenv from "dotenv";
 
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: ".env.local" });
 
 const databaseUrl = process.env.DATABASE_URL?.trim();
 
@@ -11,12 +11,10 @@ if (!databaseUrl) {
 }
 
 export default defineConfig({
-  schema: './src/db/schema.ts', // Path to your schema
-  out: './drizzle',             // Folder where SQL files will save
-  dialect: 'postgresql',        // 'postgresql' | 'mysql' | 'sqlite'
+  schema: "./src/db/schema.ts", // Path to your schema
+  out: "./drizzle", // Folder where SQL files will save
+  dialect: "postgresql", // 'postgresql' | 'mysql' | 'sqlite'
   dbCredentials: {
     url: databaseUrl,
   },
- 
 });
-

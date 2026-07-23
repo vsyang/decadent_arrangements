@@ -15,8 +15,10 @@ export async function IsAdminProtection(): Promise<boolean> {
   const sessionRole = session.user.role;
 
   // LAYER (DB + .ENV)
-  const whitelist: string[] = JSON.parse(process.env.WHITELIST ?? '[]');
-  const isEmailInWhitelist = whitelist.map(e => e.toLowerCase()).includes(sessionEmail);
+  const whitelist: string[] = JSON.parse(process.env.WHITELIST ?? "[]");
+  const isEmailInWhitelist = whitelist
+    .map((e) => e.toLowerCase())
+    .includes(sessionEmail);
 
   const isAdmin = sessionRole === "admin" && isEmailInWhitelist;
 

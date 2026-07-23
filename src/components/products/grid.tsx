@@ -34,7 +34,7 @@ export default async function ProductsGrid() {
 
       return groups;
     },
-    {}
+    {},
   );
 
   if (!products || products.length === 0) {
@@ -117,7 +117,9 @@ export default async function ProductsGrid() {
                   <p className="flex items-center justify-end gap-1 text-xs font-semibold text-[var(--color-foreground)]">
                     <Users className="h-3.5 w-3.5 text-[var(--color-accent)]" />
                     <span>
-                      {product.capacity === "50-plus" ? "50+ Guests" : `${product.capacity} Guests`}
+                      {product.capacity === "50-plus"
+                        ? "50+ Guests"
+                        : `${product.capacity} Guests`}
                     </span>
                   </p>
                 </div>

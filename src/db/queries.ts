@@ -30,14 +30,15 @@ export async function fetchProducts(): Promise<ProductRecord[]> {
         imageUrl: Product.imageUrl,
       })
       .from(Product)
-      .orderBy(sql<number>`
+      .orderBy(
+        sql<number>`
         CAST(
           SUBSTRING(${Product.capacity} FROM '^[0-9]+')
           AS INTEGER
         )
       `,
-      // If two products start with the same number, sort them alphabetically by name.
-      asc(Product.name),
+        // If two products start with the same number, sort them alphabetically by name.
+        asc(Product.name),
       );
 
     return data as ProductRecord[];
@@ -133,10 +134,7 @@ export async function fetchProductImageById(imageId: string) {
 
 // Get every order.
 export async function getAllOrders() {
-  const allOrders = await db
-    .select()
-    .from(Order)
-    .orderBy(asc(Order.eventDate));
+  const allOrders = await db.select().from(Order).orderBy(asc(Order.eventDate));
 
   return allOrders;
 }
@@ -168,9 +166,7 @@ export async function fetchAllOrders() {
 }
 
 // Get all orders placed by one customer.
-export async function fetchAllOrdersByCustomerId(
-  customerId: string,
-) {
+export async function fetchAllOrdersByCustomerId(customerId: string) {
   try {
     const data = await db
       .select({
@@ -251,12 +247,7 @@ export async function fetchAllOrdersCompleted() {
         status: Order.status,
       })
       .from(Order)
-      .where(
-        or(
-          eq(Order.status, "delivered"),
-          eq(Order.status, "cancelled"),
-        ),
-      )
+      .where(or(eq(Order.status, "delivered"), eq(Order.status, "cancelled")))
       .orderBy(asc(Order.eventDate));
 
     return data;
@@ -282,12 +273,7 @@ export async function fetchAllOrdersIncompleted() {
         status: Order.status,
       })
       .from(Order)
-      .where(
-        or(
-          eq(Order.status, "pending"),
-          eq(Order.status, "preparing"),
-        ),
-      )
+      .where(or(eq(Order.status, "pending"), eq(Order.status, "preparing")))
       .orderBy(asc(Order.eventDate));
 
     return data;

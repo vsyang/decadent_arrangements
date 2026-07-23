@@ -1,8 +1,6 @@
 // const shimmer =
 //   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
-
-
 export function ProductCardSkeleton() {
   return (
     <div className="flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
@@ -34,7 +32,6 @@ export function ProductCardSkeleton() {
           <div className="h-6 w-full bg-slate-200 rounded-lg animate-pulse" />
         </div>
       </div>
-      
     </div>
   );
 }
@@ -51,15 +48,7 @@ export function ProductsGridSkeleton() {
   );
 }
 
-
-
-
-
-export function TableSkeleton({
-  rows = 2,
-}: {
-  rows?: number;
-}) {
+export function TableSkeleton({ rows = 2 }: { rows?: number }) {
   return (
     <>
       {Array.from({ length: rows }).map((_, i) => (

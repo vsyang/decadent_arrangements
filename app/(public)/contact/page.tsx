@@ -5,14 +5,14 @@ import { Mail, MapPin, Clock, ArrowUpRight, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact Us | Decadent Arrangements",
-  description: "Get in touch with us for bespoke charcuterie boards, event catering, and custom culinary gifts.",
+  description:
+    "Get in touch with us for bespoke charcuterie boards, event catering, and custom culinary gifts.",
 };
 
 export default function ContactPage() {
   return (
     <main className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors">
       <section className="mx-auto w-full max-w-7xl sm:px-6 py-8 md:py-20">
-
         <div className="mb-10 text-center md:mb-16">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-1.5 shadow-sm">
             <Sparkles className="h-4 w-4 text-[var(--color-honey)]" />
@@ -26,12 +26,12 @@ export default function ContactPage() {
           </h1>
 
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--color-muted-foreground)] md:text-lg">
-            Have a custom event request, dietary questions, or want to collaborate on a special moment? We&apos;d love to hear from you.
+            Have a custom event request, dietary questions, or want to
+            collaborate on a special moment? We&apos;d love to hear from you.
           </p>
         </div>
 
         <div className="grid w-full gap-8 lg:grid-cols-12 lg:items-center">
-
           <div className="relative w-full lg:col-span-5">
             <div className="relative aspect-[4/3] sm:aspect-[4/5] w-full max-w-full overflow-hidden rounded-3xl border border-[var(--color-border)] shadow-xl">
               <Image
@@ -63,7 +63,6 @@ export default function ContactPage() {
           </div>
 
           <div className="flex w-full flex-col gap-6 lg:col-span-7">
-
             {/* Email Card */}
             <a
               href="mailto:decadentarrangements2023@gmail.com"
@@ -115,7 +114,13 @@ export default function ContactPage() {
                     >
                       <rect width="18" height="18" x="3" y="3" rx="5" ry="5" />
                       <circle cx="12" cy="12" r="4" />
-                      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+                      <circle
+                        cx="17.5"
+                        cy="6.5"
+                        r="0.5"
+                        fill="currentColor"
+                        stroke="none"
+                      />
                     </svg>
                   </div>
                   <div className="min-w-0 flex-1">
@@ -123,7 +128,8 @@ export default function ContactPage() {
                       Instagram Gallery
                     </h3>
                     <p className="mt-1 text-sm text-[var(--color-muted-foreground)]">
-                      Follow our latest arrangements, daily creations, and DM us directly.
+                      Follow our latest arrangements, daily creations, and DM us
+                      directly.
                     </p>
                     <p className="mt-3 font-semibold text-[var(--color-accent)] group-hover:underline">
                       @decadent_arrangements
@@ -150,7 +156,6 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -160,7 +165,8 @@ export default function ContactPage() {
             Ready to taste the art?
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-stone-200 md:text-base">
-            Select your items, customize dietary specifications, and schedule your delivery or pickup seamlessly.
+            Select your items, customize dietary specifications, and schedule
+            your delivery or pickup seamlessly.
           </p>
           <div className="mt-8 flex justify-center">
             <Link
@@ -171,7 +177,6 @@ export default function ContactPage() {
             </Link>
           </div>
         </div>
-
       </section>
     </main>
   );

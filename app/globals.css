@@ -2,44 +2,44 @@
 
 @theme {
   /* Surface & Canvas */
-  --color-background: #F9F6F0;
-  --color-surface: #FFFFFF;
-  --color-surface-elevated: #F3EEE7;
-  --color-foreground: #1F1614;
+  --color-background: #f9f6f0;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f3eee7;
+  --color-foreground: #1f1614;
 
   /* Primary */
-  --color-primary: #2C1A14;
-  --color-primary-hover: #3E2720;
-  --color-primary-foreground: #F9F6F0;
+  --color-primary: #2c1a14;
+  --color-primary-hover: #3e2720;
+  --color-primary-foreground: #f9f6f0;
 
   /* Secondary */
-  --color-secondary: #4A5D4E;
-  --color-secondary-hover: #3A4A3E;
-  --color-secondary-foreground: #F9F6F0;
+  --color-secondary: #4a5d4e;
+  --color-secondary-hover: #3a4a3e;
+  --color-secondary-foreground: #f9f6f0;
 
   /* Accent */
-  --color-accent: #5C1D2A;
-  --color-accent-hover: #46141F;
-  --color-accent-foreground: #F9F6F0;
+  --color-accent: #5c1d2a;
+  --color-accent-hover: #46141f;
+  --color-accent-foreground: #f9f6f0;
 
   /* Warm Gold */
-  --color-honey: #D9822B;
-  --color-honey-light: #F7E9D7;
-  --color-honey-foreground: #2C1A14;
+  --color-honey: #d9822b;
+  --color-honey-light: #f7e9d7;
+  --color-honey-foreground: #2c1a14;
 
   /* Status */
-  --color-success: #2D6A4F;
-  --color-success-foreground: #FFFFFF;
-  --color-warning: #D97706;
-  --color-warning-foreground: #FFFFFF;
-  --color-danger: #9B2226;
-  --color-danger-foreground: #FFFFFF;
+  --color-success: #2d6a4f;
+  --color-success-foreground: #ffffff;
+  --color-warning: #d97706;
+  --color-warning-foreground: #ffffff;
+  --color-danger: #9b2226;
+  --color-danger-foreground: #ffffff;
 
   /* Borders */
-  --color-muted: #786C68;
-  --color-muted-foreground: #4A403D;
-  --color-border: #E5DDD3;
-  --color-border-subtle: #EEE8E0;
+  --color-muted: #786c68;
+  --color-muted-foreground: #4a403d;
+  --color-border: #e5ddd3;
+  --color-border-subtle: #eee8e0;
 }
 
 /* Globals */

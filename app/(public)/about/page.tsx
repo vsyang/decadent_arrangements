@@ -5,14 +5,14 @@ import { Sparkles, Heart, Award, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About Us | Decadent Arrangements",
-  description: "Meet Vanessa Yang, the creative mind behind Decadent Arrangements, crafting artisanal charcuterie and bespoke culinary gifts.",
+  description:
+    "Meet Vanessa Yang, the creative mind behind Decadent Arrangements, crafting artisanal charcuterie and bespoke culinary gifts.",
 };
 
 export default function AboutPage() {
   return (
     <main className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors">
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-12 md:py-20">
-
         <div className="mb-12 text-center md:mb-16">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-1.5 shadow-sm">
             <Sparkles className="h-4 w-4 text-[var(--color-honey)]" />
@@ -26,12 +26,13 @@ export default function AboutPage() {
           </h1>
 
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--color-muted-foreground)] md:text-lg">
-            Thoughtfully designed arrangements created to transform birthdays, celebrations, holidays, and spontaneous moments into delicious, unforgettable memories.
+            Thoughtfully designed arrangements created to transform birthdays,
+            celebrations, holidays, and spontaneous moments into delicious,
+            unforgettable memories.
           </p>
         </div>
 
         <div className="grid w-full items-center gap-12 lg:grid-cols-12">
-
           <div className="relative w-full lg:col-span-5 flex justify-center">
             <div className="relative w-full max-w-md">
               <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-[var(--color-accent)] via-[var(--color-honey)] to-[var(--color-secondary)] opacity-30 blur-lg" />
@@ -61,36 +62,57 @@ export default function AboutPage() {
 
             <div className="space-y-4 text-base leading-relaxed text-[var(--color-muted-foreground)]">
               <p>
-                Decadent Arrangements was born out of a genuine passion for culinary creativity, artisanal flavors, and the joy of elevated gift-giving. What started as handcrafted treats for family and friends evolved into a dedicated catering experience designed to bring people together.
+                Decadent Arrangements was born out of a genuine passion for
+                culinary creativity, artisanal flavors, and the joy of elevated
+                gift-giving. What started as handcrafted treats for family and
+                friends evolved into a dedicated catering experience designed to
+                bring people together.
               </p>
 
               <p>
-                Every board, box, and arrangement is curated by hand using high-quality cheeses, premium cured meats, seasonal fruits, and sweet delicacies. From intimate anniversaries and milestone birthdays to grand corporate events, each order receives meticulous attention to detail.
+                Every board, box, and arrangement is curated by hand using
+                high-quality cheeses, premium cured meats, seasonal fruits, and
+                sweet delicacies. From intimate anniversaries and milestone
+                birthdays to grand corporate events, each order receives
+                meticulous attention to detail.
               </p>
 
               <p>
-                Our mission goes beyond serving food—we aim to deliver an authentic visual and gastronomic surprise that leaves a lasting impression on you and your guests.
+                Our mission goes beyond serving food—we aim to deliver an
+                authentic visual and gastronomic surprise that leaves a lasting
+                impression on you and your guests.
               </p>
             </div>
 
             <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] p-4">
                 <Heart className="mb-2 h-5 w-5 text-[var(--color-accent)]" />
-                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">Handmade Care</h3>
-                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">Tailored meticulously to your event specifications.</p>
+                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">
+                  Handmade Care
+                </h3>
+                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">
+                  Tailored meticulously to your event specifications.
+                </p>
               </div>
-
               <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] p-4">
                 <Award className="mb-2 h-5 w-5 text-[var(--color-honey)]" />
-                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">Fresh Ingredients</h3>
-                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">Selected daily for maximum flavor and presentation.</p>
+                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">
+                  Fresh Ingredients
+                </h3>
+                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">
+                  Selected daily for maximum flavor and presentation.
+                </p>
               </div>
-
               <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] p-4">
                 <ShieldCheck className="mb-2 h-5 w-5 text-[var(--color-secondary)]" />
-                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">Seamless Service</h3>
-                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">Reliable order tracking and delivery scheduling.</p>
-              </div>git rebase --continue
+                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">
+                  Seamless Service
+                </h3>
+                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">
+                  Reliable order tracking and delivery scheduling.
+                </p>
+              </div>
+              git rebase --continue
             </div>
 
             {/* CTA */}
@@ -110,7 +132,6 @@ export default function AboutPage() {
               </Link>
             </div>
           </div>
-
         </div>
       </section>
     </main>
