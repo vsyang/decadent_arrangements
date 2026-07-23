@@ -9,71 +9,92 @@ import { CopyTextButton } from "@/components/admin/CopyTextButton";
 import { FingerPrintIcon } from "@heroicons/react/24/outline";
 import { SpecialRequestsModal } from "@/components/admin/RequestsModal";
 
-export default async function OrderDetailsPage(props: { 
+// Formats a 10-digit phone number as xxx-xxx-xxxx.
+function formatPhoneNumber(phone: string) {
+  // Remove any existing spaces, dashes, or other characters.
+  const digits = phone.replace(/\D/g, "");
+
+  // If the value is not exactly 10 digits, return the original value.
+  if (digits.length !== 10) {
+    return phone;
+  }
+
+  // Return the phone number in xxx-xxx-xxxx format.
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
+export default async function OrderDetailsPage(props: {
   params: Promise<{ id: string }>;
 }) {
-
+  // Get the order ID from the route.
   const { id: orderId } = await props.params;
 
-  const order = await fetchOrderById(orderId)
+  // Find the order in the database.
+  const order = await fetchOrderById(orderId);
 
+  // Show the 404 page if the order does not exist.
   if (!order) return notFound();
 
+  // Format the phone number for display and copying.
+  const formattedPhone = formatPhoneNumber(order.phone);
+
+  // Check whether the signed-in user is an administrator.
   const authorized = await IsAdminProtection();
 
-  const customerAddress = `${order.address 
-    ? `${order.address.streetAddress}, ${order.address.city}, ${order.address.state} ${order.address.postalCode ? ` ${order.address.postalCode}` : ""}`
-    : "No Address"}`
-  
+  // Format the delivery address into one readable string.
+  const customerAddress = order.address
+    ? `${order.address.streetAddress}, ${order.address.city}, ${
+        order.address.state
+      }${order.address.postalCode ? ` ${order.address.postalCode}` : ""}`
+    : "No Address";
+
   return (
-    <main className="max-w-7xl m-auto py-5">
-
-      {(authorized) ? (
-
-        // Breadcrumbs
-      <>
-          <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
-
-            <Link
-              href="/dashboard"
-              className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
-            >
-              Management
-            </Link>
-            <ChevronRightIcon className="w-3 h-3" />
-
-            <Link
-              href={`/orders`}
-              className="hover:text-[#c97c5d] transition-colors"
-            >
-              Orders
-            </Link>
-
-            <ChevronRightIcon className="w-3 h-3" />
-
-            <span className="text-[#6b4f3f] truncate max-w-50">{order.idReadable}</span>
-            </nav>
-      </>
-
-      ) : (
+    <main className="m-auto max-w-7xl py-5">
+      {/* Show admin breadcrumbs when the user is authorized. */}
+      {authorized ? (
         <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
- 
-        <Link
-          href={`/orders`}
-          className="hover:text-[#c97c5d] transition-colors"
-        >
-          My Orders
-        </Link>
-  
-        <ChevronRightIcon className="w-3 h-3" />
-  
-        <span className="text-[#6b4f3f] truncate max-w-50">{order.idReadable}</span>
-      </nav>
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-1 transition-colors hover:text-[#c97c5d]"
+          >
+            Management
+          </Link>
+
+          <ChevronRightIcon className="h-3 w-3" />
+
+          <Link
+            href="/orders"
+            className="transition-colors hover:text-[#c97c5d]"
+          >
+            Orders
+          </Link>
+
+          <ChevronRightIcon className="h-3 w-3" />
+
+          <span className="max-w-50 truncate text-[#6b4f3f]">
+            {order.idReadable}
+          </span>
+        </nav>
+      ) : (
+        /* Show customer breadcrumbs when the user is not an administrator. */
+        <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+          <Link
+            href="/orders"
+            className="transition-colors hover:text-[#c97c5d]"
+          >
+            My Orders
+          </Link>
+
+          <ChevronRightIcon className="h-3 w-3" />
+
+          <span className="max-w-50 truncate text-[#6b4f3f]">
+            {order.idReadable}
+          </span>
+        </nav>
       )}
 
-      <div className="flex flex-col gap-3 w-full">
-
-        {/* Easy display of main info */}
+      <div className="flex w-full flex-col gap-3">
+        {/* Main order information */}
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
 
           <h1 className="flex text-2xl font-bold text-slate-900">
@@ -83,44 +104,51 @@ export default async function OrderDetailsPage(props: {
           </h1>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            
-
-            <div className="flex mt-2 flex-wrap gap-3 text-sm text-slate-600 my-2">
-
+            <div className="my-2 mt-2 flex flex-wrap gap-3 text-sm text-slate-600">
               <span>
-                <b>Created:</b>{" "}
-                {new Date(order.createdAt).toLocaleDateString()}
+                <b>Created:</b> {new Date(order.createdAt).toLocaleDateString()}
               </span>
 
-              {(authorized) && (
+              {/* Only administrators can see the last-updated date. */}
+              {authorized && (
                 <span>
                   <b>Last updated:</b>{" "}
                   {new Date(order.updatedAt).toLocaleDateString()}
                 </span>
               )}
-
             </div>
 
             <div className="flex items-center gap-3">
-
-              <label htmlFor="order-status" className="text-sm font-semibold text-slate-700">
-                  Status:
+              <label
+                htmlFor="order-status"
+                className="text-sm font-semibold text-slate-700"
+              >
+                Status:
               </label>
 
-              {(authorized) ? (
-                
-                <OrderStatusSelect orderId={order.id} currentStatus={order.status}
-                  />
+              {/* Administrators can update the status. */}
+              {authorized ? (
+                <OrderStatusSelect
+                  orderId={order.id}
+                  currentStatus={order.status}
+                />
               ) : (
-                <span className={`w-full appearance-none rounded-lg border-3 py-2 px-2 text-sm font-semibold text-slate-700 shadow-sm ${
-                  order.status === "preparing" ? "border-yellow-500 bg-yellow-500/10" :
-                  order.status === "delivered" ? "border-green-500 bg-green-500/5" :
-                  order.status === "cancelled" ? "border-red-500 bg-red-500/5" : "bg-gray-100/50"}`
-                }>{order.status}</span>
+                /* Customers can only view the current status. */
+                <span
+                  className={`w-full appearance-none rounded-lg border-3 px-2 py-2 text-sm font-semibold text-slate-700 shadow-sm ${
+                    order.status === "preparing"
+                      ? "border-yellow-500 bg-yellow-500/10"
+                      : order.status === "delivered"
+                        ? "border-green-500 bg-green-500/5"
+                        : order.status === "cancelled"
+                          ? "border-red-500 bg-red-500/5"
+                          : "bg-gray-100/50"
+                  }`}
+                >
+                  {order.status}
+                </span>
               )}
-
             </div>
-
           </div>
         </div>
 
@@ -202,21 +230,16 @@ export default async function OrderDetailsPage(props: {
         {/* Details of order */}
 
         <div className="flex flex-col gap-6">
-
-          <div className="flex flex-col sm:flex-row gap-4">
-
-            {/* Customer Info */}
-
+          <div className="flex flex-col gap-4 sm:flex-row">
+            {/* Customer information */}
             <section className="flex-1 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-
               <h2 className="text-lg font-semibold text-slate-900">
-                  Customer Info
+                Customer Info
               </h2>
 
               <div className="mt-4 space-y-5">
-
+                {/* Customer name */}
                 <div>
-
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Name
                   </h3>
@@ -224,104 +247,110 @@ export default async function OrderDetailsPage(props: {
                   <p className="mt-1 font-semibold text-slate-900">
                     {order.clientName}
                   </p>
-
                 </div>
 
+                {/* Customer phone number */}
                 <div>
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Phone
                   </h3>
 
                   {(authorized) ? (
+                      // Administrators can click to copy the formatted phone number.
                     <CopyTextButton text={order.phone} name="Phone" order={false} />
                   ) : (
-                    <span className="mt-1 font-semibold text-slate-900">{order.phone}</span>
+                    // Customers see the same formatted phone number.
+                    <span className="mt-1 font-semibold text-slate-900">
+                      {formattedPhone}
+                    </span>
                   )}
                 </div>
 
+                {/* Customer email */}
                 <div>
-
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Email
                   </h3>
                   {(authorized) ? (
                     <CopyTextButton text={order.email} name="Email" order={false} />
                   ) : (
-                    <span className="mt-1 font-semibold text-slate-900">{order.email}</span>
+                    <span className="mt-1 font-semibold text-slate-900">
+                      {order.email}
+                    </span>
                   )}
-
                 </div>
-
               </div>
-
             </section>
 
-
-          {/* Customer Requests: Allergies/Restrictions and special ones */}
-
-            <section className="flex-1 rounded-xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col gap-4 min-w-[240px]">
-
+            {/* Customer requests */}
+            <section className="flex min-w-[240px] flex-1 flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-slate-900">
-                  Customer Requests
+                Customer Requests
               </h2>
-              
+
+              {/* Special requests */}
               <div className="flex flex-col gap-2 border-b-2 border-slate-300 hover:border-blue-600">
-
-                <SpecialRequestsModal requestTitle={"Special Requests"} specialRequest={order.specialRequest} isAllergy={false} />
+                <SpecialRequestsModal
+                  requestTitle="Special Requests"
+                  specialRequest={order.specialRequest}
+                  isAllergy={false}
+                />
               </div>
 
-
-              <div className="flex flex-col gap-2 bg-red-50/80 border-b-2 border-red-300 hover:border-orange-600">
-
-                <SpecialRequestsModal requestTitle={"Special Requests"} specialRequest={order.dietaryRestrictions} isAllergy={true} />
-
+              {/* Dietary restrictions and allergies */}
+              <div className="flex flex-col gap-2 border-b-2 border-red-300 bg-red-50/80 hover:border-orange-600">
+                <SpecialRequestsModal
+                  requestTitle="Dietary Restrictions"
+                  specialRequest={order.dietaryRestrictions}
+                  isAllergy={true}
+                />
               </div>
 
-              <p className="mt-1 text-[13px] text-slate-700 text-center leading-none">
-                <MousePointerClick className="h-5 w-5 hidden md:inline mr-1" strokeWidth={1.5} />
-                <FingerPrintIcon className="h-6 w-6 md:hidden inline" strokeWidth={1.5} />
-                <span>Click on any request section to see more details about it.</span>
+              <p className="mt-1 text-center text-[13px] leading-none text-slate-700">
+                <MousePointerClick
+                  className="mr-1 hidden h-5 w-5 md:inline"
+                  strokeWidth={1.5}
+                />
+
+                <FingerPrintIcon
+                  className="inline h-6 w-6 md:hidden"
+                  strokeWidth={1.5}
+                />
+
+                <span>
+                  Click on any request section to see more details about it.
+                </span>
               </p>
-
             </section>
           </div>
-        
 
-
-        {/* Event & Delivary */}
-
+          {/* Event and delivery information */}
           <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-
             <h2 className="text-lg font-semibold text-slate-900">
               Event & Delivery
             </h2>
 
-            <div className="mt-6 flex md:flex-row gap-4">
-
+            <div className="mt-6 flex gap-4 md:flex-row">
+              {/* Event date */}
               <div className="flex-1">
-
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Event Date
                 </h3>
 
                 <p className="mt-2 font-semibold text-slate-900">
-                  {new Date(order.eventDate).toLocaleDateString(
-                    "en-US",
-                    {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }
-                  )}
+                  {new Date(order.eventDate).toLocaleDateString("en-US", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </p>
-
               </div>
 
               <div className="w-px bg-slate-600" />
 
+              {/* Delivery address */}
               <div className="flex-1">
-
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                   Delivery Address
                 </h3>
@@ -334,15 +363,10 @@ export default async function OrderDetailsPage(props: {
                     </p>
                   )}
               </div>
-
             </div>
-
           </section>
-
-        {/*  */}
         </div>
       </div>
-
     </main>
   );
 }
