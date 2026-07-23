@@ -48,8 +48,9 @@ export default function CatalogImageCard({
           }
         }}
         disabled={!hasGalleryImages}
-        className={`group/image relative block h-full w-full overflow-hidden ${hasGalleryImages ? "cursor-pointer" : "cursor-default"
-          }`}
+        className={`group/image relative block h-full w-full overflow-hidden ${
+          hasGalleryImages ? "cursor-pointer" : "cursor-default"
+        }`}
         aria-label={
           hasGalleryImages
             ? `Open ${categoryName} image gallery`

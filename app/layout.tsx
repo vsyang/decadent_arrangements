@@ -19,7 +19,8 @@ export const metadata: Metadata = {
     template: "%s | Decadent Arrangements",
     default: "Decadent Arrangements",
   },
-  description: "The website is designed to showcase custom arrangements, gifts, and special occasion charcuterie boards in a clean and professional way",
+  description:
+    "The website is designed to showcase custom arrangements, gifts, and special occasion charcuterie boards in a clean and professional way",
 };
 
 export default function RootLayout({
@@ -34,11 +35,10 @@ export default function RootLayout({
     >
       <body className="bg-background text-foreground flex flex-col min-h-full">
         <Navbar />
-        <div>
-          {children}
-        </div>
+        <div>{children}</div>
         <footer className="w-full mt-auto mb-16 md:mb-0 md:border-t border-border bg-background md:py-6 py-2 text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} Decadent Arrangements. All rights reserved.
+          &copy; {new Date().getFullYear()} Decadent Arrangements. All rights
+          reserved.
         </footer>
       </body>
     </html>

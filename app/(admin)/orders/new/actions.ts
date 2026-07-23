@@ -13,9 +13,7 @@ import { Order, Product, users } from "@/db/schema";
 
 // Creates a customer-friendly order code.
 function generateOrderCode() {
-  const randomNumber = Math.floor(
-    100000 + Math.random() * 900000,
-  );
+  const randomNumber = Math.floor(100000 + Math.random() * 900000);
 
   return `DA-${randomNumber}`;
 }
@@ -31,60 +29,44 @@ export async function createOrder(formData: FormData) {
   }
 
   // Read customer information.
-  const fullName =
-    formData.get("fullName")?.toString().trim() ?? "";
+  const fullName = formData.get("fullName")?.toString().trim() ?? "";
 
-  const email =
-    formData.get("email")?.toString().trim() ?? "";
+  const email = formData.get("email")?.toString().trim() ?? "";
 
-  const formattedPhone =
-    formData.get("phone")?.toString().trim() ?? "";
+  const formattedPhone = formData.get("phone")?.toString().trim() ?? "";
 
   const phone = formattedPhone.replace(/\D/g, "");
 
   // Read the selected product ID.
-  const productId =
-    formData.get("productId")?.toString().trim() ?? "";
+  const productId = formData.get("productId")?.toString().trim() ?? "";
 
   // Read event information.
-  const eventDate =
-    formData.get("eventDate")?.toString().trim() ?? "";
+  const eventDate = formData.get("eventDate")?.toString().trim() ?? "";
 
-  const eventTime =
-    formData.get("eventTime")?.toString().trim() ?? "";
+  const eventTime = formData.get("eventTime")?.toString().trim() ?? "";
 
   const specialRequests =
     formData.get("specialRequests")?.toString().trim() ?? "";
 
   const dietaryRestrictions =
-    formData
-      .get("dietaryRestrictions")
-      ?.toString()
-      .trim() ?? "";
+    formData.get("dietaryRestrictions")?.toString().trim() ?? "";
 
   // Read delivery information.
-  const streetAddress =
-    formData.get("streetAddress")?.toString().trim() ?? "";
+  const streetAddress = formData.get("streetAddress")?.toString().trim() ?? "";
 
-  const city =
-    formData.get("city")?.toString().trim() ?? "";
+  const city = formData.get("city")?.toString().trim() ?? "";
 
-  const state =
-    formData.get("state")?.toString().trim() ?? "";
+  const state = formData.get("state")?.toString().trim() ?? "";
 
-  const postalCode =
-    formData.get("postalCode")?.toString().trim() ?? "";
+  const postalCode = formData.get("postalCode")?.toString().trim() ?? "";
 
-  const deliveryNotes =
-    formData.get("deliveryNotes")?.toString().trim() ?? "";
+  const deliveryNotes = formData.get("deliveryNotes")?.toString().trim() ?? "";
 
   // Validate the phone number.
   const phoneRegex = /^[0-9]{10}$/;
 
   if (!phoneRegex.test(phone)) {
-    throw new Error(
-      "Phone number must be exactly 10 digits.",
-    );
+    throw new Error("Phone number must be exactly 10 digits.");
   }
 
   // Make sure all required fields were submitted.
@@ -100,9 +82,7 @@ export async function createOrder(formData: FormData) {
     !state ||
     !postalCode
   ) {
-    throw new Error(
-      "Missing required order information.",
-    );
+    throw new Error("Missing required order information.");
   }
 
   // Find the product selected by the customer.
@@ -119,20 +99,14 @@ export async function createOrder(formData: FormData) {
   const selectedProduct = selectedProducts[0];
 
   if (!selectedProduct) {
-    throw new Error(
-      "The selected product could not be found.",
-    );
+    throw new Error("The selected product could not be found.");
   }
 
   // Combine the selected date and time.
-  const combinedEventDate = new Date(
-    `${eventDate}T${eventTime}`,
-  );
+  const combinedEventDate = new Date(`${eventDate}T${eventTime}`);
 
   if (Number.isNaN(combinedEventDate.getTime())) {
-    throw new Error(
-      "Invalid event date or time.",
-    );
+    throw new Error("Invalid event date or time.");
   }
 
   // Orders must be placed at least 10 days ahead.
@@ -140,35 +114,21 @@ export async function createOrder(formData: FormData) {
   today.setHours(0, 0, 0, 0);
 
   const soonestAllowedDate = new Date(today);
-  soonestAllowedDate.setDate(
-    soonestAllowedDate.getDate() + 10,
-  );
+  soonestAllowedDate.setDate(soonestAllowedDate.getDate() + 10);
 
   const selectedEventDate = new Date(eventDate);
   selectedEventDate.setHours(0, 0, 0, 0);
 
   if (selectedEventDate < soonestAllowedDate) {
-    throw new Error(
-      "Orders must be placed at least 10 days in advance.",
-    );
+    throw new Error("Orders must be placed at least 10 days in advance.");
   }
 
   // Validate the selected payment method.
   const paymentPreference =
-    formData
-      .get("paymentPreference")
-      ?.toString()
-      .trim()
-      .toLowerCase() ?? "";
+    formData.get("paymentPreference")?.toString().trim().toLowerCase() ?? "";
 
-  if (
-    !["venmo", "paypal", "zelle"].includes(
-      paymentPreference,
-    )
-  ) {
-    throw new Error(
-      "Please select a valid payment preference.",
-    );
+  if (!["venmo", "paypal", "zelle"].includes(paymentPreference)) {
+    throw new Error("Please select a valid payment preference.");
   }
 
   // Generate the readable confirmation code.
@@ -192,8 +152,7 @@ export async function createOrder(formData: FormData) {
     // Save snapshots so old orders remain accurate
     // even if the product is renamed later.
     productNameAtPurchase: selectedProduct.name,
-    productCapacityAtPurchase:
-      selectedProduct.capacity,
+    productCapacityAtPurchase: selectedProduct.capacity,
 
     specialRequests,
 
@@ -212,9 +171,7 @@ export async function createOrder(formData: FormData) {
       deliveryNotes,
     },
 
-    dietaryRestrictions: dietaryRestrictions
-      ? [dietaryRestrictions]
-      : [],
+    dietaryRestrictions: dietaryRestrictions ? [dietaryRestrictions] : [],
 
     paymentPreference,
 
@@ -249,14 +206,9 @@ export async function createOrder(formData: FormData) {
       orderCode: readableOrderCode,
     });
   } catch (error) {
-    console.error(
-      "Failed to send owner email notification:",
-      error,
-    );
+    console.error("Failed to send owner email notification:", error);
   }
 
   // Send the customer to the confirmation page.
-  redirect(
-    `/orders/new/confirmation?code=${readableOrderCode}`,
-  );
+  redirect(`/orders/new/confirmation?code=${readableOrderCode}`);
 }

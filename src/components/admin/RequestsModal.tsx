@@ -1,20 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { X } from 'lucide-react';
+import { useState } from "react";
+import { X } from "lucide-react";
 
-
-export function SpecialRequestsModal({ 
+export function SpecialRequestsModal({
   requestTitle,
   specialRequest,
   isAllergy,
- }: { 
+}: {
   requestTitle: string;
   specialRequest?: string[] | string | null;
   isAllergy: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-
 
   const renderContent = (isModalView: boolean) => {
     if (!specialRequest || specialRequest.length === 0) {
@@ -23,9 +21,18 @@ export function SpecialRequestsModal({
 
     if (Array.isArray(specialRequest)) {
       return (
-        <ul className={`list-disc list-inside ${isModalView ? 'space-y-1' : 'inline-flex gap-2'}`}>
+        <ul
+          className={`list-disc list-inside ${isModalView ? "space-y-1" : "inline-flex gap-2"}`}
+        >
           {specialRequest.map((item, index) => (
-            <li key={index} className={isModalView ? "" : "inline after:content-[','] last:after:content-none"}>
+            <li
+              key={index}
+              className={
+                isModalView
+                  ? ""
+                  : "inline after:content-[','] last:after:content-none"
+              }
+            >
               {/* This is for the preview */}
               {isModalView ? item : item}
             </li>
@@ -44,11 +51,14 @@ export function SpecialRequestsModal({
         className="flex flex-col gap-2 text-left bg-transparent border-none cursor-pointer w-full group p-2"
         type="button"
       >
-        <h3 className={`text-xs font-semibold uppercase tracking-wider ${
-          isAllergy 
-          ? "text-red-800 group-hover:text-orange-600 group-hover:bg-white"
-          : "text-slate-500 group-hover:text-blue-600 group-hover:bg-slate-100"}
-        `}>
+        <h3
+          className={`text-xs font-semibold uppercase tracking-wider ${
+            isAllergy
+              ? "text-red-800 group-hover:text-orange-600 group-hover:bg-white"
+              : "text-slate-500 group-hover:text-blue-600 group-hover:bg-slate-100"
+          }
+        `}
+        >
           {requestTitle}
         </h3>
         <div className="whitespace-pre-wrap text-s font-bold text-slate-900 leading-none line-clamp-1 w-full">
@@ -58,16 +68,14 @@ export function SpecialRequestsModal({
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          
           {/* Blur fro back things */}
-          <div 
+          <div
             className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Box for modal */}
           <div className="relative w-full max-w-md transform overflow-hidden rounded-xl bg-white p-6 text-left align-middle shadow-xl transition-all border border-slate-100 z-10 animate-in fade-in zoom-in-95 duration-200">
-            
             {/* Modal top */}
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500">

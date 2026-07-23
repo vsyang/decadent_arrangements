@@ -9,97 +9,119 @@ import { redirect } from "next/navigation";
 import { IsAdminProtection } from "../../dashboard/adminAction";
 
 export const metadata: Metadata = {
-    title: 'Orders Overview',
+  title: "Orders Overview",
 };
 
 export default async function CompletedOrdersPage() {
+  const authorized = await IsAdminProtection();
 
-    const authorized = await IsAdminProtection();
+  if (!authorized) {
+    redirect("/not-found");
+  }
 
-    if (!authorized) {
-        redirect("/not-found");
-    }
+  const orders = await fetchAllOrdersCompleted();
 
-    const orders = await fetchAllOrdersCompleted();
+  return (
+    <>
+      <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+        <Link
+          href="/dashboard"
+          className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
+        >
+          Management
+        </Link>
 
-    return (
-        <>
+        <ChevronRightIcon className="w-3 h-3" />
 
+        <Link
+          href="/orders"
+          className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
+        >
+          Orders
+        </Link>
 
-                <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+        <ChevronRightIcon className="w-3 h-3" />
 
-                    <Link
-                        href="/dashboard"
-                        className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
-                    >
-                    Management
-                    </Link>
+        <span className="text-[#6b4f3f] truncate max-w-50">Completed</span>
+      </nav>
 
-                    <ChevronRightIcon className="w-3 h-3" />
+      <div>
+        <h1 className="text-2xl font-bold text-primary">
+          Completed Orders Overview
+        </h1>
+        <p className="text-muted mt-2">Manage products orders here.</p>
 
-                    <Link
-                        href="/orders"
-                        className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
-                    >
-                    Orders
-                    </Link>
+        <p className="md:hidden">
+          Remember:{" "}
+          <span className="bg-green-600 rounded-full py-1 px-2 text-slate-100">
+            Delivered
+          </span>{" "}
+          <span className="bg-red-600 rounded-full py-1 px-2 text-slate-100">
+            Cancelled
+          </span>
+        </p>
+      </div>
 
-                    <ChevronRightIcon className="w-3 h-3" />
+      <div className="m-auto py-5">
+        <table className="w-full text-left text-sm text-slate-600">
+          <thead className="text-s uppercase text-slate-700 border-b border-slate-200">
+            <tr>
+              <th scope="col" className="md:hidden px-1 py-4"></th>
 
-                    <span className="text-[#6b4f3f] truncate max-w-50">Completed</span>
-                </nav>
+              <th
+                scope="col"
+                className="px-6 py-4 [@media(max-width:1000px)]:px-2"
+              >
+                <span className="[@media(min-width:880px)]:hidden">
+                  Order (Size)
+                </span>
+                <span className="hidden [@media(min-width:880px)]:inline">
+                  Order Code
+                </span>
+              </th>
 
-                <div>
-                    <h1 className="text-2xl font-bold text-primary">Completed Orders Overview</h1>
-                    <p className="text-muted mt-2">Manage products orders here.</p>
+              <th
+                scope="col"
+                className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden"
+              >
+                Customer Name
+              </th>
 
-                    <p className="md:hidden">Remember: <span className="bg-green-600 rounded-full py-1 px-2 text-slate-100">Delivered</span> <span className="bg-red-600 rounded-full py-1 px-2 text-slate-100">Cancelled</span></p>
-                </div>
+              <th
+                scope="col"
+                className="px-6 py-4 [@media(max-width:1000px)]:px-2"
+              >
+                <span className="md:hidden">Date</span>
+                <span className="hidden md:inline">Date of Event</span>
+              </th>
 
+              <th
+                scope="col"
+                className="md:table-cell px-6 py-4 [@media(max-width:880px)]:hidden"
+              >
+                Arrang. Size
+              </th>
 
+              <th scope="col" className="hidden md:table-cell px-6 py-4">
+                Status
+              </th>
 
-            <div className="m-auto py-5">
-                
-                <table className="w-full text-left text-sm text-slate-600">
+              <th
+                scope="col"
+                className="px-6 py-4 [@media(max-width:1000px)]:px-2 text-center"
+              >
+                Details
+              </th>
+            </tr>
+          </thead>
 
-                    <thead className="text-s uppercase text-slate-700 border-b border-slate-200">
-                    <tr>
-
-                        <th scope="col" className="md:hidden px-1 py-4"></th>
-
-                        <th scope="col" className="px-6 py-4 [@media(max-width:1000px)]:px-2">
-                            <span className="[@media(min-width:880px)]:hidden">Order (Size)</span>
-                            <span className="hidden [@media(min-width:880px)]:inline">Order Code</span>
-                        </th>
-
-                        <th scope="col" className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden">Customer Name</th>
-
-                        <th scope="col" className="px-6 py-4 [@media(max-width:1000px)]:px-2">
-                            <span className="md:hidden">Date</span>
-                            <span className="hidden md:inline">Date of Event</span>
-                        </th>
-
-                        <th scope="col" className="md:table-cell px-6 py-4 [@media(max-width:880px)]:hidden">Arrang. Size</th>
-
-                        <th scope="col" className="hidden md:table-cell px-6 py-4">Status</th>
-
-                        <th scope="col" className="px-6 py-4 [@media(max-width:1000px)]:px-2 text-center">Details</th>
-
-                    </tr>
-
-                    </thead>
-
-                    <tbody className="divide-y divide-slate-100 font-medium">
-
-                        <Suspense
-                            fallback={ <TableSkeleton rows={2} /> } 
-                            >
-                            <OrdersTableBody orders={orders} isAdmin={true} />
-                        </Suspense>
-
-                    </tbody>
-                </table>
-            </div>
-        </>
-    );
+          <tbody className="divide-y divide-slate-100 font-medium">
+            <Suspense fallback={<TableSkeleton rows={2} />}>
+              <OrdersTableBody orders={orders} isAdmin={true} />
+            </Suspense>
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
 }

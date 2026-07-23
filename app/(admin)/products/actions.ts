@@ -28,7 +28,9 @@ export async function CreateProduct(data: ProductInput) {
       description: data.description,
       capacity: data.capacity,
       price: String(data.price),
-      imageUrl: data.imageUrl || "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/coming-soon.webp",
+      imageUrl:
+        data.imageUrl ||
+        "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/coming-soon.webp",
     });
   } catch (error) {
     console.error("Database Error:", error);
@@ -41,10 +43,7 @@ export async function CreateProduct(data: ProductInput) {
   redirect("/products");
 }
 
-export async function UpdateProductById(
-  productId: string,
-  data: ProductInput,
-) {
+export async function UpdateProductById(productId: string, data: ProductInput) {
   try {
     await db
       .update(Product)
@@ -70,9 +69,7 @@ export async function UpdateProductById(
 
 export async function DeleteProductById(productId: string) {
   try {
-    await db
-      .delete(Product)
-      .where(eq(Product.id, productId));
+    await db.delete(Product).where(eq(Product.id, productId));
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to delete product.");

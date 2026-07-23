@@ -5,7 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavActionButton } from "./NavActionButton";
 import { getSessionAction } from "@/app/actions/auth";
-import { BellIcon, BookOpenIcon, EnvelopeIcon, HomeIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
+import {
+  BellIcon,
+  BookOpenIcon,
+  EnvelopeIcon,
+  HomeIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/24/outline";
 import Image from "next/image";
 import logo from "../../../app/apple-icon.png";
 
@@ -16,7 +22,7 @@ import logo from "../../../app/apple-icon.png";
 export function Navbar() {
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [hasUnread, setHasUnread] = useState<boolean>(true); 
+  const [hasUnread, setHasUnread] = useState<boolean>(true);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   useEffect(() => {
@@ -45,7 +51,10 @@ export function Navbar() {
         const session = await getSessionAction();
         setIsAuthenticated(!!session?.user);
       } catch (error) {
-        console.error("Error al determinar estado de autenticación en el Navbar:", error);
+        console.error(
+          "Error al determinar estado de autenticación en el Navbar:",
+          error,
+        );
       }
     }
     checkSession();
@@ -60,13 +69,17 @@ export function Navbar() {
     <>
       {/* DESKTOP HEADER */}
       <header
-        className={`hidden [@media(min-width:805px)]:sticky [@media(min-width:805px)]:top-0 [@media(min-width:805px)]:z-50 [@media(min-width:805px)]:block w-full transition-all duration-300 ${isScrolled
+        className={`hidden [@media(min-width:805px)]:sticky [@media(min-width:805px)]:top-0 [@media(min-width:805px)]:z-50 [@media(min-width:805px)]:block w-full transition-all duration-300 ${
+          isScrolled
             ? "border-b border-border bg-background/80 backdrop-blur shadow-sm"
             : "border-b border-transparent bg-transparent"
-          }`}
+        }`}
       >
         <div className="mx-auto flex h-16 max-w-8xl items-center justify-between px-6 [@media(min-width:900px)]:pr-16">
-          <Link href="/" className="flex gap-1 items-center text-xl font-bold tracking-tight text-primary">
+          <Link
+            href="/"
+            className="flex gap-1 items-center text-xl font-bold tracking-tight text-primary"
+          >
             <Image
               src={logo}
               alt="Decadent Arrangements Logo"
@@ -81,10 +94,11 @@ export function Navbar() {
             <Link
               href="/"
               aria-current={isActive("/") ? "page" : undefined}
-              className={`transition-colors ${isActive("/")
+              className={`transition-colors ${
+                isActive("/")
                   ? "text-primary font-bold underline underline-offset-4 decoration-2"
                   : "text-muted hover:text-foreground"
-                }`}
+              }`}
             >
               Home
             </Link>
@@ -92,10 +106,11 @@ export function Navbar() {
             <Link
               href="/catalog"
               aria-current={isActive("/catalog") ? "page" : undefined}
-              className={`transition-colors ${isActive("/catalog")
+              className={`transition-colors ${
+                isActive("/catalog")
                   ? "text-primary font-bold underline underline-offset-4 decoration-2"
                   : "text-muted hover:text-foreground"
-                }`}
+              }`}
             >
               Catalog
             </Link>
@@ -103,10 +118,11 @@ export function Navbar() {
             <Link
               href="/contact"
               aria-current={isActive("/contact") ? "page" : undefined}
-              className={`transition-colors ${isActive("/contact")
+              className={`transition-colors ${
+                isActive("/contact")
                   ? "text-primary font-bold underline underline-offset-4 decoration-2"
                   : "text-muted hover:text-foreground"
-                }`}
+              }`}
             >
               Contact
             </Link>
@@ -114,10 +130,11 @@ export function Navbar() {
             <Link
               href="/about"
               aria-current={isActive("/about") ? "page" : undefined}
-              className={`transition-colors ${isActive("/about")
+              className={`transition-colors ${
+                isActive("/about")
                   ? "text-primary font-bold underline underline-offset-4 decoration-2"
                   : "text-muted hover:text-foreground"
-                }`}
+              }`}
             >
               About Us
             </Link>
@@ -127,10 +144,11 @@ export function Navbar() {
               <Link
                 href="/notifications"
                 aria-current={isActive("/notifications") ? "page" : undefined}
-                className={`relative p-1.5 rounded-full transition-all duration-200 ${isActive("/notifications")
+                className={`relative p-1.5 rounded-full transition-all duration-200 ${
+                  isActive("/notifications")
                     ? "bg-stone-200 dark:bg-stone-700 text-stone-900 dark:text-stone-100"
                     : "text-stone-500 hover:text-stone-800 hover:bg-stone-100 dark:hover:bg-stone-800"
-                  }`}
+                }`}
                 aria-label="Notifications"
               >
                 <BellIcon className="h-5 w-5" />
@@ -150,13 +168,17 @@ export function Navbar() {
 
       {/* MOBILE TOP BRAND HEADER */}
       <header
-        className={`sticky top-0 z-50 block [@media(min-width:805px)]:hidden w-full h-14 transition-all duration-300 ${isScrolled
+        className={`sticky top-0 z-50 block [@media(min-width:805px)]:hidden w-full h-14 transition-all duration-300 ${
+          isScrolled
             ? "border-b border-border bg-background/80 backdrop-blur"
             : "border-b border-transparent bg-transparent"
-          }`}
+        }`}
       >
         <div className="flex h-14 items-center justify-between pl-2 pr-4">
-          <Link href="/" className="flex gap-1 items-center text-md font-bold tracking-tight text-primary">
+          <Link
+            href="/"
+            className="flex gap-1 items-center text-md font-bold tracking-tight text-primary"
+          >
             <Image
               src={logo}
               alt="Decadent Arrangements Logo"
@@ -171,8 +193,11 @@ export function Navbar() {
               <Link
                 href="/notifications"
                 aria-current={isActive("/notifications") ? "page" : undefined}
-                className={`relative flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-12 ${isActive("/notifications") ? "text-primary font-bold" : "text-muted hover:text-foreground"
-                  }`}
+                className={`relative flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-12 ${
+                  isActive("/notifications")
+                    ? "text-primary font-bold"
+                    : "text-muted hover:text-foreground"
+                }`}
               >
                 <BellIcon className="h-5 w-5" />
                 {hasUnread && (
@@ -193,8 +218,11 @@ export function Navbar() {
         <Link
           href="/"
           aria-current={isActive("/") ? "page" : undefined}
-          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${isActive("/") ? "text-primary font-bold scale-105" : "text-muted hover:text-foreground"
-            }`}
+          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${
+            isActive("/")
+              ? "text-primary font-bold scale-105"
+              : "text-muted hover:text-foreground"
+          }`}
         >
           <HomeIcon className="h-5 w-5" />
           <span>Home</span>
@@ -204,8 +232,11 @@ export function Navbar() {
         <Link
           href="/catalog"
           aria-current={isActive("/catalog") ? "page" : undefined}
-          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${isActive("/catalog") ? "text-primary font-bold scale-105" : "text-muted hover:text-foreground"
-            }`}
+          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${
+            isActive("/catalog")
+              ? "text-primary font-bold scale-105"
+              : "text-muted hover:text-foreground"
+          }`}
         >
           <BookOpenIcon className="h-5 w-5" />
           <span>Catalog</span>
@@ -220,8 +251,11 @@ export function Navbar() {
         <Link
           href="/contact"
           aria-current={isActive("/contact") ? "page" : undefined}
-          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${isActive("/contact") ? "text-primary font-bold scale-105" : "text-muted hover:text-foreground"
-            }`}
+          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${
+            isActive("/contact")
+              ? "text-primary font-bold scale-105"
+              : "text-muted hover:text-foreground"
+          }`}
         >
           <EnvelopeIcon className="h-5 w-5" />
           <span>Contact</span>
@@ -231,14 +265,20 @@ export function Navbar() {
         <Link
           href="/about"
           aria-current={isActive("/about") ? "page" : undefined}
-          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${isActive("/about") ? "text-primary font-bold scale-105" : "text-muted hover:text-foreground"
-            }`}
+          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${
+            isActive("/about")
+              ? "text-primary font-bold scale-105"
+              : "text-muted hover:text-foreground"
+          }`}
         >
           <InformationCircleIcon className="h-5 w-5" />
           <span>About Us</span>
         </Link>
 
-        <div id="mobile-breadcrumbs" className="text-xs text-muted font-medium" />
+        <div
+          id="mobile-breadcrumbs"
+          className="text-xs text-muted font-medium"
+        />
       </nav>
     </>
   );

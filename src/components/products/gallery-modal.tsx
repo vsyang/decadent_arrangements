@@ -148,10 +148,11 @@ export default function ImageGalleryModal({
                 key={image.id}
                 type="button"
                 onClick={() => setCurrentIndex(index)}
-                className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${currentIndex === index
+                className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${
+                  currentIndex === index
                     ? "border-[var(--color-accent)] scale-105 shadow-md"
                     : "border-transparent opacity-60 hover:opacity-100"
-                  }`}
+                }`}
                 aria-label={`View image ${index + 1}`}
               >
                 <Image
@@ -167,6 +168,6 @@ export default function ImageGalleryModal({
         )}
       </div>
     </div>,
-    document.body 
+    document.body,
   );
 }
