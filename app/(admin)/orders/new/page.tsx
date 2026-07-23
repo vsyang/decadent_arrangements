@@ -12,16 +12,13 @@ import { fetchProducts } from "@/db/queries";
 import OrderForm from "./OrderForm";
 
 // The catalog sends the selected product ID in the URL:
-// /orders/new?productId=...
 type OrderPageProps = {
   searchParams: Promise<{
     productId?: string;
   }>;
 };
 
-// This page loads the signed-in user's saved information,
-// gets the available products, and preselects the product
-// the customer chose from the public catalog.
+// This page loads the signed-in user's saved information if available
 export default async function OrderPage({ searchParams }: OrderPageProps) {
   // Get the current signed-in user.
   const session = await getServerSession(authOptions);
@@ -43,8 +40,7 @@ export default async function OrderPage({ searchParams }: OrderPageProps) {
   // Get every available product for the arrangement dropdown.
   const products = await fetchProducts();
 
-  // Make sure the product ID from the URL still exists.
-  // If it does not exist, the dropdown will start unselected.
+  // Make sure the product ID from the URL exists.
   const selectedProductExists = products.some(
     (product) => product.id === defaultProductId,
   );
