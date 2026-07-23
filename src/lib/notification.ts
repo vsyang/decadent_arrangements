@@ -69,6 +69,7 @@ export async function sendOwnerEmail({ orderCode }: { orderCode: string }) {
 // Sends email to the customer when the business owner updates the order as delivered.
 const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 const logoUrl = `${appUrl}/images/Decadentarrangements_logo.png`;
+
 export async function sendCustomerDeliveryEmail({
   customerEmail,
   customerName,
