@@ -76,8 +76,10 @@ export default async function OrderDetailsPage(props: {
         {/* Easy display of main info */}
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
 
-          <h1 className="text-2xl font-bold text-slate-900">
-            Order #{order.idReadable}
+          <h1 className="flex text-2xl font-bold text-slate-900">
+            
+            <span>Order #</span>
+            <CopyTextButton text={order.idReadable} name="Order Number" order={true} />
           </h1>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -122,6 +124,66 @@ export default async function OrderDetailsPage(props: {
           </div>
         </div>
 
+        <section className="flex-1 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+
+              <h2 className="text-lg font-semibold text-slate-900">
+                  Arrangement Details
+              </h2>
+
+              <div className="w-full grid gap-4 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] mt-4">
+
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
+                  <div>
+
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Name
+                    </h3>
+
+                    <p className="mt-1 font-semibold text-slate-900">
+                      {order.productName}
+                    </p>
+
+                  </div>
+
+                  <div>
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Capacity (Size)
+                    </h3>
+
+                    <p className="mt-1 font-semibold text-slate-900">
+                      {order.capacity} people
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
+
+                  <div>
+
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Price
+                    </h3>
+                    <p className="mt-1 font-semibold text-slate-900">
+                      ${order.price}
+                    </p>
+
+                  </div>
+
+                  <div>
+
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Payment Method
+                    </h3>
+                    <p className="mt-1 font-semibold text-slate-900 uppercase">
+                      {order.payment}
+                    </p>
+
+                  </div>
+                </div>
+              </div>
+
+            </section>
+
         {/* Details of order */}
 
         <div className="flex flex-col gap-6">
@@ -156,7 +218,7 @@ export default async function OrderDetailsPage(props: {
                   </h3>
 
                   {(authorized) ? (
-                    <CopyTextButton text={order.phone} name="Phone" />
+                    <CopyTextButton text={order.phone} name="Phone" order={false} />
                   ) : (
                     <span className="mt-1 font-semibold text-slate-900">{order.phone}</span>
                   )}
@@ -168,7 +230,7 @@ export default async function OrderDetailsPage(props: {
                     Email
                   </h3>
                   {(authorized) ? (
-                    <CopyTextButton text={order.email} name="Email" />
+                    <CopyTextButton text={order.email} name="Email" order={false} />
                   ) : (
                     <span className="mt-1 font-semibold text-slate-900">{order.email}</span>
                   )}
@@ -250,7 +312,7 @@ export default async function OrderDetailsPage(props: {
                 </h3>
 
                 {(authorized) ? (
-                    <CopyTextButton text={customerAddress} name="Delivery Address" />
+                    <CopyTextButton text={customerAddress} name="Delivery Address" order={false} />
                   ) : (
                     <p className="mt-1 font-semibold text-slate-900">
                       {customerAddress}
