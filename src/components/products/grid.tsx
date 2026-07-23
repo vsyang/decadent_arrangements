@@ -1,52 +1,54 @@
+// src/components/products/grid.tsx
 import Link from "next/link";
 import { getServerSession } from "next-auth";
+import { ShoppingBag, Users, Sparkles, ArrowRight } from "lucide-react";
 
-import {
-  fetchAllProductImages,
-  fetchProducts,
-} from "@/db/queries";
+import { fetchAllProductImages, fetchProducts } from "@/db/queries";
 import { authOptions } from "@/lib/auth";
-
 import CatalogImageCard from "./catalog-image-card";
 
-type GalleryImage = {
+export type GalleryImage = {
   id: string;
   imageUrl: string;
-  fileName: string | null;
+  fileName?: string | null;
 };
 
 export default async function ProductsGrid() {
   const session = await getServerSession(authOptions);
+  const isAuthenticated = Boolean(session?.user?.id);
 
-  // Get every product/category created by the owner.
   const products = await fetchProducts();
-
-  // Get every gallery image connected to a product.
   const storedImages = await fetchAllProductImages();
 
-  // Group images dynamically by their product ID.
-  const imagesByProduct = storedImages.reduce<
-    Record<string, GalleryImage[]>
-  >((groups, image) => {
-    if (!groups[image.productId]) {
-      groups[image.productId] = [];
-    }
+  const imagesByProduct = storedImages.reduce<Record<string, GalleryImage[]>>(
+    (groups, image) => {
+      if (!groups[image.productId]) {
+        groups[image.productId] = [];
+      }
 
-    groups[image.productId].push({
-      id: image.id,
-      imageUrl: image.imageUrl,
-      fileName: image.fileName,
-    });
+      groups[image.productId].push({
+        id: image.id,
+        imageUrl: image.imageUrl,
+        fileName: image.fileName,
+      });
 
-    return groups;
-  }, {});
+      return groups;
+    },
+    {}
+  );
 
   if (!products || products.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-slate-200 bg-[#faf7f2]/40 px-6 py-24">
-        <h3 className="text-2xl font-serif italic text-[#2e2e2e]">
-          No products available yet. Sorry.
+      <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-20 text-center shadow-sm">
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
+          <Sparkles className="h-7 w-7" />
+        </div>
+        <h3 className="font-serif text-2xl font-bold text-[var(--color-primary)]">
+          No Arrangements Available
         </h3>
+        <p className="mt-2 max-w-sm text-sm text-[var(--color-muted-foreground)]">
+          We are currently crafting new seasonal menus.
+        </p>
       </div>
     );
   }
@@ -54,16 +56,28 @@ export default async function ProductsGrid() {
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => {
-        // Get only the gallery images connected to this product.
-        const galleryImages = imagesByProduct[product.id] ?? [];
+        // 🔑 CLAVE DE LA SOLUCIÓN: Si no hay fotos secundarias, empaquetamos la foto principal
+        let galleryImages = imagesByProduct[product.id] ?? [];
+
+        if (galleryImages.length === 0 && product.imageUrl) {
+          galleryImages = [
+            {
+              id: `fallback-${product.id}`,
+              imageUrl: product.imageUrl,
+              fileName: product.name,
+            },
+          ];
+        }
+
+        const numericPrice = Number(product.price);
 
         return (
           <article
             key={product.id}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-shadow duration-300 hover:shadow-xl"
+            className="group relative flex flex-col overflow-hidden rounded-3xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           >
-            {/* Clickable product image and gallery modal */}
-            <div className="relative aspect-5/4 w-full overflow-hidden bg-[#faf7f2]">
+            {/* Visor de imágenes / Galería interactiva */}
+            <div className="relative aspect-[5/4] w-full overflow-hidden bg-[var(--color-surface)]">
               <CatalogImageCard
                 categoryName={product.name}
                 images={galleryImages}
@@ -71,69 +85,63 @@ export default async function ProductsGrid() {
               />
             </div>
 
-            {/* Product information */}
-            <div className="flex flex-grow flex-col justify-between bg-white p-5">
+            {/* Información del producto */}
+            <div className="flex flex-grow flex-col justify-between p-6">
               <div>
-                <h3 className="line-clamp-1 font-serif text-xl leading-tight text-[#2e2e2e] transition-colors group-hover:text-[#c97c5d]">
+                <h3 className="font-serif text-xl font-bold text-[var(--color-primary)] transition-colors group-hover:text-[var(--color-accent)] line-clamp-1">
                   {product.name}
                 </h3>
 
-                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#6f6f6f]">
-                  {product.description}
+                <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted-foreground)] line-clamp-2">
+                  {product.description || "Handcrafted artisanal arrangement."}
                 </p>
               </div>
 
-              <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-1">
-                {/* Price */}
+              {/* Especificaciones: Precio & Capacidad */}
+              <div className="mt-6 flex items-center justify-between border-t border-[var(--color-border-subtle)] pt-4">
                 <div className="flex flex-col text-left">
-                  <span className="text-[10px] font-bold uppercase tracking-tighter text-slate-400">
-                    Price
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-muted)]">
+                    Investment
                   </span>
-
-                  {Number(product.price) > 0 ? (
-                    <p className="text-lg font-bold text-[#2e2e2e]">
-                      ${Number(product.price).toFixed(2)}
+                  {numericPrice > 0 ? (
+                    <p className="font-serif text-lg font-bold text-[var(--color-primary)]">
+                      ${numericPrice.toFixed(2)}
                     </p>
                   ) : (
-                    <span className="font-serif italic text-slate-700">
-                      Upon request
+                    <span className="font-serif text-sm italic text-[var(--color-accent)]">
+                      Quote Upon Request
                     </span>
                   )}
                 </div>
 
-                {/* Capacity */}
                 <div className="flex flex-col text-right">
-                  <span className="text-[10px] font-bold uppercase tracking-tighter text-slate-400">
-                    Capacity
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-muted)]">
+                    Serves
                   </span>
-
-                  <p className="text-sm leading-relaxed text-[#2e2e2e]">
-                    {product.capacity === "50-plus"
-                      ? "+50"
-                      : product.capacity}{" "}
-                    people
+                  <p className="flex items-center justify-end gap-1 text-xs font-semibold text-[var(--color-foreground)]">
+                    <Users className="h-3.5 w-3.5 text-[var(--color-accent)]" />
+                    <span>
+                      {product.capacity === "50-plus" ? "50+ Guests" : `${product.capacity} Guests`}
+                    </span>
                   </p>
                 </div>
               </div>
-            </div>
 
-            {/* Order button */}
-            <div className="px-8 pb-4">
-              {!session?.user?.id ? (
+              {/* Botón CTA */}
+              <div className="mt-6 pt-1">
                 <Link
-                  href="/api/auth/signin"
-                  className="flex w-full items-center justify-center border p-2 font-serif text-xl leading-tight text-[#2e2e2e] transition-colors hover:text-[#c97c5d]"
+                  href={
+                    isAuthenticated
+                      ? `/orders/new?productId=${product.id}`
+                      : `/api/auth/signin?callbackUrl=/orders/new?productId=${product.id}`
+                  }
+                  className="group/btn flex w-full items-center justify-center gap-2 rounded-full border border-[var(--color-accent)] py-3 text-xs font-semibold uppercase tracking-wider text-[var(--color-accent)] transition-all duration-300 hover:bg-[var(--color-accent)] hover:text-white hover:shadow-md"
                 >
-                  Place Order
+                  <ShoppingBag className="h-4 w-4" />
+                  <span>Place Order</span>
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" />
                 </Link>
-              ) : (
-                <Link
-                  href={`/orders/new?productId=${product.id}`}
-                  className="flex w-full items-center justify-center border p-2 font-serif text-xl leading-tight text-[#2e2e2e] transition-colors hover:text-[#c97c5d]"
-                >
-                  Place Order
-                </Link>
-              )}
+              </div>
             </div>
           </article>
         );
@@ -141,4 +149,3 @@ export default async function ProductsGrid() {
     </div>
   );
 }
-

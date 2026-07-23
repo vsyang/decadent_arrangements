@@ -1,97 +1,122 @@
-// app/(public)/about/page.tsx
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Sparkles, Heart, Award, ShieldCheck } from "lucide-react";
 
-// Sets the title on the browser tab
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "About Us | Decadent Arrangements",
+  description: "Meet Vanessa Yang, the creative mind behind Decadent Arrangements, crafting artisanal charcuterie and bespoke culinary gifts.",
 };
 
 export default function AboutPage() {
   return (
-    // Main content of the About page
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-16 text-center">
-          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-accent">
-            Our Story
-          </p>
+    <main className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-12 md:py-20">
 
-          {/* The main heading of the About page */}
-          <h1 className="mb-5 text-4xl font-bold text-primary md:text-6xl">
+        {/* Encabezado Principal */}
+        <div className="mb-12 text-center md:mb-16">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-1.5 shadow-sm">
+            <Sparkles className="h-4 w-4 text-[var(--color-honey)]" />
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">
+              Our Story & Passion
+            </span>
+          </div>
+
+          <h1 className="mb-4 font-serif text-4xl font-extrabold text-[var(--color-primary)] sm:text-5xl md:text-6xl">
             About Decadent Arrangements
           </h1>
 
-          {/* Introduction to the business */}
-          <p className="mx-auto max-w-2xl text-lg leading-8 text-muted">
-            Thoughtfully designed arrangements created to make birthdays,
-            holidays, celebrations, and special moments even more memorable.
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--color-muted-foreground)] md:text-lg">
+            Thoughtfully designed arrangements created to transform birthdays, celebrations, holidays, and spontaneous moments into delicious, unforgettable memories.
           </p>
         </div>
 
-        {/* The two-column layout for the main content */}
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          {/* Owner Image and her perspective of why Decadent Arrangements started */}
-          <div className="relative aspect-[4/4] overflow-hidden rounded-3xl bg-primary/10">
-            <Image
-              src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/business-owner1.webp"
-              alt="Jessica, owner of Decadent Arrangements"
-              fill
-              className="object-cover"
-              sizes="(min-width: 768px) 50vw, 100vw"
-              priority
-            />
+        {/* Sección Biográfica de 2 Columnas */}
+        <div className="grid w-full items-center gap-12 lg:grid-cols-12">
+
+          {/* COLUMNA IZQUIERDA: Presentación Visual de la Creadora (5 Cols) */}
+          <div className="relative w-full lg:col-span-5 flex justify-center">
+            <div className="relative w-full max-w-md">
+              {/* Halo orgánico con gradiente Pinot Noir & Miel */}
+              <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-[var(--color-accent)] via-[var(--color-honey)] to-[var(--color-secondary)] opacity-30 blur-lg" />
+
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-2xl">
+                <Image
+                  src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/business-owner1.webp"
+                  alt="Vanessa Yang, Founder of Decadent Arrangements"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                  className="object-cover object-top filter contrast-[1.02] transition-transform duration-700 hover:scale-105"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-primary)]/80 via-transparent to-transparent" />
+              </div>
+            </div>
           </div>
 
-          {/* Biography of business from Jessica's perspective */}
-          <div>
-            <p className="mb-3 text-sm uppercase tracking-[0.3em] text-accent">
-              Meet the Owner
+          {/* COLUMNA DERECHA: Historia & Valores (7 Cols) */}
+          <div className="flex w-full flex-col lg:col-span-7">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">
+              Meet the Artist
             </p>
 
-            <h2 className="mb-6 text-3xl font-bold text-primary md:text-4xl">
-              Jessica&apos;s Perspective
+            <h2 className="mb-6 font-serif text-3xl font-extrabold text-[var(--color-primary)] sm:text-4xl">
+              Crafting Edible Works of Art
             </h2>
 
-            <div className="space-y-5 leading-7 text-muted">
+            <div className="space-y-4 text-base leading-relaxed text-[var(--color-muted-foreground)]">
               <p>
-                Decadent Arrangements was created from a love of creativity,
-                delicious treats, and thoughtful gift-giving.
+                Decadent Arrangements was born out of a genuine passion for culinary creativity, artisanal flavors, and the joy of elevated gift-giving. What started as handcrafted treats for family and friends evolved into a dedicated catering experience designed to bring people together.
               </p>
 
               <p>
-                Each arrangement is carefully designed to reflect the occasion
-                and the person receiving it. From birthdays and anniversaries to
-                holidays and meaningful surprises, every order is made with care
-                and attention to detail.
+                Every board, box, and arrangement is curated by hand using high-quality cheeses, premium cured meats, seasonal fruits, and sweet delicacies. From intimate anniversaries and milestone birthdays to grand corporate events, each order receives meticulous attention to detail.
               </p>
 
               <p>
-                Our goal is to create something beautiful, memorable, and unique
-                for every customer.
+                Our mission goes beyond serving food—we aim to deliver an authentic visual and gastronomic surprise that leaves a lasting impression on you and your guests.
               </p>
             </div>
 
-            {/* Button linking to the catalog */}
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            {/* Tarjetas de Valores y Compromiso */}
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] p-4">
+                <Heart className="mb-2 h-5 w-5 text-[var(--color-accent)]" />
+                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">Handmade Care</h3>
+                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">Tailored meticulously to your event specifications.</p>
+              </div>
+
+              <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] p-4">
+                <Award className="mb-2 h-5 w-5 text-[var(--color-honey)]" />
+                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">Fresh Ingredients</h3>
+                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">Selected daily for maximum flavor and presentation.</p>
+              </div>
+
+              <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] p-4">
+                <ShieldCheck className="mb-2 h-5 w-5 text-[var(--color-secondary)]" />
+                <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">Seamless Service</h3>
+                <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">Reliable order tracking and delivery scheduling.</p>
+              </div>
+            </div>
+
+            {/* Acciones CTA */}
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/catalog"
-                className="rounded-full bg-primary px-8 py-3 text-center font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                className="rounded-full bg-[var(--color-primary)] px-8 py-3.5 text-center font-medium text-[var(--color-primary-foreground)] shadow-md transition-all duration-300 hover:bg-[var(--color-primary-hover)] hover:shadow-lg hover:-translate-y-0.5"
               >
-                View Arrangements
+                Explore Catalog
               </Link>
 
-              {/* Button linking to the order page */}
               <Link
-                href="/order"
-                className="rounded-full border border-primary px-8 py-3 text-center font-medium text-primary transition-colors hover:bg-primary/5"
+                href="/orders/new"
+                className="rounded-full border-2 border-[var(--color-accent)] px-8 py-3.5 text-center font-medium text-[var(--color-accent)] transition-all duration-300 hover:bg-[var(--color-accent)] hover:text-white hover:shadow-md hover:-translate-y-0.5"
               >
-                Place an Order
+                Place Custom Order
               </Link>
             </div>
           </div>
+
         </div>
       </section>
     </main>

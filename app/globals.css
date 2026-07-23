@@ -1,39 +1,59 @@
 @import "tailwindcss";
 
 @theme {
-  /* Fondo e Iniciales de la App */
-  --color-background: #FDFBF7;
-  --color-foreground: #22120F;
+  /* Surface & Canvas (Lino artesanal / Papel crema) */
+  --color-background: #F9F6F0;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #F3EEE7;
+  --color-foreground: #1F1614;
 
-  /* Mapeo de Colores Semánticos del Negocio (Madera, Oliva, Vino) */
-  --color-primary: #3E2723;
-  --color-primary-foreground: #FDFBF7;
+  /* Primary: Madera Noble / Espresso (Estructura y Jerarquía) */
+  --color-primary: #2C1A14;
+  --color-primary-hover: #3E2720;
+  --color-primary-foreground: #F9F6F0;
 
-  --color-secondary: #3B4B20;
-  --color-secondary-foreground: #FDFBF7;
+  /* Secondary: Verde Oliva / Romero (Frescura Orgánica) */
+  --color-secondary: #4A5D4E;
+  --color-secondary-hover: #3A4A3E;
+  --color-secondary-foreground: #F9F6F0;
 
-  --color-accent: #6B1D2F;
-  --color-accent-foreground: #FDFBF7;
+  /* Accent: Pinot Noir / Granate Curado (Elegancia & Destacos) */
+  --color-accent: #5C1D2A;
+  --color-accent-hover: #46141F;
+  --color-accent-foreground: #F9F6F0;
 
-  /* Estados del Sistema */
-  --color-success: #2E7D32;
+  /* Warm Gold / Honey (Detalles Gourmet, Badges, CTA Secundarios) */
+  --color-honey: #D9822B;
+  --color-honey-light: #F7E9D7;
+  --color-honey-foreground: #2C1A14;
+
+  /* Estados del Sistema (Ajustados al tono cálido) */
+  --color-success: #2D6A4F;
   --color-success-foreground: #FFFFFF;
-  --color-warning: #EF6C00;
+  --color-warning: #D97706;
   --color-warning-foreground: #FFFFFF;
-  --color-danger: #C62828;
+  --color-danger: #9B2226;
   --color-danger-foreground: #FFFFFF;
 
-  /* Escala Neutra / Bordes */
-  --color-muted: #6E6765;
-  --color-muted-foreground: #0a192f;
-  --color-border: #D7D1C7;
+  /* Neutros & Bordes Finos */
+  --color-muted: #786C68;
+  --color-muted-foreground: #4A403D;
+  --color-border: #E5DDD3;
+  --color-border-subtle: #EEE8E0;
 }
 
-/* Estilos Base globales usando el nuevo estándar */
+/* Estilos Base Globales */
 @layer base {
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Selección de texto personalizada con tono Pinot Noir */
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
   }
 }
