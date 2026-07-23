@@ -3,12 +3,20 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { createOrder } from "./actions";
-// If repeat customer information is available, it will be passed to the order form so it can be prefilled.
+
+// Information for one product shown in the arrangement dropdown.
+type OrderProduct = {
+  id: string;
+  name: string;
+  capacity: string;
+  price: number;
+  imageUrl?: string | null;
+};
+
+// Saved repeat-customer information passed from the page.
 type SavedCustomer = {
   name: string;
-  // lastname: string;
   email: string;
   phone: string;
   streetAddress: string;
@@ -19,30 +27,38 @@ type SavedCustomer = {
 };
 
 type OrderFormProps = {
+  products: OrderProduct[];
+  defaultProductId?: string;
   savedCustomer?: SavedCustomer;
 };
 
-// This displays the customer order form.
-export default function OrderForm({ savedCustomer }: OrderFormProps) {
-  // Reads the arrangement size from the URL if the customer came from the catalog page.
-  const searchParams = useSearchParams();
-  const querySize = searchParams.get("arrangement") || "";
-
-  // Tracks which arrangement size the customer selected.
-  const [arrangementSize, setArrangementSize] = useState(querySize);
+// Displays the customer order form.
+export default function OrderForm({
+  products,
+  defaultProductId = "",
+  savedCustomer,
+}: OrderFormProps) {
+  // Tracks the product selected by the customer.
+  const [selectedProductId, setSelectedProductId] = useState(defaultProductId);
 
   // Tracks the customer's phone number.
   const [phone, setPhone] = useState(savedCustomer?.phone ?? "");
 
-  // Checks if the customer selected the table arrangement option.
-  const isTableArrangement = arrangementSize === "50-plus";
+  // Find the complete product that matches the selected ID.
+  const selectedProduct = products.find(
+    (product) => product.id === selectedProductId,
+  );
 
-  // Calculates the soonest event date allowed. Customers must order at least 10 days in advance.
+  // Table arrangements require a consultation instead of the normal online order process.
+  const isTableArrangement = selectedProduct?.capacity === "50-plus";
+
+  // Customers must place an order at least 10 days ahead.
   const today = new Date();
   const soonestAllowedDate = new Date(today);
+
   soonestAllowedDate.setDate(today.getDate() + 10);
 
-  // Formats the date as YYYY-MM-DD.
+  // Format the minimum date as YYYY-MM-DD for the date input.
   const minimumEventDate = soonestAllowedDate.toISOString().split("T")[0];
 
   return (
@@ -52,66 +68,69 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
 
       {/* Main order form */}
       <form action={createOrder} className="space-y-6">
-        {/* Customer information section */}
-        <div className="rounded-lg border border-[#807973]/30 bg-[#ffffff] p-6 shadow-sm">
+        {/* Customer information */}
+        <div className="rounded-lg border border-[#807973]/30 bg-white p-6 shadow-sm">
           <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
             Customer Information
           </h3>
 
           {/* Customer full name */}
           <div className="mb-4">
-            <label className="mb-1 block font-medium text-[#545454]">
+            <label
+              htmlFor="fullName"
+              className="mb-1 block font-medium text-[#545454]"
+            >
               Full Name
             </label>
+
             <input
+              id="fullName"
               type="text"
               name="fullName"
               required
               defaultValue={savedCustomer?.name ?? ""}
-              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
           </div>
-          {/* <div className="mb-4">
-            <label className="mb-1 block font-medium text-[#545454]">
-              Last Name
-            </label>
-            <input
-              type="text"
-              name="lastname"
-              required
-              defaultValue={savedCustomer?.lastname ?? ""}
-              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
-            />
-          </div> */}
 
           {/* Customer email */}
           <div className="mb-4">
-            <label className="mb-1 block font-medium text-[#545454]">
+            <label
+              htmlFor="email"
+              className="mb-1 block font-medium text-[#545454]"
+            >
               Email
             </label>
+
             <input
+              id="email"
               type="email"
               name="email"
               required
               defaultValue={savedCustomer?.email ?? ""}
-              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
           </div>
 
           {/* Customer phone number */}
           <div className="mb-4">
-            <label className="mb-1 block font-medium text-[#545454]">
+            <label
+              htmlFor="phone"
+              className="mb-1 block font-medium text-[#545454]"
+            >
               Phone Number
             </label>
+
             <input
+              id="phone"
               type="text"
               name="phone"
               value={phone}
               onChange={(event) => {
-                // Removes anything that is not a number.
+                // Remove everything except numbers.
                 const numbersOnly = event.target.value.replace(/\D/g, "");
 
-                // Limits the phone number to 10 digits.
+                // Limit the number to 10 digits.
                 setPhone(numbersOnly.slice(0, 10));
               }}
               required
@@ -119,40 +138,75 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
               pattern="[0-9]{10}"
               maxLength={10}
               placeholder="Enter 10 digit phone number"
-              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
           </div>
         </div>
 
-        {/* Arrangement information section */}
-        <div className="rounded-lg border border-[#807973]/30 bg-[#ffffff] p-6 shadow-sm">
+        {/* Arrangement information */}
+        <div className="rounded-lg border border-[#807973]/30 bg-white p-6 shadow-sm">
           <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
             Arrangement Information
           </h3>
 
-          {/* Arrangement size dropdown */}
+          {/* Product dropdown */}
           <div className="mb-4">
-            <label className="mb-1 block font-medium text-[#545454]">
-              Arrangement Size
+            <label
+              htmlFor="productId"
+              className="mb-1 block font-medium text-[#545454]"
+            >
+              Arrangement
             </label>
+
             <select
-              name="arrangementSize"
-              value={arrangementSize}
-              onChange={(event) => setArrangementSize(event.target.value)}
+              id="productId"
+              name="productId"
+              value={selectedProductId}
+              onChange={(event) => setSelectedProductId(event.target.value)}
               required
-              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+              className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             >
               <option value="" disabled>
-                Select a size
+                Select an arrangement
               </option>
-              <option value="10-20">10-20 people</option>
-              <option value="20-30">20-30 people</option>
-              <option value="30-40">30-40 people</option>
-              <option value="50-plus">Table arrangement, 50+ people</option>
+
+              {/* Products come directly from the database. */}
+              {products.map((product) => (
+                <option key={product.id} value={product.id}>
+                  {product.name} —{" "}
+                  {product.capacity === "50-plus"
+                    ? "50+ people"
+                    : `${product.capacity} people`}
+                </option>
+              ))}
             </select>
           </div>
 
-          {/* If table arrangement is selected, show consultation message instead of normal order fields */}
+          {/* Show information about the currently selected product. */}
+          {selectedProduct && (
+            <div className="mb-4 rounded-md bg-slate-50 p-4 text-sm">
+              <p>
+                <span className="font-semibold">Selected Product:</span>{" "}
+                {selectedProduct.name}
+              </p>
+
+              <p className="mt-1">
+                <span className="font-semibold">Capacity:</span>{" "}
+                {selectedProduct.capacity === "50-plus"
+                  ? "50+ people"
+                  : `${selectedProduct.capacity} people`}
+              </p>
+
+              <p className="mt-1">
+                <span className="font-semibold">Price:</span>{" "}
+                {selectedProduct.price > 0
+                  ? `$${Number(selectedProduct.price).toFixed(2)}`
+                  : "Upon request"}
+              </p>
+            </div>
+          )}
+
+          {/* Table arrangements require direct consultation with owner. */}
           {isTableArrangement ? (
             <div className="mt-6 rounded-lg border border-[#03989e]/40 bg-[#03989e]/10 p-5">
               <h4 className="mb-2 text-xl font-semibold text-[#545454]">
@@ -169,25 +223,30 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
 
               <a
                 href="mailto:decadentarrangements2023@gmail.com?subject=Table%20Arrangement%20Consultation%20Request&body=Hello%20Decadent%20Arrangements%2C%0A%0AI%20am%20interested%20in%20a%20table%20arrangement%20for%2050%2B%20people.%20Please%20contact%20me%20to%20discuss%20customization%2C%20pricing%2C%20and%20delivery.%0A%0AThank%20you!"
-                className="inline-block rounded-md bg-[#03989e] px-5 py-3 font-semibold text-[#ffffff] hover:opacity-90"
+                className="inline-block rounded-md bg-[#03989e] px-5 py-3 font-semibold text-white hover:opacity-90"
               >
                 Email Decadent Arrangements
               </a>
             </div>
           ) : (
             <>
-              {/* Event date and time fields */}
+              {/* Event date and time */}
               <div className="grid gap-8 md:grid-cols-2">
                 <div className="mb-4">
-                  <label className="mb-1 block font-medium text-[#545454]">
+                  <label
+                    htmlFor="eventDate"
+                    className="mb-1 block font-medium text-[#545454]"
+                  >
                     Event Date
                   </label>
+
                   <input
+                    id="eventDate"
                     type="date"
                     name="eventDate"
                     min={minimumEventDate}
                     required
-                    className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   />
                 </div>
 
@@ -195,94 +254,167 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                   <label className="mb-1 block font-medium text-[#545454]">
                     Event Time
                   </label>
-                  <input
-                    type="time"
-                    name="eventTime"
-                    required
-                    className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
-                  />
+
+                  <div className="grid grid-cols-3 gap-3">
+                    {/* Hour */}
+                    <select
+                      name="eventHour"
+                      required
+                      defaultValue=""
+                      className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    >
+                      <option value="" disabled>
+                        Hour
+                      </option>
+
+                      {Array.from({ length: 12 }, (_, index) => {
+                        const hour = index + 1;
+
+                        return (
+                          <option key={hour} value={hour}>
+                            {hour}
+                          </option>
+                        );
+                      })}
+                    </select>
+
+                    {/* Minutes */}
+                    <select
+                      name="eventMinute"
+                      required
+                      defaultValue=""
+                      className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    >
+                      <option value="" disabled>
+                        Minutes
+                      </option>
+
+                      <option value="00">00</option>
+                      <option value="15">15</option>
+                      <option value="30">30</option>
+                      <option value="45">45</option>
+                    </select>
+
+                    {/* AM / PM */}
+                    <select
+                      name="eventPeriod"
+                      required
+                      defaultValue=""
+                      className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    >
+                      <option value="" disabled>
+                        AM/PM
+                      </option>
+
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
               {/* Special requests */}
               <div className="mb-4">
-                <label className="mb-1 block font-medium text-[#545454]">
+                <label
+                  htmlFor="specialRequests"
+                  className="mb-1 block font-medium text-[#545454]"
+                >
                   Special Requests
                 </label>
+
                 <textarea
+                  id="specialRequests"
                   name="specialRequests"
                   rows={4}
                   placeholder="Colors, theme, or other details."
-                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                 />
               </div>
 
               {/* Dietary restrictions */}
               <div className="mb-4">
-                <label className="mb-1 block font-medium text-[#545454]">
+                <label
+                  htmlFor="dietaryRestrictions"
+                  className="mb-1 block font-medium text-[#545454]"
+                >
                   Dietary Restrictions
                 </label>
+
                 <textarea
+                  id="dietaryRestrictions"
                   name="dietaryRestrictions"
                   rows={4}
                   placeholder="Any dietary restrictions or allergies. If none, type 'None'."
                   required
-                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                 />
               </div>
             </>
           )}
         </div>
 
-        {/* Only show delivery, payment, and submit button if table arrangement is not selected */}
+        {/* Hide the rest of the order form for consultation products. */}
         {!isTableArrangement && (
           <>
-            {/* Delivery information section */}
-            <div className="rounded-lg border border-[#807973]/30 bg-[#ffffff] p-6 shadow-sm">
+            {/* Delivery information */}
+            <div className="rounded-lg border border-[#807973]/30 bg-white p-6 shadow-sm">
               <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
                 Delivery Information
               </h3>
 
               {/* Street address */}
               <div className="mb-4">
-                <label className="mb-1 block font-medium text-[#545454]">
+                <label
+                  htmlFor="streetAddress"
+                  className="mb-1 block font-medium text-[#545454]"
+                >
                   Street Address
                 </label>
+
                 <input
+                  id="streetAddress"
                   type="text"
                   name="streetAddress"
                   required
                   defaultValue={savedCustomer?.streetAddress ?? ""}
-                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                 />
               </div>
 
-              {/* City, state, and zip code */}
+              {/* City, state, and ZIP */}
               <div className="grid gap-4 md:grid-cols-3">
-                {/* City */}
                 <div className="mb-4">
-                  <label className="mb-1 block font-medium text-[#545454]">
+                  <label
+                    htmlFor="city"
+                    className="mb-1 block font-medium text-[#545454]"
+                  >
                     City
                   </label>
+
                   <input
+                    id="city"
                     type="text"
                     name="city"
                     required
                     defaultValue={savedCustomer?.city ?? ""}
-                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   />
                 </div>
 
-                {/* State dropdown */}
                 <div className="mb-4">
-                  <label className="mb-1 block font-medium text-[#545454]">
+                  <label
+                    htmlFor="state"
+                    className="mb-1 block font-medium text-[#545454]"
+                  >
                     State
                   </label>
+
                   <select
+                    id="state"
                     name="state"
                     required
                     defaultValue={savedCustomer?.state ?? ""}
-                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   >
                     <option value="">Select a state</option>
                     <option value="AL">AL</option>
@@ -338,38 +470,47 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                   </select>
                 </div>
 
-                {/* Zip code */}
                 <div className="mb-4">
-                  <label className="mb-1 block font-medium text-[#545454]">
+                  <label
+                    htmlFor="postalCode"
+                    className="mb-1 block font-medium text-[#545454]"
+                  >
                     Zip Code
                   </label>
+
                   <input
+                    id="postalCode"
                     type="text"
                     name="postalCode"
                     required
                     defaultValue={savedCustomer?.postalCode ?? ""}
-                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                    className="h-10 w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                   />
                 </div>
               </div>
 
               {/* Delivery notes */}
               <div className="mb-4">
-                <label className="mb-1 block font-medium text-[#545454]">
+                <label
+                  htmlFor="deliveryNotes"
+                  className="mb-1 block font-medium text-[#545454]"
+                >
                   Delivery Notes
                 </label>
+
                 <textarea
+                  id="deliveryNotes"
                   name="deliveryNotes"
                   rows={3}
                   defaultValue={savedCustomer?.deliveryNotes ?? ""}
                   placeholder="Apartment number, gate code, or drop-off instructions."
-                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-[#000000] placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
+                  className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black placeholder:text-[#807973] focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
                 />
               </div>
             </div>
 
-            {/* Payment preference section */}
-            <div className="rounded-lg border border-[#807973]/30 bg-[#ffffff] p-6 shadow-sm">
+            {/* Payment preference */}
+            <div className="rounded-lg border border-[#807973]/30 bg-white p-6 shadow-sm">
               <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
                 Payment Preference
               </h3>
@@ -380,7 +521,6 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
               </p>
 
               <div className="space-y-3">
-                {/* Venmo option */}
                 <label className="flex items-center gap-3 rounded-md border border-[#807973]/30 p-4 text-[#545454] hover:border-[#03989e]/60">
                   <input
                     type="radio"
@@ -389,10 +529,10 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                     required
                     className="accent-[#03989e]"
                   />
+
                   <span className="font-medium">Venmo</span>
                 </label>
 
-                {/* PayPal option */}
                 <label className="flex items-center gap-3 rounded-md border border-[#807973]/30 p-4 text-[#545454] hover:border-[#03989e]/60">
                   <input
                     type="radio"
@@ -401,10 +541,10 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                     required
                     className="accent-[#03989e]"
                   />
+
                   <span className="font-medium">PayPal</span>
                 </label>
 
-                {/* Zelle option */}
                 <label className="flex items-center gap-3 rounded-md border border-[#807973]/30 p-4 text-[#545454] hover:border-[#03989e]/60">
                   <input
                     type="radio"
@@ -413,18 +553,18 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                     required
                     className="accent-[#03989e]"
                   />
+
                   <span className="font-medium">Zelle</span>
                 </label>
               </div>
             </div>
 
-            {/* Payment notice section */}
+            {/* Payment confirmation */}
             <div className="rounded-lg border border-[#03989e]/40 bg-[#03989e]/10 p-6 shadow-sm">
               <h3 className="mb-4 text-2xl font-semibold text-[#545454]">
                 Payment Notice
               </h3>
 
-              {/* Customer must confirm payment requirement before submitting */}
               <label className="flex gap-5 text-[#545454]">
                 <input
                   type="checkbox"
@@ -432,6 +572,7 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
                   required
                   className="mt-1 accent-[#03989e]"
                 />
+
                 <span>
                   I understand that my order will not begin until payment is
                   received.
@@ -439,10 +580,10 @@ export default function OrderForm({ savedCustomer }: OrderFormProps) {
               </label>
             </div>
 
-            {/* Submit button */}
+            {/* Submit order */}
             <button
               type="submit"
-              className="rounded-md bg-[#03989e] px-6 py-3 font-semibold text-[#ffffff] hover:opacity-90"
+              className="rounded-md bg-[#03989e] px-6 py-3 font-semibold text-white hover:opacity-90"
             >
               Submit Order
             </button>
