@@ -1,8 +1,6 @@
-// app/page.tsx
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { HeroParallax } from "@/components/home/HeroParallax";
-import Link from "next/link";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -10,8 +8,10 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-[var(--color-background)] text-[var(--color-foreground)] overflow-hidden">
+      {/* Hero Section con Paralaje e Interacciones */}
       <HeroParallax isAuthenticated={isAuthenticated} />
 
+      {/* Feature Showcase: Elevando la percepción de la marca */}
       <section className="relative z-20 border-t border-[var(--color-border)] bg-[var(--color-surface)] py-20 px-6">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
