@@ -54,7 +54,7 @@ export default function ContactPage() {
                       Order Lead Time
                     </h4>
                     <p className="text-xs sm:text-sm font-medium text-stone-100">
-                      24–48 hours advance booking recommended
+                      10 days advance booking recommended
                     </p>
                   </div>
                 </div>

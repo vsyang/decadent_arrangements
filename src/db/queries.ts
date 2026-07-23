@@ -30,7 +30,15 @@ export async function fetchProducts(): Promise<ProductRecord[]> {
         imageUrl: Product.imageUrl,
       })
       .from(Product)
-      .orderBy(asc(Product.price));
+      .orderBy(sql<number>`
+        CAST(
+          SUBSTRING(${Product.capacity} FROM '^[0-9]+')
+          AS INTEGER
+        )
+      `,
+      // If two products start with the same number, sort them alphabetically by name.
+      asc(Product.name),
+      );
 
     return data as ProductRecord[];
   } catch (error) {
