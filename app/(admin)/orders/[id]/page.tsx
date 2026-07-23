@@ -124,6 +124,7 @@ export default async function OrderDetailsPage(props: {
           </div>
         </div>
 
+        {/* Arrangement Details */}
         <section className="flex-1 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
 
               <h2 className="text-lg font-semibold text-slate-900">
@@ -180,6 +181,20 @@ export default async function OrderDetailsPage(props: {
 
                   </div>
                 </div>
+              </div>
+
+              {/* Delivery Notes */}
+
+              <div>
+
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Delivery Notes
+                </h3>
+
+                <p className="mt-1 font-semibold text-slate-900">
+                  {order.address.deliveryNotes}
+                </p>
+
               </div>
 
             </section>
