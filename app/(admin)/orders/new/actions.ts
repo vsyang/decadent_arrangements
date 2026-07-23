@@ -2,8 +2,6 @@
 
 "use server";
 
-// This server action validates and saves a customer order.
-
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { eq } from "drizzle-orm";
@@ -13,7 +11,7 @@ import { sendOwnerEmail } from "@/lib/notification";
 import { db } from "@/db";
 import { Order, Product, users } from "@/db/schema";
 
-// Creates a customer-friendly order code such as DA-123456.
+// Creates a customer-friendly order code.
 function generateOrderCode() {
   const randomNumber = Math.floor(
     100000 + Math.random() * 900000,
@@ -39,8 +37,10 @@ export async function createOrder(formData: FormData) {
   const email =
     formData.get("email")?.toString().trim() ?? "";
 
-  const phone =
+  const formattedPhone =
     formData.get("phone")?.toString().trim() ?? "";
+
+  const phone = formattedPhone.replace(/\D/g, "");
 
   // Read the selected product ID.
   const productId =

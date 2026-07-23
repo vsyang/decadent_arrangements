@@ -41,8 +41,24 @@ export default function OrderForm({
   // Tracks the product selected by the customer.
   const [selectedProductId, setSelectedProductId] = useState(defaultProductId);
 
-  // Tracks the customer's phone number.
-  const [phone, setPhone] = useState(savedCustomer?.phone ?? "");
+  // Tracks and formats the customer's phone number.
+  function formatPhoneNumber(value: string) {
+    const digits = value.replace(/\D/g, "").slice(0, 10);
+
+    if (digits.length <= 3) {
+      return digits;
+    }
+
+    if (digits.length <= 6) {
+      return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+    }
+
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  const [phone, setPhone] = useState(
+    formatPhoneNumber(savedCustomer?.phone ?? ""),
+  );
 
   // Find the complete product that matches the selected ID.
   const selectedProduct = products.find(
@@ -123,21 +139,17 @@ export default function OrderForm({
 
             <input
               id="phone"
-              type="text"
+              type="tel"
               name="phone"
               value={phone}
               onChange={(event) => {
-                // Remove everything except numbers.
-                const numbersOnly = event.target.value.replace(/\D/g, "");
-
-                // Limit the number to 10 digits.
-                setPhone(numbersOnly.slice(0, 10));
+                setPhone(formatPhoneNumber(event.target.value));
               }}
               required
               inputMode="numeric"
-              pattern="[0-9]{10}"
-              maxLength={10}
-              placeholder="Enter 10 digit phone number"
+              maxLength={12}
+              placeholder="123-456-7890"
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
           </div>
@@ -295,7 +307,6 @@ export default function OrderForm({
                       <option value="45">45</option>
                     </select>
 
-                    {/* AM / PM */}
                     <select
                       name="eventPeriod"
                       required
