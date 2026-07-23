@@ -4,6 +4,12 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
+import { Great_Vibes } from "next/font/google";
+
+const greatVibes = Great_Vibes({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 // Homepage products.
 const featuredArrangements = [
@@ -85,7 +91,7 @@ export default async function Home() {
 
         <div className="relative mx-auto grid min-h-[720px] max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:px-10">
           {/* Hero text */}
-          <div className="text-center lg:text-left">
+          <div className="text-center">
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-[#807973] sm:text-sm">
               Custom gifts • Sweet treats • Elegant arrangements
             </p>
@@ -93,7 +99,9 @@ export default async function Home() {
             <h1 className="mb-6 text-5xl font-semibold leading-[1.05] text-[#545454] sm:text-6xl lg:text-7xl">
               Thoughtful Gifts
               <span className="block">Made for Every</span>
-              <span className="mt-2 block font-serif italic text-[#007C91]">
+              <span
+                className={`${greatVibes.className} mt-2 block origin-center scale-x-185 text-[#007C91] text-6xl sm:text-7xl lg:text-8xl`}
+              >
                 Celebration
               </span>
             </h1>
