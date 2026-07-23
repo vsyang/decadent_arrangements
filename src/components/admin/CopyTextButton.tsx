@@ -3,7 +3,16 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-export function CopyTextButton({ text, name }: { text: string; name: string }) {
+export function CopyTextButton({ 
+  text,
+  name,
+  order,
+ } : { 
+  text: string;
+  name: string;
+  order: boolean;
+}) {
+
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -20,7 +29,7 @@ export function CopyTextButton({ text, name }: { text: string; name: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="mt-1 flex items-center gap-2 text-blue-600 hover:underline bg-transparent border-none cursor-pointer"
+      className="flex items-center text-left gap-2 text-blue-600 hover:underline bg-transparent border-none cursor-pointer"
       title={`Copy ${name}`}
     >
       {copied ? (
@@ -30,7 +39,7 @@ export function CopyTextButton({ text, name }: { text: string; name: string }) {
         </>
       ) : (
         <>
-          <Copy className="w-4 h-4" />
+          { (!order) && <Copy className="w-4 h-4" />}
           <span>{text}</span>
         </>
       )}
