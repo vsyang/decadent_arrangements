@@ -90,7 +90,7 @@ export default function AboutPage() {
                 <ShieldCheck className="mb-2 h-5 w-5 text-[var(--color-secondary)]" />
                 <h3 className="font-serif text-sm font-bold text-[var(--color-primary)]">Seamless Service</h3>
                 <p className="mt-1 text-xs text-[var(--color-muted-foreground)]">Reliable order tracking and delivery scheduling.</p>
-              </div>
+              </div>git rebase --continue
             </div>
 
             {/* CTA */}
