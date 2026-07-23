@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom"; // 👈 Importamos createPortal
 
 type GalleryImage = {
   id: string;
@@ -26,34 +27,26 @@ export default function ImageGalleryModal({
   onClose,
 }: ImageGalleryModalProps) {
   const [currentIndex, setCurrentIndex] = useState(startingImageIndex);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Close the modal with Escape and navigate with arrow keys.
   useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        onClose();
-      }
-
+      if (event.key === "Escape") onClose();
       if (event.key === "ArrowLeft") {
-        setCurrentIndex((previousIndex) =>
-          previousIndex === 0 ? images.length - 1 : previousIndex - 1,
-        );
+        setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
       }
-
       if (event.key === "ArrowRight") {
-        setCurrentIndex((previousIndex) =>
-          previousIndex === images.length - 1 ? 0 : previousIndex + 1,
-        );
+        setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
       }
     }
 
     document.addEventListener("keydown", handleKeyDown);
-
-    // Prevent the page behind the modal from scrolling.
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -62,63 +55,56 @@ export default function ImageGalleryModal({
     };
   }, [isOpen, images.length, onClose]);
 
-  if (!isOpen || images.length === 0) {
+  if (!isOpen || !isMounted || images.length === 0) {
     return null;
   }
 
   const currentImage = images[currentIndex];
 
   function showPreviousImage() {
-    setCurrentIndex((previousIndex) =>
-      previousIndex === 0 ? images.length - 1 : previousIndex - 1,
-    );
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   }
 
   function showNextImage() {
-    setCurrentIndex((previousIndex) =>
-      previousIndex === images.length - 1 ? 0 : previousIndex + 1,
-    );
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   }
 
   function closeModal() {
-    // Reset the gallery before closing it.
     setCurrentIndex(startingImageIndex);
     onClose();
   }
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-label={`${categoryName} image gallery`}
       onClick={closeModal}
     >
       <div
-        className="relative w-full max-w-5xl rounded-2xl bg-background p-4 shadow-2xl md:p-6"
+        className="relative w-full max-w-4xl rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-5 sm:p-8 shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
-        {/* Close button */}
         <button
           type="button"
           onClick={closeModal}
-          className="absolute right-3 top-3 z-20 rounded-full bg-background/90 p-2 text-foreground shadow transition hover:scale-105"
+          className="absolute right-4 top-4 z-20 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] p-2 text-[var(--color-foreground)] shadow-md transition-transform hover:scale-110 active:scale-95"
           aria-label="Close image gallery"
         >
-          <X className="h-6 w-6" />
+          <X className="h-5 w-5" />
         </button>
 
-        {/* Category heading */}
-        <div className="mb-4 pr-12">
-          <h2 className="text-2xl font-bold text-primary">{categoryName}</h2>
-
-          <p className="text-sm text-muted">
-            Image {currentIndex + 1} of {images.length}
+        <div className="mb-4 pr-10">
+          <h2 className="font-serif text-2xl font-bold text-[var(--color-primary)] sm:text-3xl">
+            {categoryName}
+          </h2>
+          <p className="text-xs font-semibold uppercase tracking-wider text-[var(--color-accent)]">
+            Photo {currentIndex + 1} of {images.length}
           </p>
         </div>
 
-        {/* Main image */}
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-muted/20">
+        <div className="relative aspect-[4/3] max-h-[60vh] w-full overflow-hidden rounded-2xl bg-[var(--color-surface)]">
           <Image
             src={currentImage.imageUrl}
             alt={
@@ -127,35 +113,34 @@ export default function ImageGalleryModal({
                 : `${categoryName} arrangement ${currentIndex + 1}`
             }
             fill
-            sizes="(max-width: 768px) 100vw, 900px"
+            sizes="(max-width: 1024px) 100vw, 1000px"
             className="object-contain"
+            priority
           />
 
-          {/* Only show arrows when there is more than one image. */}
           {images.length > 1 && (
             <>
               <button
                 type="button"
                 onClick={showPreviousImage}
-                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/90 p-2 shadow transition hover:scale-105"
+                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/90 backdrop-blur-sm p-2 text-[var(--color-foreground)] shadow-lg transition-transform hover:scale-110 active:scale-95"
                 aria-label="View previous image"
               >
-                <ChevronLeft className="h-7 w-7" />
+                <ChevronLeft className="h-6 w-6" />
               </button>
 
               <button
                 type="button"
                 onClick={showNextImage}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/90 p-2 shadow transition hover:scale-105"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/90 backdrop-blur-sm p-2 text-[var(--color-foreground)] shadow-lg transition-transform hover:scale-110 active:scale-95"
                 aria-label="View next image"
               >
-                <ChevronRight className="h-7 w-7" />
+                <ChevronRight className="h-6 w-6" />
               </button>
             </>
           )}
         </div>
 
-        {/* Thumbnail selection */}
         {images.length > 1 && (
           <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
             {images.map((image, index) => (
@@ -163,18 +148,17 @@ export default function ImageGalleryModal({
                 key={image.id}
                 type="button"
                 onClick={() => setCurrentIndex(index)}
-                className={`relative h-20 w-20 flex-none overflow-hidden rounded-lg border-2 transition ${
-                  currentIndex === index
-                    ? "border-primary"
-                    : "border-transparent opacity-70 hover:opacity-100"
-                }`}
+                className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${currentIndex === index
+                    ? "border-[var(--color-accent)] scale-105 shadow-md"
+                    : "border-transparent opacity-60 hover:opacity-100"
+                  }`}
                 aria-label={`View image ${index + 1}`}
               >
                 <Image
                   src={image.imageUrl}
                   alt=""
                   fill
-                  sizes="80px"
+                  sizes="64px"
                   className="object-cover"
                 />
               </button>
@@ -182,6 +166,7 @@ export default function ImageGalleryModal({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body 
   );
 }

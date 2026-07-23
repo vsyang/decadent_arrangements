@@ -1,11 +1,11 @@
+// src/components/products/catalog-image-card.tsx
 "use client";
 
 import Image from "next/image";
 import { useState } from "react";
-
 import ImageGalleryModal from "./gallery-modal";
 
-type GalleryImage = {
+export type GalleryImage = {
   id: string;
   imageUrl: string;
   fileName?: string | null;
@@ -24,20 +24,18 @@ export default function CatalogImageCard({
 }: CatalogImageCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Use the first gallery image when available. Otherwise, use the original image saved on the product.
   const previewImageUrl = images[0]?.imageUrl ?? fallbackImageUrl;
 
   if (!previewImageUrl) {
     return (
-      <div className="flex h-full items-center justify-center">
-        <span className="text-xs font-serif italic text-slate-400">
+      <div className="flex h-full items-center justify-center bg-[var(--color-surface)]">
+        <span className="font-serif text-xs italic text-[var(--color-muted)]">
           No image available
         </span>
       </div>
     );
   }
 
-  // The modal only opens when gallery images exist.
   const hasGalleryImages = images.length > 0;
 
   return (
@@ -50,9 +48,8 @@ export default function CatalogImageCard({
           }
         }}
         disabled={!hasGalleryImages}
-        className={`group/image relative block h-full w-full ${
-          hasGalleryImages ? "cursor-pointer" : "cursor-default"
-        }`}
+        className={`group/image relative block h-full w-full overflow-hidden ${hasGalleryImages ? "cursor-pointer" : "cursor-default"
+          }`}
         aria-label={
           hasGalleryImages
             ? `Open ${categoryName} image gallery`
@@ -63,13 +60,13 @@ export default function CatalogImageCard({
           src={previewImageUrl}
           alt={categoryName}
           fill
-          className="object-cover transition-transform duration-500 group-hover/image:scale-125"
+          className="object-cover transition-transform duration-700 ease-out group-hover/image:scale-110"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
         />
 
         {hasGalleryImages && (
-          <span className="absolute bottom-3 right-3 rounded-full bg-black/70 px-3 py-1 text-xs text-white shadow">
-            View {images.length} {images.length === 1 ? "image" : "images"}
+          <span className="absolute bottom-3 right-3 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-medium text-white shadow-lg border border-white/20">
+            View {images.length} {images.length === 1 ? "photo" : "photos"}
           </span>
         )}
       </button>
