@@ -3,16 +3,15 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-export function CopyTextButton({ 
+export function CopyTextButton({
   text,
   name,
   order,
- } : { 
+}: {
   text: string;
   name: string;
   order: boolean;
 }) {
-
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -39,7 +38,7 @@ export function CopyTextButton({
         </>
       ) : (
         <>
-          { (!order) && <Copy className="w-4 h-4" />}
+          {!order && <Copy className="w-4 h-4" />}
           <span>{text}</span>
         </>
       )}
