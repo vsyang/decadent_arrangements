@@ -317,7 +317,7 @@ export async function fetchAllOrdersByCustomerIdFiltered(
       .limit(itemsPerPage)
       .offset(offset);
 
-    const [{ count }] = await db
+      const countResult = await db
       .select({
         count: sql<number>`count(*)`,
       })
@@ -327,12 +327,11 @@ export async function fetchAllOrdersByCustomerIdFiltered(
           eq(Order.userId, customerId),
           ilike(Order.readableOrderCode, `%${query}%`),
         ),
-      )
-      .orderBy(asc(Order.eventDate))
-      .limit(itemsPerPage)
-      .offset(offset);
+      );
 
-    return { data, total: Number(count) };
+      const totalCount = countResult[0]?.count ?? 0;
+
+    return { data, total: Number(totalCount) };
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch orders data.");
@@ -371,7 +370,7 @@ export async function fetchAllOrdersIncompletedFiltered(
       .limit(itemsPerPage)
       .offset(offset);
 
-    const [{ count }] = await db
+      const countResult = await db
       .select({
         count: sql<number>`count(*)`,
       })
@@ -383,7 +382,9 @@ export async function fetchAllOrdersIncompletedFiltered(
         ),
       );
 
-    return { data, total: Number(count) };
+      const totalCount = countResult[0]?.count ?? 0;
+
+      return { data, total: Number(totalCount) };
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch incomplete orders.");
@@ -422,7 +423,7 @@ export async function fetchAllOrdersCompletedFiltered(
       .limit(itemsPerPage)
       .offset(offset);
 
-    const [{ count }] = await db
+      const countResult = await db
       .select({
         count: sql<number>`count(*)`,
       })
@@ -434,7 +435,9 @@ export async function fetchAllOrdersCompletedFiltered(
         ),
       );
 
-    return { data, total: Number(count) };
+      const totalCount = countResult[0]?.count ?? 0;
+
+      return { data, total: Number(totalCount) };
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch complete orders.");

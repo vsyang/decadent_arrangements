@@ -10,6 +10,7 @@ import { users } from "@/db/schema";
 import { fetchProducts } from "@/db/queries";
 
 import OrderForm from "./OrderForm";
+import { IsAdminProtection } from "../../dashboard/adminAction";
 
 // The catalog sends the selected product ID in the URL:
 type OrderPageProps = {
@@ -27,6 +28,8 @@ export default async function OrderPage({ searchParams }: OrderPageProps) {
   if (!session?.user?.id) {
     redirect("/api/auth/signin");
   }
+
+  const isAdmin = await IsAdminProtection();
 
   // Read the selected product ID from the URL.
   const params = await searchParams;
@@ -55,6 +58,7 @@ export default async function OrderPage({ searchParams }: OrderPageProps) {
 
   return (
     <OrderForm
+      isAdmin={isAdmin}
       products={products}
       defaultProductId={validDefaultProductId}
       savedCustomer={{

@@ -13,9 +13,39 @@ import { Order, Product, users } from "@/db/schema";
 
 // Creates a customer-friendly order code.
 function generateOrderCode() {
-  const randomNumber = Math.floor(100000 + Math.random() * 900000);
+  const now = new Date();
 
-  return `DA-${randomNumber}`;
+  const yy = String(now.getFullYear()).slice(-2);
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const datePart = `${yy}${mm}${dd}`;
+
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  // Hour to letter
+  const hour = now.getHours();
+  const hourLetter = alphabet[hour];
+
+  // Minutes to get letter
+  const minutes = now.getMinutes();
+  let minuteLetter = "";
+
+  if (minutes < 26) {
+    // First lap (0 - 25): uppercase (A-Z)
+    minuteLetter = alphabet[minutes];
+  } else if (minutes >= 26 && minutes < 52) {
+    // Second lap (26 - 51): lowwercase (a-z)
+    const secondTurnIndex = minutes - 26;
+    minuteLetter = alphabet[secondTurnIndex].toLowerCase();
+  } else {
+    // Third lap (52 - 59): 0 - 7
+    const thirdTurnIndex = minutes - 52;
+    minuteLetter = String(thirdTurnIndex);
+  }
+
+  console.log(`${hourLetter}-${datePart}${minuteLetter}`)
+
+  return `${hourLetter}-${datePart}${minuteLetter}`;
 }
 
 // This server action runs when the customer submits the order form.
