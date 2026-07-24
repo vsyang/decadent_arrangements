@@ -2,8 +2,8 @@ import "../../globals.css";
 
 import type { Metadata } from "next";
 import {
-  fetchAllOrdersByCustomerId,
-  fetchAllOrdersIncompleted,
+  fetchAllOrdersByCustomerIdFiltered,
+  fetchAllOrdersIncompletedFiltered,
 } from "@/db/queries";
 import OrdersTableBody from "@/components/admin/OrdersTableBody";
 import { TableSkeleton } from "@/components/skeleton";
@@ -14,12 +14,21 @@ import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { IsAdminProtection } from "../dashboard/adminAction";
+import ItemsPerPage from "@/components/layout/itemsPerPage";
+import Pagination from "@/components/layout/pagination";
+import Search from "@/components/admin/search";
 
 export const metadata: Metadata = {
   title: "Orders Overview",
 };
 
-export default async function OrderManagementPage() {
+export default async function OrderManagementPage(props: {
+  searchParams?: Promise<{
+    query?: string;
+    page?: string;
+    itemsPerPage?: string;
+  }>;
+}) {
   const session = await getServerSession(authOptions);
 
   // Si no hay sesión activa, redirigimos limpiamente al home
@@ -27,12 +36,31 @@ export default async function OrderManagementPage() {
     redirect("/");
   }
 
+  const minCardShow = 5;
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
+  const itemsPerPage = Number(searchParams?.itemsPerPage) || minCardShow;
+
   const authorized = await IsAdminProtection();
 
   // Si es admin, ve todas las órdenes. Si es cliente, solo las suyas.
-  const orders = authorized
-    ? await fetchAllOrdersIncompleted()
-    : await fetchAllOrdersByCustomerId(session.user.id);
+  const ordersRaw = authorized
+    ? await fetchAllOrdersIncompletedFiltered(query, currentPage, itemsPerPage)
+    : await fetchAllOrdersByCustomerIdFiltered(
+        session.user.id,
+        query,
+        currentPage,
+        itemsPerPage,
+      );
+
+  const orders = ordersRaw.data;
+  const totalOrders = ordersRaw.total;
+
+  const totalPages = Math.ceil(totalOrders / itemsPerPage);
+
+  const firstOrderNum = itemsPerPage * currentPage - itemsPerPage + 1;
+  const lastOrderNum = Math.min(itemsPerPage * currentPage, totalOrders);
 
   return (
     <>
@@ -101,7 +129,16 @@ export default async function OrderManagementPage() {
         <div></div>
       </div>
 
+      <div className="w-full pt-2">
+        <Search placeholder="Search by ORDER CODE: DA-00000" />
+      </div>
+
       <div className="m-auto py-5 w-full">
+        <div className="w-full flex justify-end px-5">
+          <p>
+            {firstOrderNum} - {lastOrderNum} of {totalOrders} Orders
+          </p>
+        </div>
         <table className="w-full text-left text-sm text-slate-600">
           <thead className="text-s uppercase text-slate-700 border-b border-slate-200">
             <tr>
@@ -162,6 +199,14 @@ export default async function OrderManagementPage() {
             </Suspense>
           </tbody>
         </table>
+      </div>
+      <div className="flex flex-row justify-center items-center gap-4 px-8 w-full">
+        <div className="flex justify-center">
+          <Pagination totalPages={totalPages} />
+        </div>
+        <div className="text-center">
+          <ItemsPerPage minCardShow={minCardShow} />
+        </div>
       </div>
     </>
   );
