@@ -43,7 +43,7 @@ function generateOrderCode() {
     minuteLetter = String(thirdTurnIndex);
   }
 
-  console.log(`${hourLetter}-${datePart}${minuteLetter}`)
+  console.log(`${hourLetter}-${datePart}${minuteLetter}`);
 
   return `${hourLetter}-${datePart}${minuteLetter}`;
 }

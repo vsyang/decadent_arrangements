@@ -317,7 +317,7 @@ export async function fetchAllOrdersByCustomerIdFiltered(
       .limit(itemsPerPage)
       .offset(offset);
 
-      const countResult = await db
+    const countResult = await db
       .select({
         count: sql<number>`count(*)`,
       })
@@ -329,7 +329,7 @@ export async function fetchAllOrdersByCustomerIdFiltered(
         ),
       );
 
-      const totalCount = countResult[0]?.count ?? 0;
+    const totalCount = countResult[0]?.count ?? 0;
 
     return { data, total: Number(totalCount) };
   } catch (error) {
@@ -370,7 +370,7 @@ export async function fetchAllOrdersIncompletedFiltered(
       .limit(itemsPerPage)
       .offset(offset);
 
-      const countResult = await db
+    const countResult = await db
       .select({
         count: sql<number>`count(*)`,
       })
@@ -382,9 +382,9 @@ export async function fetchAllOrdersIncompletedFiltered(
         ),
       );
 
-      const totalCount = countResult[0]?.count ?? 0;
+    const totalCount = countResult[0]?.count ?? 0;
 
-      return { data, total: Number(totalCount) };
+    return { data, total: Number(totalCount) };
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch incomplete orders.");
@@ -423,7 +423,7 @@ export async function fetchAllOrdersCompletedFiltered(
       .limit(itemsPerPage)
       .offset(offset);
 
-      const countResult = await db
+    const countResult = await db
       .select({
         count: sql<number>`count(*)`,
       })
@@ -435,9 +435,9 @@ export async function fetchAllOrdersCompletedFiltered(
         ),
       );
 
-      const totalCount = countResult[0]?.count ?? 0;
+    const totalCount = countResult[0]?.count ?? 0;
 
-      return { data, total: Number(totalCount) };
+    return { data, total: Number(totalCount) };
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch complete orders.");
