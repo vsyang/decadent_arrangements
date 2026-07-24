@@ -27,6 +27,7 @@ type SavedCustomer = {
 };
 
 type OrderFormProps = {
+  isAdmin: boolean;
   products: OrderProduct[];
   defaultProductId?: string;
   savedCustomer?: SavedCustomer;
@@ -34,6 +35,7 @@ type OrderFormProps = {
 
 // Displays the customer order form.
 export default function OrderForm({
+  isAdmin,
   products,
   defaultProductId = "",
   savedCustomer,
@@ -123,6 +125,7 @@ export default function OrderForm({
               type="email"
               name="email"
               required
+              disabled={!isAdmin}
               defaultValue={savedCustomer?.email ?? ""}
               className="w-full rounded-md border border-[#807973]/40 px-3 py-2 text-black focus:border-[#03989e] focus:outline-none focus:ring-2 focus:ring-[#03989e]/30"
             />
