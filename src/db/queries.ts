@@ -1,7 +1,7 @@
 import { ProductRecord } from "../../app/(admin)/products/actions";
 import { db } from "./index";
 import { Order, Product, ProductImage } from "./schema";
-import { asc, eq, or, sql } from "drizzle-orm";
+import { and, asc, eq, ilike, or, sql } from "drizzle-orm";
 
 // ==========================================
 // PRODUCT QUERIES
@@ -294,5 +294,179 @@ export async function fetchAllOrdersIncompleted() {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch incomplete orders.");
+  }
+}
+
+// Get all orders placed by one customer.
+export async function fetchAllOrdersByCustomerIdFiltered(
+  customerId: string,
+  query: string,
+  currentPage: number,
+  itemsPerPage: number,
+) {
+  try {
+    const offset = (currentPage - 1) * itemsPerPage;
+
+    const data = await db
+      .select({
+        id: Order.id,
+        idReadable: Order.readableOrderCode,
+        clientName: Order.customerNameAtPurchase,
+
+        // Product details saved at the time of purchase.
+        productName: Order.productNameAtPurchase,
+        capacity: Order.productCapacityAtPurchase,
+
+        eventDate: Order.eventDate,
+        status: Order.status,
+      })
+      .from(Order)
+      .where(
+        and(
+          eq(Order.userId, customerId),
+          ilike(Order.readableOrderCode, `%${query}%`),
+        )
+      )
+      .orderBy(asc(Order.eventDate))
+      .limit(itemsPerPage)
+      .offset(offset);
+
+      const [{ count }] = await db
+      .select({
+        count: sql<number>`count(*)`,
+      })
+      .from(Order)
+      .where(
+        and(
+          eq(Order.userId, customerId),
+          ilike(Order.readableOrderCode, `%${query}%`),
+        )
+      )
+      .orderBy(asc(Order.eventDate))
+      .limit(itemsPerPage)
+      .offset(offset);
+
+    return { data, total: Number(count), };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch orders data.");
+  }
+}
+
+// Get pending and preparing orders.
+export async function fetchAllOrdersIncompletedFiltered(
+  query: string,
+  currentPage: number,
+  itemsPerPage: number,
+) {
+
+  const offset = (currentPage - 1) * itemsPerPage;
+
+  try {
+    const data = await db
+      .select({
+        id: Order.id,
+        idReadable: Order.readableOrderCode,
+        clientName: Order.customerNameAtPurchase,
+
+        productName: Order.productNameAtPurchase,
+        capacity: Order.productCapacityAtPurchase,
+
+        eventDate: Order.eventDate,
+        status: Order.status,
+      })
+      .from(Order)
+      .where(
+        and(
+          or(
+            eq(Order.status, "pending"),
+            eq(Order.status, "preparing"),
+          ),
+          ilike(Order.readableOrderCode, `%${query}%`),
+        )
+      )
+      .orderBy(asc(Order.eventDate))
+      .limit(itemsPerPage)
+      .offset(offset);
+
+    const [{ count }] = await db
+      .select({
+        count: sql<number>`count(*)`,
+      })
+      .from(Order)
+      .where(
+        and(
+          or(
+            eq(Order.status, "pending"),
+            eq(Order.status, "preparing"),
+          ),
+          ilike(Order.readableOrderCode, `%${query}%`),
+        )
+      );
+
+    return { data, total: Number(count), };
+
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch incomplete orders.");
+  }
+}
+
+// Get pending and preparing orders.
+export async function fetchAllOrdersCompletedFiltered(
+  query: string,
+  currentPage: number,
+  itemsPerPage: number,
+) {
+
+  const offset = (currentPage - 1) * itemsPerPage;
+
+  try {
+    const data = await db
+      .select({
+        id: Order.id,
+        idReadable: Order.readableOrderCode,
+        clientName: Order.customerNameAtPurchase,
+
+        productName: Order.productNameAtPurchase,
+        capacity: Order.productCapacityAtPurchase,
+
+        eventDate: Order.eventDate,
+        status: Order.status,
+      })
+      .from(Order)
+      .where(
+        and(
+          or(
+            eq(Order.status, "delivered"),
+            eq(Order.status, "cancelled"),
+          ),
+          ilike(Order.readableOrderCode, `%${query}%`),
+        )
+      )
+      .orderBy(asc(Order.eventDate))
+      .limit(itemsPerPage)
+      .offset(offset);
+
+    const [{ count }] = await db
+      .select({
+        count: sql<number>`count(*)`,
+      })
+      .from(Order)
+      .where(
+        and(
+          or(
+            eq(Order.status, "delivered"),
+            eq(Order.status, "cancelled"),
+          ),
+          ilike(Order.readableOrderCode, `%${query}%`),
+        )
+      );
+
+    return { data, total: Number(count), };
+
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch complete orders.");
   }
 }
