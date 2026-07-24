@@ -67,6 +67,9 @@ export async function sendOwnerEmail({ orderCode }: { orderCode: string }) {
 }
 
 // Sends email to the customer when the business owner updates the order as delivered.
+const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+const logoUrl = `${appUrl}/images/Decadentarrangements_logo.png`;
+
 export async function sendCustomerDeliveryEmail({
   customerEmail,
   customerName,
@@ -94,7 +97,7 @@ export async function sendCustomerDeliveryEmail({
       `Hello ${customerName},\n\n` +
       `Great news! Your ${productName} order is on its way to you.\n\n` +
       `Thank you for choosing Decadent Arrangements. ` +
-      `We hope you love your order!\n\n` +
+      `We hope you love your order!\n\n\n` +
       `Yours Truly,\n\n` +
       `Decadent Arrangements`,
 
@@ -113,9 +116,42 @@ export async function sendCustomerDeliveryEmail({
       </p>
 
       <p>
-        Yours Truly,<br />
-        <strong>Decadent Arrangements</strong>
+        Yours Truly,
       </p>
+
+       <table
+    role="presentation"
+    cellspacing="0"
+    cellpadding="0"
+    border="0"
+    style="margin-top: 12px;"
+  >
+    <tr>
+      <td style="vertical-align: middle;">
+        <img
+          src="${logoUrl}"
+          alt="Decadent Arrangements logo"
+          width="55"
+          style="
+            display: block;
+            width: 55px;
+            height: auto;
+          "
+        />
+      </td>
+
+      <td style="vertical-align: middle;">
+        <strong
+          style="
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+          "
+        >
+          Decadent Arrangements
+        </strong>
+      </td>
+    </tr>
+  </table>
     `,
   });
 }
