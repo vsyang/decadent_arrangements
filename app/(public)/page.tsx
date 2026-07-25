@@ -13,7 +13,7 @@ import {
   PencilLine,
   Sparkles,
 } from "lucide-react";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Montserrat, Great_Vibes } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/layout/Reveal";
@@ -30,6 +30,11 @@ const cormorant = Cormorant_Garamond({
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+});
+
+const cursive = Great_Vibes({
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 /* =========================================================
@@ -142,7 +147,7 @@ export default async function Home() {
               <div className="h-px w-12 bg-[#00BCD4]" />
 
               <p className="animate-cinematic-fade-up text-[10px] font-medium uppercase tracking-[0.38em] text-white/75 sm:text-xs">
-                Exclusive Grazing Tables and Gift Arrangements
+                Exclusive Charcuterie Arrangements
               </p>
             </div>
 
@@ -152,7 +157,11 @@ export default async function Home() {
             >
               Curated for the
               <span className="block">moments worth</span>
-              <span className="block italic text-[#00BCD4]">remembering.</span>
+              <span
+                className={`${cursive.className} animate-handwritten-reveal mt-2 block origin-left scale-x-[1.04] px-6 pb-4 text-6xl font-normal leading-[1.15] text-[#00BCD4] text-center sm:text-8xl lg:text-[7.5rem]`}
+              >
+                Remembering.
+              </span>
             </h1>
 
             <p className="animate-cinematic-fade-up animation-delay-600 mt-8 max-w-xl text-sm leading-7 text-white/75 sm:text-base sm:leading-8">

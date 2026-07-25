@@ -56,7 +56,7 @@ export function Reveal({
       ref={elementRef}
       style={{ transitionDelay: `${delay}ms` }}
       className={`
-        transform-gpu transition-all duration-1000
+        transform-gpu transition-all duration-1600
         ease-[cubic-bezier(0.22,1,0.36,1)]
         motion-reduce:transform-none
         motion-reduce:transition-none
