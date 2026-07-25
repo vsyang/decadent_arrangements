@@ -27,7 +27,6 @@ type SavedCustomer = {
 };
 
 type OrderFormProps = {
-  isAdmin: boolean;
   products: OrderProduct[];
   defaultProductId?: string;
   savedCustomer?: SavedCustomer;
@@ -35,7 +34,6 @@ type OrderFormProps = {
 
 // Displays the customer order form.
 export default function OrderForm({
-  isAdmin,
   products,
   defaultProductId = "",
   savedCustomer,
