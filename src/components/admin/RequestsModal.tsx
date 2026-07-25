@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
+import EditableTextField from "./EditableTextField";
 
 export function SpecialRequestsModal({
+  orderId,
   requestTitle,
   specialRequest,
   isAllergy,
 }: {
+  orderId?: string;
   requestTitle: string;
   specialRequest?: string[] | string | null;
   isAllergy: boolean;
@@ -41,7 +44,22 @@ export function SpecialRequestsModal({
       );
     }
 
-    return <span>{specialRequest}</span>;
+    const contentOfModal = orderId ? (
+      <span>
+        <EditableTextField
+          copy={false}
+          orderId={orderId}
+          label={requestTitle}
+          value={specialRequest}
+          field="specialRequests"
+          type="textarea"
+        />
+      </span>
+    ) : (
+      <span>{specialRequest}</span>
+    );
+
+    return contentOfModal;
   };
 
   return (
@@ -62,7 +80,9 @@ export function SpecialRequestsModal({
           {requestTitle}
         </h3>
         <div className="whitespace-pre-wrap text-s font-bold text-slate-900 leading-none line-clamp-1 w-full">
-          {renderContent(false)}
+          {requestTitle === "Special Requests"
+            ? specialRequest
+            : renderContent(false)}
         </div>
       </button>
 
