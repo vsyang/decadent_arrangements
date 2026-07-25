@@ -2,21 +2,46 @@
 
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import {
+  ArrowRight,
+  CakeSlice,
+  CandyCane,
+  Gift,
+  GraduationCap,
+  Heart,
+  MapPin,
+  PencilLine,
+  Sparkles,
+} from "lucide-react";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { Great_Vibes } from "next/font/google";
+import { Reveal } from "@/components/layout/Reveal";
 
-const greatVibes = Great_Vibes({
+/* =========================================================
+   FONTS
+========================================================= */
+
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600", "700"],
 });
 
-// Homepage products.
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+/* =========================================================
+   HOMEPAGE
+========================================================= */
+
 const featuredArrangements = [
   {
     id: 1,
     name: "Charcuterie Bouquet",
-    description: "Sweet, beautiful, and elegant",
+    description:
+      "Artfully arranged charcuterie featuring fresh florals and premium ingredients.",
     price: "$675",
     image:
       "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/small/s005.webp",
@@ -24,7 +49,8 @@ const featuredArrangements = [
   {
     id: 2,
     name: "Family Day Indulgence",
-    description: "Rich, indulgent, and unforgettable",
+    description:
+      "A generous centerpiece thoughtfully designed for gathering and sharing.",
     price: "$800",
     image:
       "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/medium/m012.webp",
@@ -32,7 +58,8 @@ const featuredArrangements = [
   {
     id: 3,
     name: "Bahn Mi Night",
-    description: "Cheerful, exciting, and delicious",
+    description:
+      "A vibrant arrangement filled with bold flavor and handcrafted detail.",
     price: "$675",
     image:
       "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/small/s004.webp",
@@ -40,509 +67,621 @@ const featuredArrangements = [
   {
     id: 4,
     name: "Spooktacular",
-    description: "Luxurious, elegant, and bold",
-    price: "$1050",
+    description:
+      "A dramatic seasonal centerpiece created to leave a lasting impression.",
+    price: "$1,050",
     image:
       "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l001.webp",
   },
 ];
 
-// Occasions displayed on the homepage.
 const occasions = [
   {
     name: "Birthdays",
-    icon: "🎂",
+    icon: CakeSlice,
   },
   {
     name: "Anniversaries",
-    icon: "♡",
+    icon: Heart,
   },
   {
     name: "Graduations",
-    icon: "🎓",
+    icon: GraduationCap,
   },
   {
     name: "Holidays",
-    icon: "✦",
+    icon: CandyCane,
   },
   {
     name: "Thank You",
-    icon: "🎁",
+    icon: Gift,
   },
+];
+
+const instagramImages = [
+  "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l009.webp",
+  "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l010.webp",
+  "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l002.webp",
+  "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l006.webp",
 ];
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  // Send users to the sign-in page when they are not logged in. Logged-in users can go directly to the order form.
+  // Logged-out users are sent to sign in first.
   const orderHref = session?.user?.id ? "/orders/new" : "/api/auth/signin";
 
   return (
-    <main className="min-h-screen overflow-hidden bg-white text-black">
+    <main
+      className={`${montserrat.className} min-h-screen overflow-hidden bg-[#0a0a0a] text-white`}
+    >
       {/* =====================================================
-          HERO SECTION
+          CINEMATIC HERO
       ====================================================== */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-white via-white to-[#00BCD4]/10">
-        {/* Decorative background circle */}
-        <div className="absolute -right-32 top-20 h-[550px] w-[550px] rounded-full bg-[#00BCD4]/10 blur-sm" />
+      <section className="relative min-h-[780px] overflow-hidden bg-black lg:min-h-[calc(100vh-72px)]">
+        {/* Hero */}
+        <Image
+          src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l009.webp"
+          alt="Luxury custom grazing arrangement"
+          fill
+          priority
+          loading="eager"
+          className="animate-cinematic-image-reveal object-cover object-center"
+          sizes="100vw"
+        />
 
-        {/* Decorative blurred shape */}
-        <div className="absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-[#807973]/10 blur-3xl" />
+        <div className="absolute inset-0 bg-black/55" />
 
-        <div className="relative mx-auto grid min-h-[720px] max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:px-10">
-          {/* Hero text */}
-          <div className="text-center">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-[#807973] sm:text-sm">
-              Custom gifts • Sweet treats • Elegant arrangements
-            </p>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/65 to-black/10" />
 
-            <h1 className="mb-6 text-5xl font-semibold leading-[1.05] text-[#545454] sm:text-6xl lg:text-7xl">
-              Thoughtful Gifts
-              <span className="block">Made for Every</span>
-              <span
-                className={`${greatVibes.className} mt-2 block origin-center scale-x-185 text-[#007C91] text-6xl sm:text-7xl lg:text-8xl`}
-              >
-                Celebration
-              </span>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
+
+        <div className="relative z-10 mx-auto flex min-h-[780px] max-w-7xl items-center px-6 py-24 sm:px-10 lg:min-h-[calc(100vh-72px)] lg:px-14">
+          <div className="max-w-3xl">
+            <div className="mb-7 flex items-center gap-4">
+              <div className="h-px w-12 bg-[#00BCD4]" />
+
+              <p className="animate-cinematic-fade-up text-[10px] font-medium uppercase tracking-[0.38em] text-white/75 sm:text-xs">
+                Exclusive Grazing Tables and Gift Arrangements
+              </p>
+            </div>
+
+            {/* Main Head */}
+            <h1
+              className={`${cormorant.className} animate-cinematic-fade-up animation-delay-200 text-5xl font-medium leading-[0.92] tracking-[-0.025em] text-white sm:text-7xl lg:text-[6.6rem]`}
+            >
+              Curated for the
+              <span className="block">moments worth</span>
+              <span className="block italic text-[#00BCD4]">remembering.</span>
             </h1>
 
-            <p className="mx-auto mb-8 max-w-xl text-base leading-7 text-[#545454]/80 sm:text-lg lg:mx-0">
-              Beautiful, handcrafted arrangements made with premium treats and a
-              personal touch for birthdays, holidays, and every special moment.
+            <p className="animate-cinematic-fade-up animation-delay-600 mt-8 max-w-xl text-sm leading-7 text-white/75 sm:text-base sm:leading-8">
+              Custom grazing tables and handcrafted arrangements thoughtfully
+              created in Denver for celebrations, gatherings, and meaningful
+              moments.
             </p>
 
             {/* Hero buttons */}
-            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
+            <div className="animate-cinematic-fade-up animation-delay-800 mt-10 flex flex-col items-start gap-4 sm:flex-row">
               <Link
                 href="/catalog"
-                className="inline-flex min-w-52 items-center justify-center rounded-full bg-[#007C91] px-8 py-4 font-semibold text-white shadow-lg shadow-[#00BCD4]/20 transition duration-300 hover:-translate-y-1 hover:bg-[#006778]"
+                className="group inline-flex min-w-60 items-center justify-center gap-4 bg-white px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition duration-300 hover:bg-[#00BCD4]"
               >
-                Browse Arrangements
-                <span className="ml-2">→</span>
+                View the Collection
+                <ArrowRight
+                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                  strokeWidth={1.5}
+                />
               </Link>
 
               <Link
                 href={orderHref}
-                className="inline-flex min-w-52 items-center justify-center rounded-full border-2 border-[#545454] bg-white px-8 py-4 font-semibold text-[#545454] transition duration-300 hover:-translate-y-1 hover:border-[#007C91] hover:text-[#007C91]"
+                className="group inline-flex min-w-60 items-center justify-center gap-4 border border-white/70 px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-white transition duration-300 hover:border-white hover:bg-white hover:text-black"
               >
                 Start Your Order
+                <ArrowRight
+                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                  strokeWidth={1.5}
+                />
               </Link>
             </div>
 
-            {/* Small business highlights */}
-            <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm text-[#545454] lg:justify-start">
-              <div className="flex items-center gap-2">
-                <span className="text-lg text-[#007C91]">♡</span>
-                <span>Made with care</span>
+            {/* Business details */}
+            <div className="mt-12 grid max-w-2xl gap-5 border-t border-white/20 pt-7 sm:grid-cols-3">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-white/50">
+                  Made with Care
+                </p>
+
+                <p className="mt-2 text-sm text-white/85">
+                  Every detail matters
+                </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-lg text-[#007C91]">🎁</span>
-                <span>Custom for you</span>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-white/50">
+                  Custom for You
+                </p>
+
+                <p className="mt-2 text-sm text-white/85">Designed your way</p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-lg text-[#007C91]">✦</span>
-                <span>Made for every occasion</span>
-              </div>
-            </div>
-          </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-white/50">
+                  Based in Denver
+                </p>
 
-          {/* Hero image */}
-          <div className="relative mx-auto flex w-full max-w-xl items-center justify-center">
-            <div className="absolute h-[420px] w-[420px] rounded-full bg-[#00BCD4]/10 sm:h-[500px] sm:w-[500px]" />
-
-            {/* Decorative sparkles */}
-            <span className="absolute left-2 top-20 text-3xl text-[#007C91]">
-              ✦
-            </span>
-
-            <span className="absolute right-8 top-5 text-2xl text-[#807973]">
-              ✧
-            </span>
-
-            {/* Main product image */}
-            <div
-              className="relative z-10 h-[420px] w-full overflow-hidden rounded-full
-              [mask-image:radial-gradient(ellipse_at_center,black_65%,transparent_100%)]
-              [-webkit-mask-image:radial-gradient(ellipse_at_center,black_65%,transparent_100%)]
-              sm:h-[540px]"
-            >
-              <Image
-                src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/small/s009.webp"
-                alt="Custom bahn mi arrangement with flowers and treats"
-                fill
-                priority
-                className="object-contain drop-shadow-2xl"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-
-            {/* Floating photo card */}
-            <div className="absolute -bottom-4 right-0 z-20 hidden rotate-3 rounded-3xl bg-white p-3 shadow-2xl sm:block">
-              <div className="relative h-44 w-36 overflow-hidden rounded-2xl">
-                <Image
-                  src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/small/s006.webp"
-                  alt="Love arrangement with bahn mi and sweet treats"
-                  fill
-                  className="object-cover"
-                  sizes="144px"
-                />
+                <p className="mt-2 text-sm text-white/85">
+                  Locally handcrafted
+                </p>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Curved visual divider */}
-        <div className="absolute -bottom-12 left-[-5%] h-24 w-[110%] rounded-[50%] bg-white" />
+      {/* =====================================================
+          INTRODUCTION
+      ====================================================== */}
+      <section className="bg-[#f4f0ea] px-6 py-24 text-black sm:px-10 lg:py-32">
+        <Reveal>
+          <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div>
+              <p className="mb-6 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+                Decadent Arrangements
+              </p>
+
+              <h2
+                className={`${cormorant.className} text-5xl font-medium leading-[0.95] tracking-tight text-[#252525] sm:text-6xl`}
+              >
+                Designed to be
+                <span className="block italic">remembered.</span>
+              </h2>
+            </div>
+
+            <div className="lg:border-l lg:border-black/15 lg:pl-14">
+              <p className="max-w-2xl text-base leading-8 text-[#545454] sm:text-lg">
+                Every arrangement is carefully designed to transform fresh
+                ingredients, beautiful details, and thoughtful presentation into
+                a centerpiece worthy of the occasion.
+              </p>
+
+              <Link
+                href="/about"
+                className="group mt-8 inline-flex items-center gap-4 border-b border-black pb-2 text-xs font-semibold uppercase tracking-[0.17em] text-black transition hover:border-[#007C91] hover:text-[#007C91]"
+              >
+                Discover Our Story
+                <ArrowRight
+                  className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                  strokeWidth={1.5}
+                />
+              </Link>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* =====================================================
           FEATURED ARRANGEMENTS
       ====================================================== */}
-      <section className="relative bg-white px-6 py-24">
+      <section className="bg-[#0a0a0a] px-6 py-24 sm:px-10 lg:py-32">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#007C91]">
-              Featured Arrangements
-            </p>
+          <div className="mb-12 flex flex-col gap-8 border-b border-white/15 pb-8 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
+                Featured Collection
+              </p>
 
-            <h2 className="text-4xl font-semibold text-[#545454] sm:text-5xl">
-              Our Most Loved Creations
-            </h2>
+              <h2
+                className={`${cormorant.className} text-5xl font-medium leading-none text-white sm:text-6xl`}
+              >
+                Our Most Loved Creations
+              </h2>
+            </div>
 
-            <div className="mx-auto mt-5 h-1 w-20 rounded-full bg-[#00BCD4]" />
+            <Link
+              href="/catalog"
+              className="group inline-flex items-center gap-4 text-xs font-medium uppercase tracking-[0.2em] text-white/70 transition hover:text-white"
+            >
+              View All
+              <ArrowRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                strokeWidth={1.5}
+              />
+            </Link>
           </div>
 
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-px bg-white/15 sm:grid-cols-2 lg:grid-cols-4">
             {featuredArrangements.map((arrangement) => (
               <article
                 key={arrangement.id}
-                className="group overflow-hidden rounded-3xl border border-black/5 bg-white shadow-lg shadow-black/5 transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+                className="group relative min-h-[520px] overflow-hidden bg-black"
               >
-                <div className="relative h-72 overflow-hidden bg-[#00BCD4]/5">
-                  <Image
-                    src={arrangement.image}
-                    alt={arrangement.name}
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  />
-                </div>
+                {/* Product image */}
+                <Image
+                  src={arrangement.image}
+                  alt={arrangement.name}
+                  fill
+                  className="object-cover transition duration-[1200ms] ease-out group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
 
-                <div className="p-6 text-center">
-                  <h3 className="mb-2 text-xl font-semibold text-[#545454]">
+                {/* Image overlays */}
+                <div className="absolute inset-0 bg-black/10 transition duration-500 group-hover:bg-black/5" />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/15 to-transparent" />
+
+                {/* Product content */}
+                <div className="absolute inset-x-0 bottom-0 p-7">
+                  <p className="mb-3 text-[10px] uppercase tracking-[0.25em] text-[#00BCD4]">
+                    From {arrangement.price}
+                  </p>
+
+                  <h3
+                    className={`${cormorant.className} text-3xl font-medium text-white`}
+                  >
                     {arrangement.name}
                   </h3>
 
-                  <p className="mb-3 text-sm text-[#807973]">
+                  <p className="mt-3 max-w-xs text-sm leading-6 text-white/65">
                     {arrangement.description}
-                  </p>
-
-                  <p className="mb-5 text-sm font-medium text-[#545454]">
-                    Starting at {arrangement.price}
                   </p>
 
                   <Link
                     href="/catalog"
-                    className="inline-flex rounded-full border border-[#007C91] px-6 py-2 text-sm font-semibold text-[#007C91] transition hover:bg-[#00BCD4] hover:text-white"
+                    className="mt-6 inline-flex items-center gap-3 border-b border-white/60 pb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white"
                   >
-                    View Details
+                    View Arrangement
+                    <ArrowRight
+                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                      strokeWidth={1.5}
+                    />
                   </Link>
                 </div>
               </article>
             ))}
           </div>
-
-          <div className="mt-10 text-center">
-            <Link
-              href="/catalog"
-              className="inline-flex rounded-full bg-[#007C91] px-8 py-3 font-semibold text-white transition hover:bg-[#006778]"
-            >
-              View All Arrangements
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* =====================================================
-          OCCASIONS SECTION
+          OCCASIONS
       ====================================================== */}
-      <section className="bg-[#00BCD4]/5 px-6 py-20">
-        <div className="mx-auto max-w-7xl text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#007C91]">
-            Perfect for Every Occasion
-          </p>
-
-          <h2 className="mb-10 text-4xl font-semibold text-[#545454]">
-            Celebrate Life&apos;s Special Moments
-          </h2>
-
-          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {occasions.map((occasion) => (
-              <div
-                key={occasion.name}
-                className="flex min-h-36 flex-col items-center justify-center rounded-3xl bg-white px-4 py-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div className="mb-4 text-4xl text-[#007C91]">
-                  {occasion.icon}
-                </div>
-
-                <p className="font-semibold text-[#545454]">{occasion.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================
-    HOW IT WORKS
-====================================================== */}
-      <section className="relative overflow-hidden bg-white px-6 py-20">
-        {/* Decorative background details */}
-        <span className="absolute left-10 top-24 text-3xl text-[#00BCD4]/25">
-          ♡
-        </span>
-
-        <span className="absolute left-20 bottom-16 text-2xl text-[#00BCD4]/20">
-          ✦
-        </span>
-
-        <span className="absolute right-12 top-32 text-3xl text-[#00BCD4]/25">
-          ♡
-        </span>
-
-        <span className="absolute right-24 bottom-12 text-2xl text-[#00BCD4]/20">
-          ✧
-        </span>
-
-        <div className="relative mx-auto max-w-6xl">
-          {/* Section heading */}
-          <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#007C91]">
-              How It Works
+      <section className="bg-[#f4f0ea] px-6 py-24 text-black sm:px-10 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 max-w-2xl">
+            <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+              Perfect for Every Occasion
             </p>
 
-            <h2 className="text-4xl font-semibold text-[#545454]">
-              Simple. Easy. Meaningful.
+            <h2
+              className={`${cormorant.className} text-5xl font-medium leading-[0.95] text-[#252525] sm:text-6xl`}
+            >
+              Made for life&apos;s
+              <span className="block italic">meaningful moments.</span>
             </h2>
           </div>
 
-          {/* Steps */}
-          <div className="grid items-center gap-8 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
-            {/* Step 1 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-5">
-                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#00BCD4]/10 text-4xl">
-                  🎁
-                </div>
+          <div className="grid border-y border-black/15 sm:grid-cols-2 lg:grid-cols-5">
+            {occasions.map((occasion) => {
+              const Icon = occasion.icon;
 
-                <span className="absolute -right-1 -top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#007C91] text-sm font-bold text-white">
-                  1
+              return (
+                <div
+                  key={occasion.name}
+                  className="group flex min-h-52 flex-col justify-between border-b border-black/15 p-7 transition duration-300 hover:bg-white sm:border-r lg:border-b-0"
+                >
+                  <Icon className="h-8 w-8 text-[#007C91]" strokeWidth={1.25} />
+
+                  <div className="mt-12">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#545454]">
+                      {occasion.name}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          HOW IT WORKS
+      ====================================================== */}
+      <section className="bg-black px-6 py-24 sm:px-10 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
+                The Experience
+              </p>
+
+              <h2
+                className={`${cormorant.className} text-5xl font-medium leading-[0.95] text-white sm:text-6xl`}
+              >
+                Simple by design.
+                <span className="block italic text-white/60">
+                  Exceptional in detail.
                 </span>
+              </h2>
+            </div>
+
+            <div className="divide-y divide-white/15 border-y border-white/15">
+              {/* Step 1 */}
+              <div className="grid gap-6 py-8 sm:grid-cols-[70px_1fr]">
+                <span
+                  className={`${cormorant.className} text-4xl italic text-[#00BCD4]`}
+                >
+                  01
+                </span>
+
+                <div>
+                  <div className="mb-3 flex items-center gap-3">
+                    <Gift
+                      className="h-5 w-5 text-white/60"
+                      strokeWidth={1.25}
+                    />
+
+                    <h3
+                      className={`${cormorant.className} text-3xl text-white`}
+                    >
+                      Choose
+                    </h3>
+                  </div>
+
+                  <p className="max-w-xl text-sm leading-7 text-white/55">
+                    Browse the collection and select the arrangement that best
+                    reflects your celebration.
+                  </p>
+                </div>
               </div>
 
-              <h3 className="mb-2 text-lg font-semibold text-[#545454]">
-                Choose
-              </h3>
-
-              <p className="max-w-[220px] text-sm leading-6 text-[#807973]">
-                Browse our collection and pick your favorite arrangement.
-              </p>
-            </div>
-
-            {/* Arrow between steps */}
-            <div className="hidden items-center justify-center md:flex">
-              <span className="text-3xl text-[#00BCD4]">→</span>
-            </div>
-
-            {/* Step 2 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-5">
-                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#00BCD4]/10 text-4xl text-[#007C91]">
-                  ✎
-                </div>
-
-                <span className="absolute -right-1 -top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#007C91] text-sm font-bold text-white">
-                  2
+              {/* Step 2 */}
+              <div className="grid gap-6 py-8 sm:grid-cols-[70px_1fr]">
+                <span
+                  className={`${cormorant.className} text-4xl italic text-[#00BCD4]`}
+                >
+                  02
                 </span>
+
+                <div>
+                  <div className="mb-3 flex items-center gap-3">
+                    <PencilLine
+                      className="h-5 w-5 text-white/60"
+                      strokeWidth={1.25}
+                    />
+
+                    <h3
+                      className={`${cormorant.className} text-3xl text-white`}
+                    >
+                      Personalize
+                    </h3>
+                  </div>
+
+                  <p className="max-w-xl text-sm leading-7 text-white/55">
+                    Select the size and share the thoughtful details that will
+                    make your arrangement personal.
+                  </p>
+                </div>
               </div>
 
-              <h3 className="mb-2 text-lg font-semibold text-[#545454]">
-                Customize
-              </h3>
-
-              <p className="max-w-[220px] text-sm leading-6 text-[#807973]">
-                Choose the size and add details to personalize your gift.
-              </p>
-            </div>
-
-            {/* Arrow between steps */}
-            <div className="hidden items-center justify-center md:flex">
-              <span className="text-3xl text-[#00BCD4]">→</span>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-5">
-                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#00BCD4]/10 text-4xl text-[#007C91]">
-                  ♡
-                </div>
-
-                <span className="absolute -right-1 -top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#007C91] text-sm font-bold text-white">
-                  3
+              {/* Step 3 */}
+              <div className="grid gap-6 py-8 sm:grid-cols-[70px_1fr]">
+                <span
+                  className={`${cormorant.className} text-4xl italic text-[#00BCD4]`}
+                >
+                  03
                 </span>
+
+                <div>
+                  <div className="mb-3 flex items-center gap-3">
+                    <Sparkles
+                      className="h-5 w-5 text-white/60"
+                      strokeWidth={1.25}
+                    />
+
+                    <h3
+                      className={`${cormorant.className} text-3xl text-white`}
+                    >
+                      Celebrate
+                    </h3>
+                  </div>
+
+                  <p className="max-w-xl text-sm leading-7 text-white/55">
+                    Your arrangement is carefully handcrafted and prepared for
+                    the moment it was created to celebrate.
+                  </p>
+                </div>
               </div>
-
-              <h3 className="mb-2 text-lg font-semibold text-[#545454]">
-                Celebrate
-              </h3>
-
-              <p className="max-w-[220px] text-sm leading-6 text-[#807973]">
-                Your arrangement is handcrafted and prepared for the special
-                moment.
-              </p>
             </div>
           </div>
         </div>
-
-        {/* Decorative cyan corner shape */}
-        <div className="absolute -bottom-24 -right-20 h-56 w-72 rotate-[-12deg] rounded-[50%] bg-[#00BCD4]/15" />
       </section>
 
       {/* =====================================================
           ABOUT JESSICA
       ====================================================== */}
-      <section className="bg-[#807973]/10">
-        <div className="mx-auto grid max-w-7xl items-center lg:grid-cols-2">
-          {/* About image */}
-          <div className="relative min-h-[540px] overflow-hidden rounded-3xl bg-white p-6">
-            <Image
-              src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/Jessica-prep.webp"
-              alt="Jessica preparing a custom arrangement"
-              fill
-              className="object-contain object-center"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
+      <section className="grid bg-[#161616] lg:grid-cols-2">
+        {/* Jessica's photo */}
+        <div className="relative min-h-[540px] lg:min-h-[760px]">
+          <Image
+            src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/jessica-prep.webp"
+            alt="Jessica preparing a custom grazing arrangement"
+            fill
+            className="object-cover object-top"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
 
-          {/* About content */}
-          <div className="px-8 py-16 text-center sm:px-14 lg:text-left">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#007C91]">
-              Made with Love
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+        </div>
+
+        {/* Jessica's story */}
+        <div className="flex items-center px-8 py-20 sm:px-14 lg:px-20">
+          <div className="max-w-xl">
+            <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
+              Meet the Founder
             </p>
 
-            <h2 className="mb-6 text-4xl font-semibold text-[#545454]">
-              A Note from Jessica
+            <h2
+              className={`${cormorant.className} text-5xl font-medium leading-[0.95] text-white sm:text-6xl`}
+            >
+              A personal touch
+              <span className="block italic text-white/60">
+                in every detail.
+              </span>
             </h2>
 
-            <p className="mb-8 max-w-xl text-lg leading-8 text-[#545454]/80">
-              Every arrangement is thoughtfully designed and handcrafted to
-              bring joy, create memories, and make every moment a little more
-              decadent.
+            <p className="mt-8 text-base leading-8 text-white/60">
+              Jessica custom designs and handcrafts every arrangement to bring
+              people together, create meaningful memories, and make each
+              celebration feel beautifully personal.
             </p>
 
-            <div className="mb-8 grid gap-4 text-left sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              <div className="rounded-2xl bg-white p-4 text-sm font-medium text-[#545454] shadow-sm">
-                <span className="mr-2 text-[#007C91]">✦</span>
-                Premium ingredients
+            <div className="mt-10 space-y-5 border-y border-white/15 py-7">
+              <div className="flex items-center gap-4">
+                <Sparkles
+                  className="h-5 w-5 text-[#00BCD4]"
+                  strokeWidth={1.3}
+                />
+
+                <p className="text-sm uppercase tracking-[0.12em] text-white/75">
+                  Premium ingredients
+                </p>
               </div>
 
-              <div className="rounded-2xl bg-white p-4 text-sm font-medium text-[#545454] shadow-sm">
-                <span className="mr-2 text-[#007C91]">♡</span>
-                Handcrafted with care
+              <div className="flex items-center gap-4">
+                <Heart className="h-5 w-5 text-[#00BCD4]" strokeWidth={1.3} />
+
+                <p className="text-sm uppercase tracking-[0.12em] text-white/75">
+                  Handcrafted with care
+                </p>
               </div>
 
-              <div className="rounded-2xl bg-white p-4 text-sm font-medium text-[#545454] shadow-sm">
-                <span className="mr-2 text-[#007C91]">🎁</span>
-                Custom made for you
+              <div className="flex items-center gap-4">
+                <MapPin className="h-5 w-5 text-[#00BCD4]" strokeWidth={1.3} />
+
+                <p className="text-sm uppercase tracking-[0.12em] text-white/75">
+                  Designed in Denver
+                </p>
               </div>
             </div>
 
             <Link
               href="/about"
-              className="inline-flex rounded-full bg-[#007C91] px-7 py-3 font-semibold text-white transition hover:bg-[#006778]"
+              className="group mt-9 inline-flex items-center gap-4 border-b border-white pb-2 text-xs font-medium uppercase tracking-[0.18em] text-white transition hover:border-[#00BCD4] hover:text-[#00BCD4]"
             >
-              Learn More About Us
-              <span className="ml-2">→</span>
+              Read Jessica&apos;s Story
+              <ArrowRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                strokeWidth={1.5}
+              />
             </Link>
           </div>
         </div>
       </section>
 
       {/* =====================================================
-          INSTAGRAM SECTION
+          INSTAGRAM
       ====================================================== */}
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1fr_2fr]">
-          <div>
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#007C91]">
-              Follow Our Journey
-            </p>
+      <section className="bg-[#f4f0ea] px-6 py-24 text-black sm:px-10 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+                Follow Our Journey
+              </p>
 
-            <h2 className="mb-4 text-3xl font-semibold text-[#545454]">
-              @decadent_arrangements
-            </h2>
-
-            <p className="mb-6 text-[#807973]">
-              See our latest creations and behind-the-scenes moments.
-            </p>
+              <h2
+                className={`${cormorant.className} text-4xl font-medium text-[#252525] sm:text-5xl`}
+              >
+                @decadent_arrangements
+              </h2>
+            </div>
 
             <a
               href="https://www.instagram.com/decadent_arrangements"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex rounded-full bg-[#007C91] px-7 py-3 font-semibold text-white transition hover:bg-[#006778]"
+              className="group inline-flex items-center gap-4 border-b border-black pb-2 text-xs font-semibold uppercase tracking-[0.17em] transition hover:border-[#007C91] hover:text-[#007C91]"
             >
               Follow on Instagram
+              <ArrowRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                strokeWidth={1.5}
+              />
             </a>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {[
-              "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l009.webp",
-              "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l010.webp",
-              "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l002.webp",
-              "https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l006.webp",
-            ].map((image) => (
-              <div
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {instagramImages.map((image, index) => (
+              <a
                 key={image}
-                className="relative aspect-square overflow-hidden rounded-3xl"
+                href="https://www.instagram.com/decadent_arrangements"
+                target="_blank"
+                rel="noreferrer"
+                className="group relative aspect-[4/5] overflow-hidden bg-black"
               >
                 <Image
                   src={image}
-                  alt={`Decadent Arrangements Instagram posted photo`}
+                  alt={`Decadent Arrangements creation ${index + 1}`}
                   fill
-                  className="object-cover transition duration-500 hover:scale-110"
+                  className="object-cover transition duration-[1000ms] ease-out group-hover:scale-105"
                   sizes="(max-width: 640px) 50vw, 25vw"
                 />
-              </div>
+
+                <div className="absolute inset-0 bg-black/0 transition duration-500 group-hover:bg-black/25" />
+
+                <div className="absolute inset-x-0 bottom-0 translate-y-full p-5 text-white transition duration-500 group-hover:translate-y-0">
+                  <p className="text-[9px] uppercase tracking-[0.2em]">
+                    View on Instagram
+                  </p>
+                </div>
+              </a>
             ))}
           </div>
         </div>
       </section>
 
       {/* =====================================================
-          CALL TO ACTION
+          FINAL CALL TO ACTION
       ====================================================== */}
-      <section className="bg-[#007C91] px-6 py-10 text-white">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
-          <div>
-            <h2 className="text-2xl font-semibold">
-              Ready to send something unforgettable?
-            </h2>
+      <section className="relative overflow-hidden bg-black px-6 py-24 sm:px-10 lg:py-32">
+        <Image
+          src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l010.webp"
+          alt=""
+          fill
+          className="object-cover opacity-30"
+          sizes="100vw"
+        />
 
-            <p className="mt-2 text-white/80">
-              Place your order today and make someone&apos;s day extra special.
-            </p>
-          </div>
+        <div className="absolute inset-0 bg-black/65" />
+
+        <div className="relative z-10 mx-auto max-w-5xl text-center">
+          <p className="mb-6 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
+            Begin Your Order
+          </p>
+
+          <h2
+            className={`${cormorant.className} text-5xl font-medium leading-[0.95] text-white sm:text-7xl`}
+          >
+            Create something
+            <span className="block italic text-white/65">unforgettable.</span>
+          </h2>
+
+          <p className="mx-auto mt-7 max-w-xl text-sm leading-7 text-white/60 sm:text-base">
+            Share the details of your celebration and begin creating an
+            arrangement designed especially for the moment.
+          </p>
 
           <Link
             href={orderHref}
-            className="rounded-full bg-white px-8 py-3 font-semibold text-[#007C91] transition hover:-translate-y-1 hover:shadow-xl"
+            className="group mt-10 inline-flex items-center justify-center gap-4 bg-white px-9 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-black transition duration-300 hover:bg-[#00BCD4]"
           >
             Start Your Order
-            <span className="ml-2">→</span>
+            <ArrowRight
+              className="h-4 w-4 transition-transform group-hover:translate-x-1"
+              strokeWidth={1.5}
+            />
           </Link>
         </div>
       </section>
