@@ -64,7 +64,7 @@ export default function AboutPage() {
               Created with purpose.
               <span className="block">Designed with</span>
               <span
-                className={`${cursive.className} mt-2 block text-6xl font-normal leading-none text-[#00BCD4] sm:text-7xl lg:text-[6.5rem]`}
+                className={`${cursive.className} animate-handwritten-reveal mt-2 block origin-left scale-x-[1.04] px-6 pb-4 text-6xl font-normal leading-[1.15] text-[#00BCD4] text-center sm:text-8xl lg:text-[6.5rem]`}
               >
                 Heart.
               </span>

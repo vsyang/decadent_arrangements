@@ -49,7 +49,7 @@ export default function TermsOfServicePage() {
             When you place an order through our website, you agree to provide
             accurate and complete information necessary to process your order.
             This may include your name, contact information, delivery address,
-            payment information, event date, and any special instructions.
+            preferred payment method, event date, and any special instructions.
           </p>
 
           <p className="mt-4 leading-7">
@@ -131,7 +131,7 @@ export default function TermsOfServicePage() {
 
           <p className="leading-7">
             Customers are responsible for providing accurate delivery
-            information, including the recipient's name, address, phone number,
+            information, including the recipient&apos;s name, address, phone number,
             and any relevant delivery instructions.
           </p>
 
