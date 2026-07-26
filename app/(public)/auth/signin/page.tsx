@@ -1,12 +1,13 @@
 "use client";
 
 import "@/app/globals.css";
+import { authOptions } from "@/app/lib/auth";
+import { getServerSession } from "next-auth";
 
 import { signIn } from "next-auth/react";
 import { ArrowRight } from "lucide-react";
 import { cormorant, montserrat } from "@/app/ui/home/fonts";
 
-export default function SignInPage() {
   return (
     <main
       className={`${montserrat.className} relative flex min-h-[calc(100vh-72px)] items-center justify-center overflow-hidden bg-black px-6 py-16 text-white`}

@@ -1,13 +1,21 @@
 "use client";
 
 import "@/app/globals.css";
+import { authOptions } from "@/app/lib/auth";
+import { getServerSession } from "next-auth";
 
 import { signOut } from "next-auth/react";
 import { ArrowLeft, LogOut } from "lucide-react";
 import { cormorant, montserrat } from "@/app/ui/home/fonts";
 import Link from "next/link";
 
-export default function SignOutPage() {
+export default async function SignOutPage() {
+  const session = await getServerSession(authOptions);
+
+  // If the user is not signed in, redirect them to sign in.
+  if (!session?.user?.id) {
+    redirect("/api/auth/signin");
+  }
   return (
     <main
       className={`${montserrat.className} relative flex min-h-[calc(100vh-72px)] items-center justify-center overflow-hidden bg-black px-6 py-16 text-white`}
