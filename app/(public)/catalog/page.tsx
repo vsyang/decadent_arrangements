@@ -6,6 +6,8 @@ import { Sparkles } from "lucide-react";
 
 import { ProductsGridSkeleton } from "@/app/ui/skeleton";
 import ProductsGrid from "@/app/ui/products/grid";
+import { cormorant, montserrat } from "@/app/ui/home/fonts";
+import { Reveal } from "@/app/ui/helpers/Reveal";
 
 export const metadata: Metadata = {
   title: "Catalog | Decadent Arrangements",
@@ -15,40 +17,131 @@ export const metadata: Metadata = {
 
 export default function CatalogPage() {
   return (
-    <main className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors">
-      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-10 md:py-16">
-        <div className="mb-10 text-center md:mb-14">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 py-1.5 shadow-sm">
-            <Sparkles className="h-4 w-4 text-[var(--color-honey)]" />
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">
-              Artisanal Selection
-            </span>
+    <main
+      className={`${montserrat.className} min-h-screen overflow-x-hidden bg-[#0a0a0a] text-white`}
+    >
+      {/* =====================================================
+          CATALOG HERO
+      ====================================================== */}
+      <section className="relative min-h-[560px] overflow-hidden bg-black text-white sm:min-h-[620px] lg:min-h-[680px]">
+        {/* Background video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="animate-cinematic-image-reveal absolute inset-0 h-full w-full object-cover object-center"
+        >
+          <source
+            src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/movie/strawberries-chocolate.mp4"
+            type="video/mp4"
+          />
+        </video>
+
+        {/* Cinematic overlays */}
+        <div className="absolute inset-0 bg-black/35" />
+
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/10" />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/50" />
+
+        {/* Hero content */}
+        <div className="relative z-10 mx-auto flex min-h-[560px] max-w-7xl items-center px-6 py-16 sm:min-h-[620px] sm:px-10 lg:min-h-[680px] lg:px-14">
+          <div className="max-w-4xl">
+            <div className="animate-cinematic-fade-up mb-7 flex items-center gap-4">
+              <div className="h-px w-12 bg-[#00BCD4]" />
+
+              <p className="text-[10px] font-medium uppercase tracking-[0.38em] text-white/70 sm:text-xs">
+                Artisanal Selection
+              </p>
+            </div>
+
+            <h1
+              className={`${cormorant.className} animate-cinematic-fade-up animation-delay-200 text-5xl font-medium leading-[0.92] tracking-[-0.025em] text-white sm:text-7xl lg:text-[6.5rem]`}
+            >
+              Our Culinary
+              <span className="block italic text-white/70">Creations.</span>
+            </h1>
+
+            <p className="animate-cinematic-fade-up animation-delay-600 mt-8 max-w-2xl text-sm leading-7 text-white/75 sm:text-base sm:leading-8">
+              Explore handcrafted arrangements created with premium ingredients,
+              thoughtful presentation, and custom details for every celebration.
+            </p>
+
+            <div className="animate-cinematic-fade-up animation-delay-800 mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/20 pt-7">
+              <div className="flex items-center gap-3">
+                <Sparkles
+                  className="h-4 w-4 text-[#00BCD4]"
+                  strokeWidth={1.3}
+                />
+
+                <p className="text-[10px] uppercase tracking-[0.18em] text-white/65">
+                  Handcrafted
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Sparkles
+                  className="h-4 w-4 text-[#00BCD4]"
+                  strokeWidth={1.3}
+                />
+
+                <p className="text-[10px] uppercase tracking-[0.18em] text-white/65">
+                  Custom Designed
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Sparkles
+                  className="h-4 w-4 text-[#00BCD4]"
+                  strokeWidth={1.3}
+                />
+
+                <p className="text-[10px] uppercase tracking-[0.18em] text-white/65">
+                  Made in Denver
+                </p>
+              </div>
+            </div>
           </div>
-
-          <h1 className="mb-4 font-serif text-4xl font-extrabold text-[var(--color-primary)] sm:text-5xl md:text-6xl">
-            Our Culinary Creations
-          </h1>
-
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--color-muted-foreground)] md:text-lg">
-            Explore our curated arrangements handcrafted with premium cheeses,
-            cured meats, fresh fruits, and sweet treats designed for every
-            occasion.
-          </p>
         </div>
+      </section>
 
-        <div className="relative mb-10 flex items-center justify-center">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[var(--color-border-subtle)]" />
+      {/* =====================================================
+          PRODUCT COLLECTION
+      ====================================================== */}
+      <section className="bg-[#f4f0ea] px-6 py-20 text-black sm:px-10 lg:py-28">
+        <div className="mx-auto max-w-7xl">
+          <Reveal>
+            <div className="mb-12 flex flex-col gap-8 border-b border-black/15 pb-8 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="mb-4 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+                  Available Arrangements
+                </p>
+
+                <h2
+                  className={`${cormorant.className} max-w-3xl text-4xl font-medium leading-[0.95] text-[#252525] sm:text-5xl lg:text-6xl`}
+                >
+                  Find the perfect arrangement
+                  <span className="block italic text-[#807973]">
+                    for your moment.
+                  </span>
+                </h2>
+              </div>
+
+              <p className="max-w-md text-sm leading-7 text-[#545454]">
+                Each creation can be personalized to reflect your occasion,
+                preferences, dietary needs, and number of guests.
+              </p>
+            </div>
+          </Reveal>
+
+          {/* Product grid */}
+          <div className="w-full">
+            <Suspense fallback={<ProductsGridSkeleton />}>
+              <ProductsGrid />
+            </Suspense>
           </div>
-          <span className="relative bg-[var(--color-background)] px-4 text-xs font-semibold uppercase tracking-widest text-[var(--color-muted)]">
-            Available Arrangements
-          </span>
-        </div>
-
-        <div className="w-full">
-          <Suspense fallback={<ProductsGridSkeleton />}>
-            <ProductsGrid />
-          </Suspense>
         </div>
       </section>
     </main>

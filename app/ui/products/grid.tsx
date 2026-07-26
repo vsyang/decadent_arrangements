@@ -1,5 +1,3 @@
-// src/ui/products/grid.tsx
-
 import "@/app/globals.css";
 
 import Link from "next/link";
@@ -57,7 +55,7 @@ export default async function ProductsGrid() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => {
         let galleryImages = imagesByProduct[product.id] ?? [];
 
@@ -76,9 +74,9 @@ export default async function ProductsGrid() {
         return (
           <article
             key={product.id}
-            className="group relative flex flex-col overflow-hidden rounded-3xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            className="group flex h-full flex-col overflow-hidden border border-black/20 bg-[#f4f0ea] transition duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,0,0,0.12)]"
           >
-            <div className="relative aspect-[5/4] w-full overflow-hidden bg-[var(--color-surface)]">
+            <div className="relative aspect-[5/4] w-full overflow-hidden bg-black">
               <CatalogImageCard
                 categoryName={product.name}
                 images={galleryImages}
@@ -88,60 +86,68 @@ export default async function ProductsGrid() {
 
             <div className="flex flex-grow flex-col justify-between p-6">
               <div>
-                <h3 className="font-serif text-xl font-bold text-[var(--color-primary)] transition-colors group-hover:text-[var(--color-accent)] line-clamp-1">
+                <p className="mb-3 text-[9px] font-medium uppercase tracking-[0.24em] text-[#007C91]">
+                  Handcrafted Arrangement
+                </p>
+
+                <h3 className="font-serif text-3xl font-medium leading-none text-[#252525] transition-colors duration-300 group-hover:text-[#007C91]">
                   {product.name}
                 </h3>
 
-                <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted-foreground)] line-clamp-2">
+                <p className="mt-4 line-clamp-2 text-sm leading-7 text-[#545454]">
                   {product.description || "Handcrafted artisanal arrangement."}
                 </p>
               </div>
 
-              <div className="mt-6 flex items-center justify-between border-t border-[var(--color-border-subtle)] pt-4">
-                <div className="flex flex-col text-left">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-muted)]">
+              <div className="mt-8 grid grid-cols-2 gap-5 border-y border-black/15 py-5">
+                <div>
+                  <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#807973]">
                     Investment
                   </span>
+
                   {numericPrice > 0 ? (
-                    <p className="font-serif text-lg font-bold text-[var(--color-primary)]">
+                    <p className="mt-2 font-serif text-2xl font-medium text-[#252525]">
                       ${numericPrice.toFixed(2)}
                     </p>
                   ) : (
-                    <span className="font-serif text-sm italic text-[var(--color-accent)]">
+                    <p className="mt-2 font-serif text-lg italic text-[#007C91]">
                       Quote Upon Request
-                    </span>
+                    </p>
                   )}
                 </div>
 
-                <div className="flex flex-col text-right">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-muted)]">
+                <div className="border-l border-black/15 pl-5">
+                  <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#807973]">
                     Serves
                   </span>
-                  <p className="flex items-center justify-end gap-1 text-xs font-semibold text-[var(--color-foreground)]">
-                    <Users className="h-3.5 w-3.5 text-[var(--color-accent)]" />
-                    <span>
-                      {product.capacity === "50-plus"
-                        ? "50+ Guests"
-                        : `${product.capacity} Guests`}
-                    </span>
+
+                  <p className="mt-2 flex items-center gap-2 text-sm font-medium text-[#252525]">
+                    <Users
+                      className="h-4 w-4 text-[#007C91]"
+                      strokeWidth={1.4}
+                    />
+
+                    {product.capacity === "50-plus"
+                      ? "50+ Guests"
+                      : `${product.capacity} Guests`}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-6 pt-1">
-                <Link
-                  href={
-                    isAuthenticated
-                      ? `/orders/new?productId=${product.id}`
-                      : `/api/auth/signin?callbackUrl=/orders/new?productId=${product.id}`
-                  }
-                  className="group/btn flex w-full items-center justify-center gap-2 rounded-full border border-[var(--color-accent)] py-3 text-xs font-semibold uppercase tracking-wider text-[var(--color-accent)] transition-all duration-300 hover:bg-[var(--color-accent)] hover:text-white hover:shadow-md"
-                >
-                  <ShoppingBag className="h-4 w-4" />
-                  <span>Place Order</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                </Link>
-              </div>
+              <Link
+                href={
+                  isAuthenticated
+                    ? `/orders/new?productId=${product.id}`
+                    : `/api/auth/signin?callbackUrl=/orders/new?productId=${product.id}`
+                }
+                className="group/btn mt-6 inline-flex w-full items-center justify-center gap-3 bg-black px-6 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition duration-300 hover:bg-[#00BCD4] hover:text-black"
+              >
+                <ShoppingBag className="h-4 w-4" strokeWidth={1.4} />
+
+                <span>Place Order</span>
+
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+              </Link>
             </div>
           </article>
         );
