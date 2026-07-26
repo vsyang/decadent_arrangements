@@ -114,7 +114,6 @@ export default function AboutPage() {
                   Reliable order tracking and delivery scheduling.
                 </p>
               </div>
-              git rebase --continue
             </div>
 
             {/* CTA */}
