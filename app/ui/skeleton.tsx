@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 
-
 export function ProductCardSkeleton() {
   return (
     <div className="flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">

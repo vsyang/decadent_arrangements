@@ -2,7 +2,6 @@
 
 import "@/app/globals.css";
 
-
 import { useState } from "react";
 import { Pencil, Check, X } from "lucide-react";
 

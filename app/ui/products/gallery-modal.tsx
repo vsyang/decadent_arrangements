@@ -2,11 +2,10 @@
 
 import "@/app/globals.css";
 
-
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom"; // 👈 Importamos createPortal
+import { createPortal } from "react-dom";
 
 type GalleryImage = {
   id: string;
@@ -17,7 +16,6 @@ type GalleryImage = {
 type ImageGalleryModalProps = {
   categoryName: string;
   images: GalleryImage[];
-  startingImageIndex?: number;
   isOpen: boolean;
   onClose: () => void;
 };
@@ -25,25 +23,23 @@ type ImageGalleryModalProps = {
 export default function ImageGalleryModal({
   categoryName,
   images,
-  startingImageIndex = 0,
   isOpen,
   onClose,
 }: ImageGalleryModalProps) {
-  const [currentIndex, setCurrentIndex] = useState(startingImageIndex);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     if (!isOpen) return;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        onClose();
+      }
+
       if (event.key === "ArrowLeft") {
         setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
       }
+
       if (event.key === "ArrowRight") {
         setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
       }
@@ -58,7 +54,7 @@ export default function ImageGalleryModal({
     };
   }, [isOpen, images.length, onClose]);
 
-  if (!isOpen || !isMounted || images.length === 0) {
+  if (!isOpen || images.length === 0 || typeof document === "undefined") {
     return null;
   }
 
@@ -73,7 +69,7 @@ export default function ImageGalleryModal({
   }
 
   function closeModal() {
-    setCurrentIndex(startingImageIndex);
+    setCurrentIndex(0);
     onClose();
   }
 
@@ -116,9 +112,9 @@ export default function ImageGalleryModal({
                 : `${categoryName} arrangement ${currentIndex + 1}`
             }
             fill
+            priority
             sizes="(max-width: 1024px) 100vw, 1000px"
             className="object-contain"
-            priority
           />
 
           {images.length > 1 && (
@@ -153,7 +149,7 @@ export default function ImageGalleryModal({
                 onClick={() => setCurrentIndex(index)}
                 className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${
                   currentIndex === index
-                    ? "border-[var(--color-accent)] scale-105 shadow-md"
+                    ? "scale-105 border-[var(--color-accent)] shadow-md"
                     : "border-transparent opacity-60 hover:opacity-100"
                 }`}
                 aria-label={`View image ${index + 1}`}

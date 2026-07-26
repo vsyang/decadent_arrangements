@@ -1,8 +1,4 @@
-import {
-  Allura,
-  Cormorant_Garamond,
-  Montserrat,
-} from "next/font/google";
+import { Allura, Cormorant_Garamond, Montserrat } from "next/font/google";
 
 export const cormorant = Cormorant_Garamond({
   subsets: ["latin"],

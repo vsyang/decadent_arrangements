@@ -6,7 +6,10 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/app/db";
 import { ProductImage } from "@/app/db/schema";
-import { fetchImagesByProductId, fetchProductImageById } from "@/app/db/queries";
+import {
+  fetchImagesByProductId,
+  fetchProductImageById,
+} from "@/app/db/queries";
 
 // Response returned by upload, replace, and delete actions.
 type ImageActionResult = {

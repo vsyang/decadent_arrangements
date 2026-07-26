@@ -1,10 +1,4 @@
-import {
-  CakeSlice,
-  CandyCane,
-  Gift,
-  GraduationCap,
-  Heart,
-} from "lucide-react";
+import { CakeSlice, CandyCane, Gift, GraduationCap, Heart } from "lucide-react";
 
 export const featuredArrangements = [
   {

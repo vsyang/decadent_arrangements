@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 
-
 import { fetchProductById } from "@/app/db/queries";
 import { notFound, redirect } from "next/navigation";
 

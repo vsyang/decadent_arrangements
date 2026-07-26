@@ -2,7 +2,6 @@
 
 import "@/app/globals.css";
 
-
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";

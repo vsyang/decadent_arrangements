@@ -6,7 +6,10 @@ import { db } from "@/app/db";
 import { Notification, users } from "@/app/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { checkAdminPrivilege } from "@/app/lib/auth-utils";
-import { NotificationItem, NotificationList } from "@/features/notifications/components/NotificationList";
+import {
+  NotificationItem,
+  NotificationList,
+} from "@/features/notifications/components/NotificationList";
 
 export const metadata = {
   title: "Notification Center | Decadent Arrangements",
