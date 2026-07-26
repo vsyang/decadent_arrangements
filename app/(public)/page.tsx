@@ -258,7 +258,7 @@ export default async function Home() {
                       href="/catalog"
                       className="mt-6 inline-flex items-center gap-3 border-b border-white/60 pb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white"
                     >
-                      View Arrangement
+                      View Arrangements
                       <ArrowRight
                         className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
                         strokeWidth={1.5}

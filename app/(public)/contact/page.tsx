@@ -8,7 +8,7 @@ import { Mail, MapPin, Clock, ArrowUpRight, Sparkles } from "lucide-react";
 export const metadata: Metadata = {
   title: "Contact Us | Decadent Arrangements",
   description:
-    "Get in touch with us for bespoke charcuterie boards, event catering, and custom culinary gifts.",
+    "Get in touch with us for custom charcuterie boards, event catering, and custom culinary gifts.",
 };
 
 export default function ContactPage() {
@@ -38,7 +38,7 @@ export default function ContactPage() {
             <div className="relative aspect-[4/3] sm:aspect-[4/5] w-full max-w-full overflow-hidden rounded-3xl border border-[var(--color-border)] shadow-xl">
               <Image
                 src="https://images.unsplash.com/photo-1541529086526-db283c563270?q=80&w=1000&auto=format&fit=crop"
-                alt="Bespoke Charcuterie Arrangement"
+                alt="Custom Charcuterie Arrangement"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover transition-transform duration-700 hover:scale-105"
