@@ -1,7 +1,6 @@
 // app/(public)/layout.tsx
 import "@/app/globals.css";
 
-
 export default function PublicLayout({
   children,
 }: Readonly<{

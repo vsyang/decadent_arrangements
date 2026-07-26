@@ -2,7 +2,6 @@
 
 import "@/app/globals.css";
 
-
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 type RevealProps = {

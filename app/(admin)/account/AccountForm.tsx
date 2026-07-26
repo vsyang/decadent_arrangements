@@ -7,7 +7,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { UserAddress } from "@/app/db/schema";
 
-
 export interface UserProfile {
   name: string;
   email: string;

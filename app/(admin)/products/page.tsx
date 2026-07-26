@@ -2,7 +2,6 @@
 
 import "@/app/globals.css";
 
-
 import type { Metadata } from "next";
 import { TableSkeleton } from "@/app/ui/skeleton";
 import { Suspense } from "react";

@@ -2,7 +2,6 @@
 
 import "@/app/globals.css";
 
-
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { ShoppingBag, Users, Sparkles, ArrowRight } from "lucide-react";

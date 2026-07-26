@@ -3,7 +3,6 @@
 
 import "@/app/globals.css";
 
-
 import Image from "next/image";
 import { useState } from "react";
 import ImageGalleryModal from "./gallery-modal";
@@ -76,6 +75,7 @@ export default function CatalogImageCard({
       </button>
 
       <ImageGalleryModal
+        key={isModalOpen ? "open" : "closed"}
         categoryName={categoryName}
         images={images}
         isOpen={isModalOpen}

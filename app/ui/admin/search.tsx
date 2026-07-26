@@ -1,6 +1,5 @@
 "use client";
 
-
 import "@/app/globals.css";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";

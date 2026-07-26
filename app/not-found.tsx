@@ -2,7 +2,6 @@
 
 import "@/app/globals.css";
 
-
 import Link from "next/link";
 
 // This page is shown when the user visits a route that does not exist.
