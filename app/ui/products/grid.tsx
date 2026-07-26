@@ -7,6 +7,7 @@ import { ShoppingBag, Users, Sparkles, ArrowRight } from "lucide-react";
 import { fetchAllProductImages, fetchProducts } from "@/app/db/queries";
 import { authOptions } from "@/app/lib/auth";
 import CatalogImageCard from "./catalog-image-card";
+import { Reveal } from "@/app/ui/helpers/Reveal";
 
 export type GalleryImage = {
   id: string;
@@ -56,7 +57,7 @@ export default async function ProductsGrid() {
 
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {products.map((product) => {
+      {products.map((product, index) => {
         let galleryImages = imagesByProduct[product.id] ?? [];
 
         if (galleryImages.length === 0 && product.imageUrl) {
@@ -72,84 +73,84 @@ export default async function ProductsGrid() {
         const numericPrice = Number(product.price);
 
         return (
-          <article
-            key={product.id}
-            className="group flex h-full flex-col overflow-hidden border border-black/20 bg-[#f4f0ea] transition duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,0,0,0.12)]"
-          >
-            <div className="relative aspect-[5/4] w-full overflow-hidden bg-black">
-              <CatalogImageCard
-                categoryName={product.name}
-                images={galleryImages}
-                fallbackImageUrl={product.imageUrl}
-              />
-            </div>
-
-            <div className="flex flex-grow flex-col justify-between p-6">
-              <div>
-                <p className="mb-3 text-[9px] font-medium uppercase tracking-[0.24em] text-[#007C91]">
-                  Handcrafted Arrangement
-                </p>
-
-                <h3 className="font-serif text-3xl font-medium leading-none text-[#252525] transition-colors duration-300 group-hover:text-[#007C91]">
-                  {product.name}
-                </h3>
-
-                <p className="mt-4 line-clamp-2 text-sm leading-7 text-[#545454]">
-                  {product.description || "Handcrafted artisanal arrangement."}
-                </p>
+          <Reveal key={product.id} delay={index * 150} className="h-full">
+            <article className="group flex h-full flex-col overflow-hidden border border-black/20 bg-[#f4f0ea] transition duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,0,0,0.12)]">
+              <div className="relative aspect-[5/4] w-full overflow-hidden bg-black">
+                <CatalogImageCard
+                  categoryName={product.name}
+                  images={galleryImages}
+                  fallbackImageUrl={product.imageUrl}
+                />
               </div>
 
-              <div className="mt-8 grid grid-cols-2 gap-5 border-y border-black/15 py-5">
+              <div className="flex flex-grow flex-col justify-between p-6">
                 <div>
-                  <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#807973]">
-                    Investment
-                  </span>
+                  <p className="mb-3 text-[9px] font-medium uppercase tracking-[0.24em] text-[#007C91]">
+                    Handcrafted Arrangement
+                  </p>
 
-                  {numericPrice > 0 ? (
-                    <p className="mt-2 font-serif text-2xl font-medium text-[#252525]">
-                      ${numericPrice.toFixed(2)}
-                    </p>
-                  ) : (
-                    <p className="mt-2 font-serif text-lg italic text-[#007C91]">
-                      Quote Upon Request
-                    </p>
-                  )}
-                </div>
+                  <h3 className="font-serif text-3xl font-medium leading-none text-[#252525] transition-colors duration-300 group-hover:text-[#007C91]">
+                    {product.name}
+                  </h3>
 
-                <div className="border-l border-black/15 pl-5">
-                  <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#807973]">
-                    Serves
-                  </span>
-
-                  <p className="mt-2 flex items-center gap-2 text-sm font-medium text-[#252525]">
-                    <Users
-                      className="h-4 w-4 text-[#007C91]"
-                      strokeWidth={1.4}
-                    />
-
-                    {product.capacity === "50-plus"
-                      ? "50+ Guests"
-                      : `${product.capacity} Guests`}
+                  <p className="mt-4 line-clamp-2 text-sm leading-7 text-[#545454]">
+                    {product.description ||
+                      "Handcrafted artisanal arrangement."}
                   </p>
                 </div>
+
+                <div className="mt-8 grid grid-cols-2 gap-5 border-y border-black/15 py-5">
+                  <div>
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#807973]">
+                      Investment
+                    </span>
+
+                    {numericPrice > 0 ? (
+                      <p className="mt-2 font-serif text-2xl font-medium text-[#252525]">
+                        ${numericPrice.toFixed(2)}
+                      </p>
+                    ) : (
+                      <p className="mt-2 font-serif text-lg italic text-[#007C91]">
+                        Quote Upon Request
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="border-l border-black/15 pl-5">
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#807973]">
+                      Serves
+                    </span>
+
+                    <p className="mt-2 flex items-center gap-2 text-sm font-medium text-[#252525]">
+                      <Users
+                        className="h-4 w-4 text-[#007C91]"
+                        strokeWidth={1.4}
+                      />
+
+                      {product.capacity === "50-plus"
+                        ? "50+ Guests"
+                        : `${product.capacity} Guests`}
+                    </p>
+                  </div>
+                </div>
+
+                <Link
+                  href={
+                    isAuthenticated
+                      ? `/orders/new?productId=${product.id}`
+                      : `/api/auth/signin?callbackUrl=/orders/new?productId=${product.id}`
+                  }
+                  className="group/btn mt-6 inline-flex w-full items-center justify-center gap-3 bg-black px-6 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition duration-300 hover:bg-[#00BCD4] hover:text-black"
+                >
+                  <ShoppingBag className="h-4 w-4" strokeWidth={1.4} />
+
+                  <span>Place Order</span>
+
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                </Link>
               </div>
-
-              <Link
-                href={
-                  isAuthenticated
-                    ? `/orders/new?productId=${product.id}`
-                    : `/api/auth/signin?callbackUrl=/orders/new?productId=${product.id}`
-                }
-                className="group/btn mt-6 inline-flex w-full items-center justify-center gap-3 bg-black px-6 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-white transition duration-300 hover:bg-[#00BCD4] hover:text-black"
-              >
-                <ShoppingBag className="h-4 w-4" strokeWidth={1.4} />
-
-                <span>Place Order</span>
-
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-              </Link>
-            </div>
-          </article>
+            </article>
+          </Reveal>
         );
       })}
     </div>
