@@ -1,8 +1,10 @@
 // app/(admin)/products/[id]/page.tsx
 
-import ProductImageManager from "@/components/admin/ProductImageManager";
-import { fetchImagesByProductId, fetchProductById } from "@/db/queries";
+import "@/app/globals.css";
 
+
+import { fetchImagesByProductId, fetchProductById } from "@/app/db/queries";
+import ProductImageManager from "@/app/ui/admin/products/ProductImageManager";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { notFound } from "next/navigation";

@@ -1,15 +1,17 @@
+import "@/app/globals.css";
+
 import type { Metadata } from "next";
-import { fetchAllOrdersCompletedFiltered } from "@/db/queries";
-import OrdersTableBody from "@/components/admin/OrdersTableBody";
-import { TableSkeleton } from "@/components/skeleton";
 import { Suspense } from "react";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { IsAdminProtection } from "../../dashboard/adminAction";
-import Search from "@/components/admin/search";
-import Pagination from "@/components/layout/pagination";
-import ItemsPerPage from "@/components/layout/itemsPerPage";
+import { fetchAllOrdersCompletedFiltered } from "@/app/db/queries";
+import Search from "@/app/ui/admin/search";
+import { TableSkeleton } from "@/app/ui/skeleton";
+import OrdersTableBody from "@/app/ui/admin/orders/OrdersTableBody";
+import Pagination from "@/app/ui/helpers/pagination";
+import ItemsPerPage from "@/app/ui/helpers/itemsPerPage";
 
 export const metadata: Metadata = {
   title: "Orders Overview",

@@ -1,6 +1,7 @@
 // app/page.tsx
+import "@/app/globals.css";
 
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/app/lib/auth";
 import { getServerSession } from "next-auth";
 import {
   ArrowRight,
@@ -10,15 +11,15 @@ import {
   PencilLine,
   Sparkles,
 } from "lucide-react";
-import { cormorant, cursive, montserrat } from "@/components/home/fonts";
+import { cormorant, cursive, montserrat } from "@/app/ui/home/fonts";
 import {
   featuredArrangements,
   instagramImages,
   occasions,
-} from "@/components/home/homepage";
+} from "@/app/ui/home/homepage";
 import Image from "next/image";
 import Link from "next/link";
-import { Reveal } from "@/components/layout/Reveal";
+import { Reveal } from "@/app/ui/helpers/Reveal";
 
 
 /* =========================================================

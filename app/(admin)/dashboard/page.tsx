@@ -1,10 +1,10 @@
 //app/(admin)/dashboard/page.tsx
 
-import "../../globals.css";
+import "@/app/globals.css";
 
 import { redirect } from "next/navigation";
-import { IsAdminProtection } from "./adminAction";
 import Link from "next/link";
+import { IsAdminProtection } from "./adminAction";
 
 export default async function DashboardPage() {
   const authorized = await IsAdminProtection();

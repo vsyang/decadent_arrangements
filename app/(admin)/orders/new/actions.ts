@@ -6,10 +6,10 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { eq } from "drizzle-orm";
 
-import { authOptions } from "@/lib/auth";
-import { sendOwnerEmail } from "@/lib/notification";
-import { db } from "@/db";
-import { Order, Product, users } from "@/db/schema";
+import { authOptions } from "@/app/lib/auth";
+import { sendOwnerEmail } from "@/app/lib/notification";
+import { db } from "@/app/db";
+import { Order, Product, users } from "@/app/db/schema";
 
 // Creates a customer-friendly order code.
 function generateOrderCode() {

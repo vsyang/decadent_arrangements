@@ -1,7 +1,10 @@
-import ProductForm from "@/components/admin/ProductForm";
-import { fetchProductById } from "@/db/queries";
+import "@/app/globals.css";
+
+
+import { fetchProductById } from "@/app/db/queries";
 import { notFound, redirect } from "next/navigation";
 
+import ProductForm from "@/app/ui/admin/products/ProductForm";
 import { DeleteProductById, ProductInput } from "../../actions";
 
 type DeleteProductPageProps = {

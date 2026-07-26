@@ -1,13 +1,15 @@
 //app/(admin)/orders/page.tsx
 
-import "../../globals.css";
+import "@/app/globals.css";
+
+
 import type { Metadata } from "next";
-import { TableSkeleton } from "@/components/skeleton";
+import { TableSkeleton } from "@/app/ui/skeleton";
 import { Suspense } from "react";
-import { fetchProducts } from "@/db/queries";
+import { fetchProducts } from "@/app/db/queries";
 import Link from "next/link";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
-import CatalogTableBody from "@/components/admin/CatalogTableBody";
+import CatalogTableBody from "@/app/ui/admin/products/CatalogTableBody";
 
 export const metadata: Metadata = {
   title: "Catalog Overview",

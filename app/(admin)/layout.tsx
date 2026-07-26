@@ -1,8 +1,9 @@
 // app/(admin)/layout.tsx
+import "@/app/globals.css";
 
+import { Sidebar } from "@/app/ui/admin/Sidebar";
 import { IsAdminProtection } from "./dashboard/adminAction";
-import { Sidebar } from "@/components/admin/Sidebar";
-import { SidebarClient } from "@/components/admin/SidebarClient";
+import { SidebarClient } from "@/app/ui/admin/SidebarClient";
 
 export default async function AdminLayout({
   children,

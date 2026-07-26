@@ -4,9 +4,9 @@ import { del, list, put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 
-import { db } from "@/db";
-import { ProductImage } from "@/db/schema";
-import { fetchImagesByProductId, fetchProductImageById } from "@/db/queries";
+import { db } from "@/app/db";
+import { ProductImage } from "@/app/db/schema";
+import { fetchImagesByProductId, fetchProductImageById } from "@/app/db/queries";
 
 // Response returned by upload, replace, and delete actions.
 type ImageActionResult = {

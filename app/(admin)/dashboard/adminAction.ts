@@ -1,5 +1,5 @@
 // app/(admin)/dashboard/adminAction.tsx
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/app/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 

@@ -1,7 +1,7 @@
 // app/(admin)/products/layout.tsx
 
-import { IsAdminProtection } from "../dashboard/adminAction";
 import { redirect } from "next/navigation";
+import { IsAdminProtection } from "../dashboard/adminAction";
 
 export default async function CatalogManagementLayout({
   children,

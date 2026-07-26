@@ -1,10 +1,12 @@
 // app/(admin)/account/page.tsx
+import "@/app/globals.css";
+
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { db } from "@/db";
-import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { authOptions } from "@/app/lib/auth";
+import { db } from "@/app/db";
+import { users } from "@/app/db/schema";
 import AccountForm, { UserProfile } from "./AccountForm";
 import { updateAccountAction } from "./actions";
 

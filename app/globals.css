@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+:root {
   /* Surface & Canvas */
   --color-background: #f9f6f0;
   --color-surface: #ffffff;

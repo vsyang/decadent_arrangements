@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { Product } from "@/db/schema";
+import { db } from "@/app/db";
+import { Product } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

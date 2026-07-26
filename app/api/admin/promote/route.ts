@@ -1,9 +1,9 @@
 // app/api/admin/promote/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { db } from "@/db";
-import { users } from "@/db/schema";
+import { authOptions } from "@/app/lib/auth";
+import { db } from "@/app/db";
+import { users } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {

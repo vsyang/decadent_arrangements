@@ -1,9 +1,10 @@
 // app/(admin)/orders/new/confirmation/page.tsx
+import "@/app/globals.css";
 
 import Link from "next/link";
-import { db } from "@/db";
-import { Order } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { db } from "@/app/db";
+import { Order } from "@/app/db/schema";
 
 // This page expects an optional order code from the URL, like: /order/confirmation?code=DA-123456
 type ConfirmationPageProps = {
