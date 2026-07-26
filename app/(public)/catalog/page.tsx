@@ -31,7 +31,7 @@ export default function CatalogPage() {
           loop
           playsInline
           preload="metadata"
-          className="animate-cinematic-image-reveal absolute inset-0 h-full w-full object-cover object-center"
+          className="animate-cinematic-image-reveal absolute inset-0 h-full w-full scale-[1.50] object-cover object-center"
         >
           <source
             src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/movie/strawberries-chocolate.mp4"
@@ -110,26 +110,26 @@ export default function CatalogPage() {
       {/* =====================================================
           PRODUCT COLLECTION
       ====================================================== */}
-      <section className="bg-[#f4f0ea] px-6 py-20 text-black sm:px-10 lg:py-28">
+      <section className="bg-[#0a0a0a] px-6 py-20 text-white sm:px-10 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <Reveal>
-            <div className="mb-12 flex flex-col gap-8 border-b border-black/15 pb-8 lg:flex-row lg:items-end lg:justify-between">
+            <div className="mb-12 flex flex-col gap-8 border-b border-white/15 pb-8 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="mb-4 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+                <p className="mb-4 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
                   Available Arrangements
                 </p>
 
                 <h2
-                  className={`${cormorant.className} max-w-3xl text-4xl font-medium leading-[0.95] text-[#252525] sm:text-5xl lg:text-6xl`}
+                  className={`${cormorant.className} max-w-3xl text-4xl font-medium leading-[0.95] text-white sm:text-5xl lg:text-6xl`}
                 >
                   Find the perfect arrangement
-                  <span className="block italic text-[#807973]">
+                  <span className="block italic text-white/55">
                     for your moment.
                   </span>
                 </h2>
               </div>
 
-              <p className="max-w-md text-sm leading-7 text-[#545454]">
+              <p className="max-w-md text-sm leading-7 text-white/55">
                 Each creation can be personalized to reflect your occasion,
                 preferences, dietary needs, and number of guests.
               </p>
