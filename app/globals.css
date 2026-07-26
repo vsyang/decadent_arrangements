@@ -134,7 +134,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-
     .animate-cinematic-fade-up,
     .animate-cinematic-image-reveal {
       animation: none;

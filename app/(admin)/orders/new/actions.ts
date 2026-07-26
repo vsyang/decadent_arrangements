@@ -13,9 +13,39 @@ import { Order, Product, users } from "@/db/schema";
 
 // Creates a customer-friendly order code.
 function generateOrderCode() {
-  const randomNumber = Math.floor(100000 + Math.random() * 900000);
+  const now = new Date();
 
-  return `DA-${randomNumber}`;
+  const yy = String(now.getFullYear()).slice(-2);
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const datePart = `${yy}${mm}${dd}`;
+
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  // Hour to letter
+  const hour = now.getHours();
+  const hourLetter = alphabet[hour];
+
+  // Minutes to get letter
+  const minutes = now.getMinutes();
+  let minuteLetter = "";
+
+  if (minutes < 26) {
+    // First lap (0 - 25): uppercase (A-Z)
+    minuteLetter = alphabet[minutes];
+  } else if (minutes >= 26 && minutes < 52) {
+    // Second lap (26 - 51): lowwercase (a-z)
+    const secondTurnIndex = minutes - 26;
+    minuteLetter = alphabet[secondTurnIndex].toLowerCase();
+  } else {
+    // Third lap (52 - 59): 0 - 7
+    const thirdTurnIndex = minutes - 52;
+    minuteLetter = String(thirdTurnIndex);
+  }
+
+  console.log(`${hourLetter}-${datePart}${minuteLetter}`);
+
+  return `${hourLetter}${minuteLetter}-${datePart}`;
 }
 
 // This server action runs when the customer submits the order form.
@@ -43,7 +73,10 @@ export async function createOrder(formData: FormData) {
   // Read event information.
   const eventDate = formData.get("eventDate")?.toString().trim() ?? "";
 
-  const eventTime = formData.get("eventTime")?.toString().trim() ?? "";
+  // Event time
+  const eventHour = formData.get("eventHour")?.toString().trim() ?? "";
+  const eventMinute = formData.get("eventMinute")?.toString().trim() ?? "";
+  const eventPeriod = formData.get("eventPeriod")?.toString().trim() ?? "";
 
   const specialRequests =
     formData.get("specialRequests")?.toString().trim() ?? "";
@@ -76,7 +109,9 @@ export async function createOrder(formData: FormData) {
     !phone ||
     !productId ||
     !eventDate ||
-    !eventTime ||
+    !eventHour ||
+    !eventMinute ||
+    !eventPeriod ||
     !streetAddress ||
     !city ||
     !state ||
@@ -103,6 +138,21 @@ export async function createOrder(formData: FormData) {
   }
 
   // Combine the selected date and time.
+  let hour = Number(eventHour);
+
+  if (Number.isNaN(hour) || hour < 1 || hour > 12) {
+    throw new Error("Invalid event hour.");
+  }
+
+  if (eventPeriod === "PM" && hour !== 12) {
+    hour += 12;
+  }
+
+  if (eventPeriod === "AM" && hour === 12) {
+    hour = 0;
+  }
+
+  const eventTime = `${String(hour).padStart(2, "0")}:${eventMinute}:00`;
   const combinedEventDate = new Date(`${eventDate}T${eventTime}`);
 
   if (Number.isNaN(combinedEventDate.getTime())) {

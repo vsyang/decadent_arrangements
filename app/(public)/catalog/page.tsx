@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Sparkles, Utensils, HeartHandshake } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 import { ProductsGridSkeleton } from "@/components/skeleton";
 import ProductsGrid from "@/components/products/grid";

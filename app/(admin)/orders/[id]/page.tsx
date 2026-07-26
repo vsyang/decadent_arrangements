@@ -8,6 +8,7 @@ import { MousePointerClick } from "lucide-react";
 import { CopyTextButton } from "@/components/admin/CopyTextButton";
 import { FingerPrintIcon } from "@heroicons/react/24/outline";
 import { SpecialRequestsModal } from "@/components/admin/RequestsModal";
+import EditableTextField from "@/components/admin/EditableTextField";
 
 // Formats a 10-digit phone number as xxx-xxx-xxxx.
 function formatPhoneNumber(phone: string) {
@@ -96,11 +97,9 @@ export default async function OrderDetailsPage(props: {
       <div className="flex w-full flex-col gap-3">
         {/* Main order information */}
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-
           <h1 className="flex text-2xl font-bold text-slate-900">
-            
             <span>Order #</span>
-            <CopyTextButton text={order.idReadable} name="Order Number" order={true} />
+            <CopyTextButton text={order.idReadable} name="Order Number" />
           </h1>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -154,78 +153,85 @@ export default async function OrderDetailsPage(props: {
 
         {/* Arrangement Details */}
         <section className="flex-1 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900">
+            Arrangement Details
+          </h2>
 
-              <h2 className="text-lg font-semibold text-slate-900">
-                  Arrangement Details
-              </h2>
-
-              <div className="w-full grid gap-4 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] mt-4">
-
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
-                  <div>
-
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Name
-                    </h3>
-
-                    <p className="mt-1 font-semibold text-slate-900">
-                      {order.productName}
-                    </p>
-
-                  </div>
-
-                  <div>
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Capacity (Size)
-                    </h3>
-
-                    <p className="mt-1 font-semibold text-slate-900">
-                      {order.capacity} people
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
-
-                  <div>
-
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Price
-                    </h3>
-                    <p className="mt-1 font-semibold text-slate-900">
-                      ${order.price}
-                    </p>
-
-                  </div>
-
-                  <div>
-
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Payment Method
-                    </h3>
-                    <p className="mt-1 font-semibold text-slate-900 uppercase">
-                      {order.payment}
-                    </p>
-
-                  </div>
-                </div>
-              </div>
-
-              {/* Delivery Notes */}
-
+          <div className="w-full grid gap-4 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] mt-4">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
               <div>
-
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Delivery Notes
+                  Name
                 </h3>
 
                 <p className="mt-1 font-semibold text-slate-900">
-                  {order.address.deliveryNotes}
+                  {order.productName}
                 </p>
-
               </div>
 
-            </section>
+              {authorized ? (
+                <EditableTextField
+                  copy={false}
+                  orderId={order.id}
+                  label="Capacity (Size)"
+                  value={order.capacity}
+                  field="productCapacityAtPurchase"
+                />
+              ) : (
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    Capacity (Size)
+                  </h3>
+
+                  <p className="mt-1 font-semibold text-slate-900">
+                    {order.capacity} people
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
+              {authorized ? (
+                <EditableTextField
+                  copy={false}
+                  orderId={authorized ? order.id : ""}
+                  label="Price"
+                  value={order.price}
+                  field="totalPrice"
+                  type="number"
+                />
+              ) : (
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    Price
+                  </h3>
+                  <p className="mt-1 font-semibold text-slate-900">
+                    ${order.price}
+                  </p>
+                </div>
+              )}
+
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Payment Method
+                </h3>
+                <p className="mt-1 font-semibold text-slate-900 uppercase">
+                  {order.payment}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Delivery Notes */}
+
+          <div className="flex flex-col gap-2 border-b-2 border-slate-300 hover:border-blue-600">
+            <SpecialRequestsModal
+              requestTitle="Delivery Notes"
+              specialRequest={order.address.deliveryNotes}
+              isAllergy={false}
+            />
+          </div>
+        </section>
 
         {/* Details of order */}
 
@@ -239,50 +245,75 @@ export default async function OrderDetailsPage(props: {
 
               <div className="mt-4 space-y-5">
                 {/* Customer name */}
-                <div>
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                    Name
-                  </h3>
 
-                  <p className="mt-1 font-semibold text-slate-900">
-                    {order.clientName}
-                  </p>
-                </div>
+                {authorized ? (
+                  <EditableTextField
+                    copy={true}
+                    orderId={order.id}
+                    label="Name"
+                    value={order.clientName}
+                    field="customerNameAtPurchase"
+                  />
+                ) : (
+                  <div>
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Name
+                    </h3>
+
+                    <p className="mt-1 font-semibold text-slate-900">
+                      {order.clientName}
+                    </p>
+                  </div>
+                )}
 
                 {/* Customer phone number */}
-                <div>
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                    Phone
-                  </h3>
+                {authorized ? (
+                  <EditableTextField
+                    copy={true}
+                    orderId={order.id}
+                    label="Phone"
+                    value={formattedPhone}
+                    field="customerPhoneAtPurchase"
+                    type="tel"
+                  />
+                ) : (
+                  <div>
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Phone
+                    </h3>
 
-                  {(authorized) ? (
-                      // Administrators can click to copy the formatted phone number.
-                    <CopyTextButton text={order.phone} name="Phone" order={false} />
-                  ) : (
-                    // Customers see the same formatted phone number.
                     <span className="mt-1 font-semibold text-slate-900">
                       {formattedPhone}
                     </span>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 {/* Customer email */}
-                <div>
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                    Email
-                  </h3>
-                  {(authorized) ? (
-                    <CopyTextButton text={order.email} name="Email" order={false} />
-                  ) : (
+
+                {authorized ? (
+                  <EditableTextField
+                    copy={true}
+                    orderId={order.id}
+                    label="Phone"
+                    value={order.email}
+                    field="customerEmailAtPurchase"
+                    type="email"
+                  />
+                ) : (
+                  <div>
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Email
+                    </h3>
+
                     <span className="mt-1 font-semibold text-slate-900">
                       {order.email}
                     </span>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </section>
 
-            {/* Customer requests */}
+            {/* Customer requests/allergies */}
             <section className="flex min-w-[240px] flex-1 flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-slate-900">
                 Customer Requests
@@ -291,6 +322,7 @@ export default async function OrderDetailsPage(props: {
               {/* Special requests */}
               <div className="flex flex-col gap-2 border-b-2 border-slate-300 hover:border-blue-600">
                 <SpecialRequestsModal
+                  orderId={authorized ? order.id : undefined}
                   requestTitle="Special Requests"
                   specialRequest={order.specialRequest}
                   isAllergy={false}
@@ -355,13 +387,16 @@ export default async function OrderDetailsPage(props: {
                   Delivery Address
                 </h3>
 
-                {(authorized) ? (
-                    <CopyTextButton text={customerAddress} name="Delivery Address" order={false} />
-                  ) : (
-                    <p className="mt-1 font-semibold text-slate-900">
-                      {customerAddress}
-                    </p>
-                  )}
+                {authorized ? (
+                  <CopyTextButton
+                    text={customerAddress}
+                    name="Delivery Address"
+                  />
+                ) : (
+                  <p className="mt-1 font-semibold text-slate-900">
+                    {customerAddress}
+                  </p>
+                )}
               </div>
             </div>
           </section>
