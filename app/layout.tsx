@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "./ui/helpers/Navbar";
+import Footer from "./ui/helpers/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,10 +38,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground flex flex-col min-h-full">
         <Navbar />
         <div>{children}</div>
-        <footer className="w-full mt-auto mb-16 md:mb-0 md:border-t border-border bg-background md:py-6 py-2 text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} Decadent Arrangements. All rights
-          reserved.
-        </footer>
+        <Footer />
       </body>
     </html>
   );

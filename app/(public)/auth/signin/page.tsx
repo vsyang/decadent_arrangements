@@ -6,14 +6,12 @@ import { signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export default async function SignInPage() {
-
   const session = await getServerSession(authOptions);
-  
-    // If the user is already signed in, redirect them to home.
-    if (session?.user?.id) {
-      redirect("/");
-    }
 
+  // If the user is already signed in, redirect them to home.
+  if (session?.user?.id) {
+    redirect("/");
+  }
 
   return (
     <div className="flex justify-center">
