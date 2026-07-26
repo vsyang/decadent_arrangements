@@ -30,9 +30,7 @@ export default function TermsOfServicePage() {
 
         {/* Section 1 */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold">
-            1. About Our Services
-          </h2>
+          <h2 className="mb-4 text-2xl font-bold">1. About Our Services</h2>
 
           <p className="leading-7">
             <strong>[BUSINESS NAME]</strong> provides food products,
@@ -45,9 +43,7 @@ export default function TermsOfServicePage() {
 
         {/* Section 2 */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold">
-            2. Orders and Purchases
-          </h2>
+          <h2 className="mb-4 text-2xl font-bold">2. Orders and Purchases</h2>
 
           <p className="leading-7">
             When you place an order through our website, you agree to provide
@@ -112,9 +108,7 @@ export default function TermsOfServicePage() {
 
         {/* Section 5 */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold">
-            5. Pricing and Payment
-          </h2>
+          <h2 className="mb-4 text-2xl font-bold">5. Pricing and Payment</h2>
 
           <p className="leading-7">
             Prices displayed on our website are listed in [CURRENCY] unless
@@ -133,9 +127,7 @@ export default function TermsOfServicePage() {
 
         {/* Section 6 */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold">
-            6. Delivery and Pickup
-          </h2>
+          <h2 className="mb-4 text-2xl font-bold">6. Delivery and Pickup</h2>
 
           <p className="leading-7">
             Customers are responsible for providing accurate delivery
@@ -193,21 +185,20 @@ export default function TermsOfServicePage() {
 
           <p className="mt-4 leading-7">
             Customers are responsible for reviewing their order details before
-            submitting an order, including product selection, quantity,
-            delivery information, event date, and special instructions.
+            submitting an order, including product selection, quantity, delivery
+            information, event date, and special instructions.
           </p>
         </section>
 
         {/* Section 9 */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold">
-            9. Intellectual Property
-          </h2>
+          <h2 className="mb-4 text-2xl font-bold">9. Intellectual Property</h2>
 
           <p className="leading-7">
             All content available on this website, including logos, branding,
             photographs, graphics, text, product descriptions, and other
-            materials, is owned by or licensed to <strong>[BUSINESS NAME]</strong>
+            materials, is owned by or licensed to{" "}
+            <strong>[BUSINESS NAME]</strong>
             and may not be copied, reproduced, distributed, or used without
             prior written permission.
           </p>
@@ -220,8 +211,8 @@ export default function TermsOfServicePage() {
           </h2>
 
           <p className="leading-7">
-            To the extent permitted by applicable law, [BUSINESS NAME] shall
-            not be liable for indirect, incidental, special, or consequential
+            To the extent permitted by applicable law, [BUSINESS NAME] shall not
+            be liable for indirect, incidental, special, or consequential
             damages arising from the use of our website, products, or services.
           </p>
 
@@ -251,9 +242,7 @@ export default function TermsOfServicePage() {
 
         {/* Section 12 */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold">
-            12. Governing Law
-          </h2>
+          <h2 className="mb-4 text-2xl font-bold">12. Governing Law</h2>
 
           <p className="leading-7">
             These Terms of Service shall be governed by and interpreted in
@@ -264,9 +253,7 @@ export default function TermsOfServicePage() {
 
         {/* Section 13 */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold">
-            13. Contact Us
-          </h2>
+          <h2 className="mb-4 text-2xl font-bold">13. Contact Us</h2>
 
           <p className="leading-7">
             If you have any questions about these Terms of Service, please
