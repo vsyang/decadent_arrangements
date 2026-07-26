@@ -1,6 +1,6 @@
-import ProductForm from "@/components/admin/ProductForm";
 import { redirect } from "next/navigation";
 import { CreateProduct } from "../actions";
+import ProductForm from "@/app/ui/admin/products/ProductForm";
 
 export default async function NewProductPage() {
   const handleCancel = async () => {

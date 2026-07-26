@@ -1,8 +1,10 @@
-import ProductForm from "@/components/admin/ProductForm";
-import { fetchProductById } from "@/db/queries";
+import "@/app/globals.css";
+
+import { fetchProductById } from "@/app/db/queries";
 import { notFound, redirect } from "next/navigation";
 
 import { ProductInput, UpdateProductById } from "../../actions";
+import ProductForm from "@/app/ui/admin/products/ProductForm";
 
 type EditProductPageProps = {
   params: Promise<{

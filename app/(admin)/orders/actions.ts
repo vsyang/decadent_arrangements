@@ -1,9 +1,9 @@
 "use server";
 
-import { db } from "@/db";
-import { Order, orderStatusEnum } from "@/db/schema";
+import { db } from "@/app/db";
+import { Order, orderStatusEnum } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
-import { sendCustomerDeliveryEmail } from "@/lib/notification";
+import { sendCustomerDeliveryEmail } from "@/app/lib/notification";
 import { revalidatePath } from "next/cache";
 
 export type OrderStatus = (typeof orderStatusEnum.enumValues)[number];

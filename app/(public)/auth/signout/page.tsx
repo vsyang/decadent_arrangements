@@ -1,4 +1,5 @@
 'use client';
+import "@/app/globals.css";
 
 import { signOut } from "next-auth/react";
 

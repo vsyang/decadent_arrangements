@@ -1,13 +1,12 @@
+import "@/app/globals.css";
+
 import { redirect } from "next/navigation";
 import { getSessionAction } from "@/app/actions/auth";
-import { db } from "@/db";
-import { Notification, users } from "@/db/schema";
+import { db } from "@/app/db";
+import { Notification, users } from "@/app/db/schema";
 import { eq, desc } from "drizzle-orm";
-import {
-  NotificationList,
-  NotificationItem,
-} from "@/features/notifications/components/NotificationList";
-import { checkAdminPrivilege } from "@/lib/auth-utils";
+import { checkAdminPrivilege } from "@/app/lib/auth-utils";
+import { NotificationItem, NotificationList } from "@/features/notifications/components/NotificationList";
 
 export const metadata = {
   title: "Notification Center | Decadent Arrangements",

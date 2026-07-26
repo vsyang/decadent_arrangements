@@ -1,13 +1,15 @@
 // app/(admin)/orders/new/page.tsx
 
+import "@/app/globals.css";
+
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { eq } from "drizzle-orm";
 
-import { authOptions } from "@/lib/auth";
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { fetchProducts } from "@/db/queries";
+import { authOptions } from "@/app/lib/auth";
+import { db } from "@/app/db";
+import { users } from "@/app/db/schema";
+import { fetchProducts } from "@/app/db/queries";
 
 import OrderForm from "./OrderForm";
 

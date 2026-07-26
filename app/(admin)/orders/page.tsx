@@ -1,22 +1,23 @@
-import "../../globals.css";
+import "@/app/globals.css";
+
 
 import type { Metadata } from "next";
 import {
   fetchAllOrdersByCustomerIdFiltered,
   fetchAllOrdersIncompletedFiltered,
-} from "@/db/queries";
-import OrdersTableBody from "@/components/admin/OrdersTableBody";
-import { TableSkeleton } from "@/components/skeleton";
+} from "@/app/db/queries";
+import { TableSkeleton } from "@/app/ui/skeleton";
 import { Suspense } from "react";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/app/lib/auth";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Search from "@/app/ui/admin/search";
+import OrdersTableBody from "@/app/ui/admin/orders/OrdersTableBody";
+import Pagination from "@/app/ui/helpers/pagination";
+import ItemsPerPage from "@/app/ui/helpers/itemsPerPage";
 import { IsAdminProtection } from "../dashboard/adminAction";
-import ItemsPerPage from "@/components/layout/itemsPerPage";
-import Pagination from "@/components/layout/pagination";
-import Search from "@/components/admin/search";
 
 export const metadata: Metadata = {
   title: "Orders Overview",

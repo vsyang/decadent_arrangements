@@ -1,11 +1,11 @@
 // app/(admin)/account/actions.ts
 "use server";
 
-import { db } from "@/db";
-import { users, type UserAddress } from "@/db/schema";
+import { db } from "@/app/db";
+import { UserAddress, users } from "@/app/db/schema";
+import { authOptions } from "@/app/lib/auth";
 import { eq } from "drizzle-orm";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 
 export async function updateAccountAction(data: {
   phones: string[];

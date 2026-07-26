@@ -1,9 +1,11 @@
+import "@/app/globals.css";
+
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Sparkles } from "lucide-react";
 
-import { ProductsGridSkeleton } from "@/components/skeleton";
-import ProductsGrid from "@/components/products/grid";
+import { ProductsGridSkeleton } from "@/app/ui/skeleton";
+import ProductsGrid from "@/app/ui/products/grid";
 
 export const metadata: Metadata = {
   title: "Catalog | Decadent Arrangements",

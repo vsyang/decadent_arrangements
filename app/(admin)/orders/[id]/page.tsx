@@ -1,14 +1,16 @@
-import { fetchOrderById } from "@/db/queries";
+import "@/app/globals.css";
+
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { IsAdminProtection } from "../../dashboard/adminAction";
-import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
 import { MousePointerClick } from "lucide-react";
-import { CopyTextButton } from "@/components/admin/CopyTextButton";
 import { FingerPrintIcon } from "@heroicons/react/24/outline";
-import { SpecialRequestsModal } from "@/components/admin/RequestsModal";
-import EditableTextField from "@/components/admin/EditableTextField";
+import { fetchOrderById } from "@/app/db/queries";
+import { IsAdminProtection } from "../../dashboard/adminAction";
+import { CopyTextButton } from "@/app/ui/admin/orders/CopyTextButton";
+import OrderStatusSelect from "@/app/ui/admin/orders/OrderStatusSelect";
+import EditableTextField from "@/app/ui/admin/orders/EditableTextField";
+import { SpecialRequestsModal } from "@/app/ui/admin/orders/RequestsModal";
 
 // Formats a 10-digit phone number as xxx-xxx-xxxx.
 function formatPhoneNumber(phone: string) {
