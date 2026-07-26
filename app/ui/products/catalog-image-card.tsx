@@ -1,10 +1,8 @@
-// src/ui/products/catalog-image-card.tsx
 "use client";
 
 import "@/app/globals.css";
 
 import Image from "next/image";
-import { Images } from "lucide-react";
 import { useState } from "react";
 import ImageGalleryModal from "./gallery-modal";
 
@@ -73,20 +71,16 @@ export default function CatalogImageCard({
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-70 transition duration-500 group-hover/image:opacity-100" />
 
         {hasGalleryImages && (
-          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
-            <div>
-              <p className="text-[9px] font-medium uppercase tracking-[0.24em] text-white/60">
+          <div className="absolute bottom-4 right-4">
+            <div className="border border-white/35 bg-black/55 px-4 py-3 text-right backdrop-blur-sm transition duration-300 group-hover/image:border-[#00BCD4] group-hover/image:bg-black/75">
+              <p className="text-[8px] font-medium uppercase tracking-[0.24em] text-white/55">
                 Image Gallery
               </p>
 
-              <p className="mt-1 text-xs font-medium uppercase tracking-[0.14em] text-white">
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
                 View {images.length} {images.length === 1 ? "photo" : "photos"}
               </p>
             </div>
-
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/40 bg-black/25 text-white backdrop-blur-sm transition duration-300 group-hover/image:border-[#00BCD4] group-hover/image:bg-[#00BCD4] group-hover/image:text-black">
-              <Images className="h-4 w-4" strokeWidth={1.4} />
-            </span>
           </div>
         )}
       </button>
