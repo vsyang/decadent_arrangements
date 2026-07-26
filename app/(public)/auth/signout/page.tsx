@@ -1,9 +1,18 @@
-"use client";
 import "@/app/globals.css";
+import { authOptions } from "@/app/lib/auth";
+import { getServerSession } from "next-auth";
 
 import { signOut } from "next-auth/react";
+import { redirect } from "next/navigation";
 
-export default function SignOutPage() {
+export default async function SignOutPage() {
+
+  const session = await getServerSession(authOptions);
+
+  // If the user is not signed in, redirect them to sign in.
+  if (!session?.user?.id) {
+    redirect("/api/auth/signin");
+  }
   return (
     <div className="flex flex-col items-center">
       <h1 className="py-5">You sure, buddy?</h1>
