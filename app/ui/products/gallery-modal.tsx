@@ -4,7 +4,7 @@ import "@/app/globals.css";
 
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { cormorant, montserrat } from "@/app/ui/home/fonts";
@@ -30,22 +30,22 @@ export default function ImageGalleryModal({
 }: ImageGalleryModalProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  function showPreviousImage() {
+  const showPreviousImage = useCallback(() => {
     setCurrentIndex((previousIndex) =>
       previousIndex === 0 ? images.length - 1 : previousIndex - 1,
     );
-  }
+  }, [images.length]);
 
-  function showNextImage() {
+  const showNextImage = useCallback(() => {
     setCurrentIndex((previousIndex) =>
       previousIndex === images.length - 1 ? 0 : previousIndex + 1,
     );
-  }
+  }, [images.length]);
 
-  function closeModal() {
+  const closeModal = useCallback(() => {
     setCurrentIndex(0);
     onClose();
-  }
+  }, [onClose]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -71,7 +71,7 @@ export default function ImageGalleryModal({
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [isOpen, images.length]);
+  }, [isOpen, images.length, closeModal, showPreviousImage, showNextImage]);
 
   if (!isOpen || images.length === 0 || typeof document === "undefined") {
     return null;
