@@ -30,7 +30,7 @@ export async function updateAccountAction(data: {
       .where(eq(users.id, session.user.id));
 
     return { success: true };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Failed to update the account:", err);
     return { success: false, error: "Failed to update profile data." };
   }
