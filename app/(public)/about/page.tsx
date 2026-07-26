@@ -41,7 +41,7 @@ export default function AboutPage() {
         </video>
 
         {/* Dark overlays */}
-        <div className="absolute inset-0 bg-black/65" />
+        <div className="absolute inset-0 bg-black/45" />
 
         <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/55 to-black/10" />
 
@@ -124,10 +124,10 @@ export default function AboutPage() {
       </section>
 
       {/* =====================================================
-          FOUNDER STORY
+          JESSICA STORY
       ====================================================== */}
       <section className="grid overflow-hidden bg-[#161616] lg:grid-cols-2">
-        {/* Founder image */}
+        {/* Jessica image */}
         <Reveal direction="right" className="h-full">
           <div className="relative min-h-[560px] lg:min-h-[780px]">
             <Image
@@ -152,7 +152,7 @@ export default function AboutPage() {
           </div>
         </Reveal>
 
-        {/* Founder copy */}
+        {/* Jessica */}
         <Reveal direction="left" delay={350} className="h-full">
           <div className="flex h-full items-center px-8 py-20 sm:px-14 lg:px-20">
             <div className="max-w-xl">
@@ -344,16 +344,16 @@ export default function AboutPage() {
       ====================================================== */}
       <section className="relative min-h-[620px] overflow-hidden bg-black">
         <Image
-          src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l010.webp"
+          src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/large/l008.webp"
           alt="A handcrafted Decadent Arrangements grazing display"
           fill
-          className="object-cover opacity-55"
+          className="object-cover opacity-80"
           sizes="100vw"
         />
 
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/35" />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/4 via-black/40 to-black/65" />
 
         <div className="relative z-10 mx-auto flex min-h-[620px] max-w-7xl items-center justify-center px-6 py-24 text-center sm:px-10">
           <Reveal>
