@@ -15,7 +15,7 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import logo from "../../../app/apple-icon.png";
+import logo from "@/app/apple-icon.png";
 
 // ==========================================
 // MAIN NAVBAR COMPONENT
