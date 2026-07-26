@@ -1,9 +1,20 @@
-"use client";
 import "@/app/globals.css";
+import { authOptions } from "@/app/lib/auth";
+import { getServerSession } from "next-auth";
 
 import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
 
-export default function SignInPage() {
+export default async function SignInPage() {
+
+  const session = await getServerSession(authOptions);
+  
+    // If the user is already signed in, redirect them to home.
+    if (session?.user?.id) {
+      redirect("/");
+    }
+
+
   return (
     <div className="flex justify-center">
       <button
