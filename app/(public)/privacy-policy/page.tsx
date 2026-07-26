@@ -16,10 +16,10 @@ export default function PrivacyPolicyPage() {
         {/* Introduction */}
         <section className="space-y-4">
           <p className="leading-7">
-            Decadent Arrangements ("Decadent Arrangements," "we," "us," or
-            "our") respects your privacy and is committed to protecting the
-            personal information you provide when using our website and
-            services.
+            Decadent Arrangements (&quot;Decadent Arrangements,&quot;
+            &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) respects your
+            privacy and is committed to protecting the personal information you
+            provide when using our website and services.
           </p>
 
           <p className="leading-7">
@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
             it, how we protect it, and the choices available to you when you use
             our website at{" "}
             <a
-              href="https://decadent-arrangements.vercel.app/"
+              href="https://decadent-arrangements.vercel.app"
               className="font-medium underline underline-offset-4"
             >
               decadent-arrangements.vercel.app
@@ -64,7 +64,7 @@ export default function PrivacyPolicyPage() {
             <li>Your name</li>
             <li>Your email address</li>
             <li>
-              Your profile picture, if provided by your authentication account
+              Your profile picture, if provided through Google authentication
             </li>
           </ul>
 
@@ -121,8 +121,8 @@ export default function PrivacyPolicyPage() {
             <li>Communicate with you regarding your orders</li>
             <li>Send order-related notifications</li>
             <li>
-              Confirm order status, including paid, delivered, or cancelled
-              orders
+              Confirm order status, including pending, preparing, delivered, or
+              cancelled orders
             </li>
             <li>Coordinate delivery when necessary</li>
             <li>Respond to customer questions and requests</li>
@@ -176,9 +176,9 @@ export default function PrivacyPolicyPage() {
           <h2 className="mb-4 text-2xl font-bold">4. Payment Information</h2>
 
           <p className="leading-7">
-            Decadent Arrangements does not directly process or store customers'
-            payment card numbers, bank account credentials, or other sensitive
-            payment credentials through the website.
+            Decadent Arrangements does not directly process or store
+            customers&apos; payment card numbers, bank account credentials, or
+            other sensitive payment credentials through the website.
           </p>
 
           <p className="mt-4 leading-7">
@@ -221,8 +221,8 @@ export default function PrivacyPolicyPage() {
           </p>
 
           <p className="mt-4 leading-7">
-            Your use of Google authentication is also subject to Google's own
-            privacy policies and terms.
+            Your use of Google authentication is also subject to Google&apos;s
+            own privacy policies and terms.
           </p>
         </section>
 
@@ -241,7 +241,7 @@ export default function PrivacyPolicyPage() {
 
           <p className="mt-3 leading-7">
             When necessary to complete a delivery, relevant information such as
-            the recipient's name, phone number, delivery address, and order
+            the recipient&apos;s name, phone number, delivery address, and order
             details may be provided to the person responsible for delivering the
             order. In most cases, deliveries are handled directly by the
             business owner. If a third-party delivery service is used, only
@@ -272,8 +272,10 @@ export default function PrivacyPolicyPage() {
           </h2>
 
           <p className="leading-7">
-            Our website is hosted using Vercel. Customer and order information
-            may be stored in a PostgreSQL database used by our application.
+            Our website relies on third-party technology providers, including
+            Google for authentication, Vercel for website hosting and image
+            storage, and database infrastructure providers used to store
+            customer and order information.
           </p>
 
           <p className="mt-4 leading-7">
@@ -296,7 +298,7 @@ export default function PrivacyPolicyPage() {
 
           <p className="mt-4 leading-7">
             These communications may include order status notifications such as
-            confirmation that an order has been paid, delivered, or cancelled.
+            when an order is being prepared, delivered, or cancelled.
           </p>
 
           <p className="mt-4 leading-7">
@@ -355,7 +357,9 @@ export default function PrivacyPolicyPage() {
 
         {/* 11 */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-bold">11. Children's Privacy</h2>
+          <h2 className="mb-4 text-2xl font-bold">
+            11. Children&apos; Privacy
+          </h2>
 
           <p className="leading-7">
             Our website is not intended for children under the age of 13. We do
@@ -380,7 +384,7 @@ export default function PrivacyPolicyPage() {
 
           <p className="mt-4 leading-7">
             When changes are made, the updated policy will be posted on this
-            page and the "Last updated" date will be revised.
+            page and the &quot;Last updated&quot; date will be revised.
           </p>
         </section>
 
@@ -401,10 +405,10 @@ export default function PrivacyPolicyPage() {
             <p className="mt-2">
               <strong>Email:</strong>{" "}
               <a
-                href="mailto:decadentarragements2023@gmail.com"
+                href="mailto:decadentarrangements2023@gmail.com"
                 className="underline underline-offset-4"
               >
-                decadentarragements2023@gmail.com
+                decadentarrangements2023@gmail.com
               </a>
             </p>
           </div>
