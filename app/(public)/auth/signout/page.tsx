@@ -6,7 +6,6 @@ import { signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export default async function SignOutPage() {
-
   const session = await getServerSession(authOptions);
 
   // If the user is not signed in, redirect them to sign in.
