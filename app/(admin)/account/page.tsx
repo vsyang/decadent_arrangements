@@ -37,8 +37,8 @@ export default async function AccountPage() {
     email: currentUser.email || "",
     phones: currentUser.phones || [],
     addresses: currentUser.addresses || [],
-    preferredContactMethod:
-      (currentUser.preferredContactMethod as any) || "whatsapp",
+    preferredContactMethod: (currentUser.preferredContactMethod ??
+      "whatsapp") as UserProfile["preferredContactMethod"],
   };
 
   return (

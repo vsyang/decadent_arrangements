@@ -7,12 +7,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { UserAddress } from "@/app/db/schema";
 
+type PreferredContactMethod = "whatsapp" | "email" | "call";
+
 export interface UserProfile {
   name: string;
   email: string;
   phones: string[];
   addresses: UserAddress[];
-  preferredContactMethod: "whatsapp" | "email" | "call";
+  preferredContactMethod: PreferredContactMethod;
 }
 
 interface AccountFormProps {
@@ -20,7 +22,7 @@ interface AccountFormProps {
   updateAccountAction: (data: {
     phones: string[];
     addresses: UserAddress[];
-    preferredContactMethod: "whatsapp" | "email" | "call";
+    preferredContactMethod: PreferredContactMethod;
   }) => Promise<{ success: boolean; error?: string }>;
 }
 
@@ -152,7 +154,7 @@ export default function AccountForm({
           onChange={(e) =>
             setFormData({
               ...formData,
-              preferredContactMethod: e.target.value as any,
+              preferredContactMethod: e.target.value as PreferredContactMethod,
             })
           }
           className="mt-1 block w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
