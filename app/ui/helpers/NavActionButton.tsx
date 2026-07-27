@@ -104,22 +104,14 @@ export function NavActionButton() {
   const userName = session.userName;
   const userImage = session.userImage;
   const targetHref = session.isAdmin ? "/orders" : "/dashboard";
-  const isActive =
-    pathname.startsWith(targetHref) ||
-    (session.isAdmin && pathname.startsWith("/admin"));
+
 
   return (
+    <>
     <Link
       href={targetHref}
-      aria-current={isActive ? "page" : undefined}
       title={`${session.isAdmin ? "Admin Panel -" : "Orders for"} ${userName ?? (session.isAdmin ? "Admin" : "User")}`}
-      className={`text-xs font-semibold transition-all duration-200 [@media(min-width:805px)]:group [@media(min-width:805px)]:flex [@media(min-width:805px)]:flex-row-reverse [@media(min-width:805px)]:items-center [@media(min-width:805px)]:gap-2 [@media(min-width:805px)]:rounded-full [@media(min-width:805px)]:px-2 [@media(min-width:805px)]:py-1 [@media(min-width:805px)]:border ${
-        isActive ? "ring-2 ring-offset-2 ring-[var(--color-primary)]" : ""
-      } ${
-        session.isAdmin
-          ? "text-white [@media(min-width:805px)]:bg-stone-900 [@media(min-width:805px)]:border-stone-900 hover:bg-stone-800"
-          : "text-stone-800 [@media(min-width:805px)]:bg-stone-50 [@media(min-width:805px)]:border-stone-200 hover:border-stone-400 hover:bg-stone-100"
-      }`}
+      className={`text-xs font-semibold transition-all duration-200 [@media(min-width:805px)]:group [@media(min-width:805px)]:flex [@media(min-width:805px)]:flex-row-reverse [@media(min-width:805px)]:items-center [@media(min-width:805px)]:gap-2 [@media(min-width:805px)]:rounded-full [@media(min-width:805px)]:px-2 [@media(min-width:805px)]:py-1 [@media(min-width:805px)]:border`}
     >
       <div
         className={`relative h-7 w-7 rounded-full overflow-hidden border transition-colors mx-auto border-2 ${
@@ -151,12 +143,14 @@ export function NavActionButton() {
       <span
         className={`tracking-tight whitespace-nowrap truncate [@media(max-width:805px)]:max-w-[90px] [@media(max-width:805px)]:block [@media(max-width:805px)]:rounded-full [@media(max-width:805px)]:px-2.5 [@media(max-width:805px)]:py-0.5 font-semibold [@media(max-width:805px)]:border ${
           session.isAdmin
-            ? "[@media(max-width:805px)]:bg-stone-900 [@media(max-width:805px)]:text-white [@media(max-width:805px)]:border-stone-900"
+            ? "[@media(max-width:805px)]:bg-stone-900 [@media(max-width:805px)]:text-white [@media(max-width:805px)]:border-[#00BCD4]"
             : "[@media(max-width:805px)]:bg-stone-100 [@media(max-width:805px)]:text-stone-900 [@media(max-width:805px)]:border-stone-200"
         }`}
       >
-        {session.isAdmin ? "Management" : getFormattedName(userName)}
+        {session.isAdmin ? "Orders" : getFormattedName(userName)}
       </span>
     </Link>
+    </>
+
   );
 }
