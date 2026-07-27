@@ -159,7 +159,7 @@ export default function Footer() {
               Terms of Service
             </Link>
             <Link href="/cookie-policy" className="hover:underline">
-              Cookie Policy
+              Cookies Policy
             </Link>
           </div>
           {/* Payment methods */}
