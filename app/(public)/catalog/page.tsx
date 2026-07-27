@@ -2,7 +2,6 @@ import "@/app/globals.css";
 
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Sparkles } from "lucide-react";
 
 import { ProductsGridSkeleton } from "@/app/ui/skeleton";
 import ProductsGrid from "@/app/ui/products/grid";
@@ -68,41 +67,6 @@ export default function CatalogPage() {
               Explore handcrafted arrangements created with premium ingredients,
               thoughtful presentation, and custom details for every celebration.
             </p>
-
-            <div className="animate-cinematic-fade-up animation-delay-800 mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/20 pt-7">
-              <div className="flex items-center gap-3">
-                <Sparkles
-                  className="h-4 w-4 text-[#00BCD4]"
-                  strokeWidth={1.3}
-                />
-
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/65">
-                  Handcrafted
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Sparkles
-                  className="h-4 w-4 text-[#00BCD4]"
-                  strokeWidth={1.3}
-                />
-
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/65">
-                  Custom Designed
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Sparkles
-                  className="h-4 w-4 text-[#00BCD4]"
-                  strokeWidth={1.3}
-                />
-
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/65">
-                  Made in Denver
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
