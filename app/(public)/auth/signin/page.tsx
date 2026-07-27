@@ -1,5 +1,3 @@
-// app/(public)/signin/page.tsx
-
 import "@/app/globals.css";
 
 import { authOptions } from "@/app/lib/auth";
