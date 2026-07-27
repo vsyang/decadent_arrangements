@@ -23,7 +23,6 @@ export default function SignOutControls() {
         href="/"
         className="group inline-flex w-full items-center justify-center gap-4 border border-white/50 px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-white transition duration-300 hover:border-white hover:bg-white hover:text-black"
       >
-
         Stay Signed In
       </Link>
     </div>

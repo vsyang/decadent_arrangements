@@ -24,3 +24,25 @@ export async function IsAdminProtection(): Promise<boolean> {
 
   return isAdmin;
 }
+
+export async function IsAdminVerification(): Promise<boolean> {
+  const session = await getServerSession(authOptions);
+
+  // LAYER (AUTH SESSION)
+  if (!session || !session.user || !session.user.email || !session.user.id) {
+    return false;
+  }
+
+  const sessionEmail = session.user.email.toLowerCase();
+  const sessionRole = session.user.role;
+
+  // LAYER (DB + .ENV)
+  const whitelist: string[] = JSON.parse(process.env.WHITELIST ?? "[]");
+  const isEmailInWhitelist = whitelist
+    .map((e) => e.toLowerCase())
+    .includes(sessionEmail);
+
+  const isAdmin = sessionRole === "admin" && isEmailInWhitelist;
+
+  return isAdmin;
+}

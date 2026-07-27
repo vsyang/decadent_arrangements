@@ -6,20 +6,26 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavActionButton } from "./NavActionButton";
-import { getSessionAction } from "@/app/actions/auth";
 import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import logo from "@/app/apple-icon.png";
 import NavbarLinkDesktop from "./NavbarLinkDesktop";
 import NavbarLinkMobile from "./NavbarLinkMobile";
+import { SidebarAdmin } from "../admin/SidebarAdmin";
+import { SidebarClient } from "../admin/SidebarClient";
 
 // ==========================================
 // MAIN NAVBAR COMPONENT
 // ==========================================
 
-export function Navbar() {
+export function Navbar({
+  isAuthenticated,
+  isAdmin,
+}: {
+  isAdmin: boolean;
+  isAuthenticated: boolean;
+}) {
   const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [hasUnread, setHasUnread] = useState<boolean>(true);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
@@ -42,22 +48,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Session state verification
-  useEffect(() => {
-    async function checkSession() {
-      try {
-        const session = await getSessionAction();
-        setIsAuthenticated(!!session?.user);
-      } catch (error) {
-        console.error(
-          "Error determining authentication status in the Navbar:",
-          error,
-        );
-      }
-    }
-    checkSession();
-  }, []);
-
   const isActive = (path: string) => {
     if (path === "/") return pathname === "/";
     return pathname.startsWith(path);
@@ -71,9 +61,9 @@ export function Navbar() {
           isScrolled
             ? "bg-black/85 backdrop-blur shadow-sm"
             : "border-transparent"
-        }`}
+        } `}
       >
-        <div className="mx-auto flex h-16 max-w-8xl items-center justify-between px-6 [@media(min-width:900px)]:pr-16">
+        <div className="mx-auto flex h-16 max-w-8xl items-center justify-between px-6">
           <Link
             href="/"
             className="flex gap-1 items-center text-xl font-bold tracking-tight text-primary"
@@ -120,6 +110,10 @@ export function Navbar() {
             )}
 
             <NavActionButton />
+
+            {isAuthenticated && (
+              <div>{isAdmin ? <SidebarAdmin /> : <SidebarClient />}</div>
+            )}
           </nav>
         </div>
       </header>
@@ -147,12 +141,9 @@ export function Navbar() {
             </div>
             Decadent Arrangements
           </Link>
-          <div>
-            
-          </div>
 
-          <div className="flex items-center gap-2">
-            {isAuthenticated && (
+          {isAuthenticated && (
+            <div className="flex items-center gap-2">
               <Link
                 href="/notifications"
                 aria-current={isActive("/notifications") ? "page" : undefined}
@@ -170,8 +161,10 @@ export function Navbar() {
                   </span>
                 )}
               </Link>
-            )}
-          </div>
+
+              {isAdmin ? <SidebarAdmin /> : <SidebarClient />}
+            </div>
+          )}
         </div>
       </header>
 

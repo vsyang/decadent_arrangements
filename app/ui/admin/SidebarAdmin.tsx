@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarButton } from "./SidebarButton";
 
-export function Sidebar() {
+export function SidebarAdmin() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,22 +24,22 @@ export function Sidebar() {
 
   return (
     <>
-    <div onClick={() => setIsOpen(!isOpen)}>
-      <SidebarButton />
-    </div>
+      <div className="top-3 right-3 z-[80]" onClick={() => setIsOpen(!isOpen)}>
+        <SidebarButton isOpen={isOpen} />
+      </div>
 
       {/* OVERLAY BACKDROP */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-66 bg-[#f4f0ea]/80 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-[60] backdrop-blur-sm bg-black/40 md:mt-14"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* SIDEBAR */}
       <aside
-        className={`fixed inset-y-0 left-0 z-99 w-64 flex flex-col justify-between bg-background transition-transform duration-300 ease-in-out pt-6 md:translate-x-0 md:top-0 md:z-0 md:sticky md:h-[calc(100vh-68px)] ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed inset-y-0 left-0 md:left-auto md:right-0 z-[70] w-64 flex flex-col justify-between bg-black/90 transform transition-transform duration-300 ease-in-out pt-6 md:mt-14 ${
+          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-full"
         }`}
       >
         <nav className="space-y-6 px-4 flex-1">
@@ -87,7 +87,7 @@ export function Sidebar() {
           <Link
             href="/api/auth/signout"
             onClick={() => setIsOpen(false)}
-            className="rounded px-3 text-sm uppercase tracking-wider block text-white p-2 text-center bg-black border-2 border-[#00BCD4] visited:text-white hover:text-black hover-bg-white"
+            className="rounded px-3 text-sm uppercase tracking-wider block text-white p-2 text-center bg-black border-2 border-[#00BCD4] visited:text-white hover:text-black hover:bg-white"
           >
             Sign Out
           </Link>
