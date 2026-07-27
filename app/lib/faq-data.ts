@@ -59,7 +59,8 @@ export const faqSections = [
           "Place leftover perishable food in appropriate refrigerated storage as soon as possible. Before consuming leftovers, check their appearance, smell, and condition. When in doubt, discard the food. Customers are responsible for following safe food-handling and storage practices after receiving their order.",
       },
       {
-        question: "What should I do if my arrangement arrives damaged or appears unsafe?",
+        question:
+          "What should I do if my arrangement arrives damaged or appears unsafe?",
         answer:
           "Please contact Decadent Arrangements as soon as possible and provide details about the issue. If possible, include photographs of the arrangement and its packaging. We will review the situation and determine the appropriate resolution based on the circumstances.",
       },
@@ -137,7 +138,8 @@ export const faqSections = [
     title: "Allergies & Dietary Restrictions",
     faqs: [
       {
-        question: "Can I request an arrangement that avoids certain ingredients?",
+        question:
+          "Can I request an arrangement that avoids certain ingredients?",
         answer:
           "You may provide information about allergies, dietary restrictions, religious dietary requirements, or other food-related concerns when placing your order. We will review the request and determine whether it can reasonably be accommodated.",
       },
@@ -225,7 +227,8 @@ export const faqSections = [
           "Your account may store information such as your name, email address, and profile picture provided through your authentication account. Order-related information may also be associated with your account to help manage your orders.",
       },
       {
-        question: "Can I request deletion of my account or personal information?",
+        question:
+          "Can I request deletion of my account or personal information?",
         answer:
           "Yes. You may contact us to request deletion of your personal information or account, subject to applicable legal and operational requirements. Some information may need to be retained when required for legal, accounting, security, or legitimate business purposes.",
       },
