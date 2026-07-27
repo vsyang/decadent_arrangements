@@ -87,8 +87,6 @@ export function Navbar({
 
             <NavbarLinkDesktop label="About Us" linkRef="/about" />
 
-
-
             {/* Desktop Notifications Bell */}
             {/* {isAuthenticated && (
               <Link
@@ -115,8 +113,8 @@ export function Navbar({
 
             {isAuthenticated && (
               <>
-              <div className="bg-transparent sidebar-placeholder" />
-              <div>{isAdmin ? <SidebarAdmin /> : <SidebarClient />}</div>
+                <div className="bg-transparent sidebar-placeholder" />
+                <div>{isAdmin ? <SidebarAdmin /> : <SidebarClient />}</div>
               </>
             )}
           </nav>

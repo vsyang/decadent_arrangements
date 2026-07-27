@@ -16,15 +16,16 @@ export function SidebarClient() {
       href === "/" ? pathname === "/" : pathname.startsWith(href);
 
     return `flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:underline hover:decoration-[#00BCD4] ${
-      isActive
-        ? "bg-[#00BCD4]/20 text-white font-semibold"
-        : ""
+      isActive ? "bg-[#00BCD4]/20 text-white font-semibold" : ""
     }`;
   };
 
   return (
     <>
-      <div className="fixed top-3 right-3 z-[80]" onClick={() => setIsOpen(!isOpen)}>
+      <div
+        className="fixed top-3 right-3 z-[80]"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <SidebarButton isOpen={isOpen} />
       </div>
 
