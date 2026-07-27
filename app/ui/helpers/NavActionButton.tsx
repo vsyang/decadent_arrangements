@@ -105,52 +105,50 @@ export function NavActionButton() {
   const userImage = session.userImage;
   const targetHref = session.isAdmin ? "/orders" : "/dashboard";
 
-
   return (
     <>
-    <Link
-      href={targetHref}
-      title={`${session.isAdmin ? "Admin Panel -" : "Orders for"} ${userName ?? (session.isAdmin ? "Admin" : "User")}`}
-      className={`text-xs font-semibold transition-all duration-200 [@media(min-width:805px)]:group [@media(min-width:805px)]:flex [@media(min-width:805px)]:flex-row-reverse [@media(min-width:805px)]:items-center [@media(min-width:805px)]:gap-2 [@media(min-width:805px)]:rounded-full [@media(min-width:805px)]:px-2 [@media(min-width:805px)]:py-1 [@media(min-width:805px)]:border`}
-    >
-      <div
-        className={`relative h-7 w-7 rounded-full overflow-hidden border transition-colors mx-auto border-2 ${
-          session.isAdmin
-            ? "text-stone-900 border-stone-600"
-            : "bg-stone-200 border-stone-300"
-        }`}
+      <Link
+        href={targetHref}
+        title={`${session.isAdmin ? "Orders Panel -" : "Orders for"} ${userName ?? (session.isAdmin ? "Admin" : "User")}`}
+        className={`text-xs font-semibold transition-all duration-200 [@media(min-width:805px)]:group [@media(min-width:805px)]:flex [@media(min-width:805px)]:flex-row-reverse [@media(min-width:805px)]:items-center [@media(min-width:805px)]:gap-2 [@media(min-width:805px)]:rounded-full [@media(min-width:805px)]:px-2 [@media(min-width:805px)]:py-1 [@media(min-width:805px)]:border`}
       >
-        {userImage ? (
-          <Image
-            src={userImage}
-            alt={userName ?? (session.isAdmin ? "Admin" : "User")}
-            fill
-            sizes="28px"
-            className="object-cover"
-            referrerPolicy="no-referrer"
-          />
-        ) : (
-          <span
-            className={`flex h-full w-full items-center justify-center text-[10px] font-bold ${
-              session.isAdmin ? "text-stone-200" : "text-stone-600"
-            }`}
-          >
-            {getInitial(userName)}
-          </span>
-        )}
-      </div>
+        <div
+          className={`relative h-7 w-7 rounded-full overflow-hidden border transition-colors mx-auto border-2 ${
+            session.isAdmin
+              ? "text-stone-900 border-stone-600"
+              : "bg-stone-200 border-stone-300"
+          }`}
+        >
+          {userImage ? (
+            <Image
+              src={userImage}
+              alt={userName ?? (session.isAdmin ? "Admin" : "User")}
+              fill
+              sizes="28px"
+              className="object-cover"
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <span
+              className={`flex h-full w-full items-center justify-center text-[10px] font-bold ${
+                session.isAdmin ? "text-stone-200" : "text-stone-600"
+              }`}
+            >
+              {getInitial(userName)}
+            </span>
+          )}
+        </div>
 
-      <span
-        className={`tracking-tight whitespace-nowrap truncate [@media(max-width:805px)]:max-w-[90px] [@media(max-width:805px)]:block [@media(max-width:805px)]:rounded-full [@media(max-width:805px)]:px-2.5 [@media(max-width:805px)]:py-0.5 font-semibold [@media(max-width:805px)]:border ${
-          session.isAdmin
-            ? "[@media(max-width:805px)]:bg-stone-900 [@media(max-width:805px)]:text-white [@media(max-width:805px)]:border-[#00BCD4]"
-            : "[@media(max-width:805px)]:bg-stone-100 [@media(max-width:805px)]:text-stone-900 [@media(max-width:805px)]:border-stone-200"
-        }`}
-      >
-        {session.isAdmin ? "Orders" : getFormattedName(userName)}
-      </span>
-    </Link>
+        <span
+          className={`tracking-tight whitespace-nowrap truncate [@media(max-width:805px)]:max-w-[90px] [@media(max-width:805px)]:block [@media(max-width:805px)]:rounded-full [@media(max-width:805px)]:px-2.5 [@media(max-width:805px)]:py-0.5 font-semibold [@media(max-width:805px)]:border ${
+            session.isAdmin
+              ? "[@media(max-width:805px)]:bg-stone-900 [@media(max-width:805px)]:text-white [@media(max-width:805px)]:border-[#00BCD4]"
+              : "[@media(max-width:805px)]:bg-stone-100 [@media(max-width:805px)]:text-stone-900 [@media(max-width:805px)]:border-stone-200"
+          }`}
+        >
+          {session.isAdmin ? "Orders" : getFormattedName(userName)}
+        </span>
+      </Link>
     </>
-
   );
 }
