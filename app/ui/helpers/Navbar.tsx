@@ -4,9 +4,9 @@ import "@/app/globals.css";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import { NavActionButton } from "./NavActionButton";
-import { BellIcon } from "@heroicons/react/24/outline";
+// import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import logo from "@/app/apple-icon.png";
 import NavbarLinkDesktop from "./NavbarLinkDesktop";
@@ -25,8 +25,8 @@ export function Navbar({
   isAdmin: boolean;
   isAuthenticated: boolean;
 }) {
-  const pathname = usePathname();
-  const [hasUnread, setHasUnread] = useState<boolean>(true);
+  // const pathname = usePathname();
+  // const [hasUnread, setHasUnread] = useState<boolean>(true);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   useEffect(() => {
@@ -48,10 +48,10 @@ export function Navbar({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isActive = (path: string) => {
-    if (path === "/") return pathname === "/";
-    return pathname.startsWith(path);
-  };
+  // const isActive = (path: string) => {
+  //   if (path === "/") return pathname === "/";
+  //   return pathname.startsWith(path);
+  // };
 
   return (
     <>

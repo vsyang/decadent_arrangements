@@ -16,9 +16,10 @@ export default function CookiePolicyPage() {
         {/* Introduction */}
         <section className="space-y-4">
           <p className="leading-7">
-            This Cookie Policy explains how Decadent Arrangements ("Decadent
-            Arrangements," "we," "us," or "our") uses cookies and similar
-            technologies on our website.
+            This Cookie Policy explains how Decadent Arrangements
+            (&quot;Decadent Arrangements,&quot; &quot;we,&quot; &quot;us,&quot;
+            or &quot;our&quot;) uses cookies and similar technologies on our
+            website.
           </p>
 
           <p className="leading-7">
@@ -164,8 +165,8 @@ export default function CookiePolicyPage() {
           </p>
 
           <p className="mt-4 leading-7">
-            The use of Google authentication is also subject to Google's own
-            terms and privacy policies.
+            The use of Google authentication is also subject to Google&apos;s
+            own terms and privacy policies.
           </p>
         </section>
 
@@ -230,7 +231,7 @@ export default function CookiePolicyPage() {
 
           <p className="mt-4 leading-7">
             When changes are made, the updated policy will be posted on this
-            page and the "Last updated" date will be revised.
+            page and the &quot;Last updated&quot; date will be revised.
           </p>
         </section>
 
