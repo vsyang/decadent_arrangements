@@ -7,15 +7,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavActionButton } from "./NavActionButton";
 import { getSessionAction } from "@/app/actions/auth";
-import {
-  BellIcon,
-  BookOpenIcon,
-  EnvelopeIcon,
-  HomeIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { BellIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import logo from "@/app/apple-icon.png";
+import NavbarLinkDesktop from "./NavbarLinkDesktop";
+import NavbarLinkMobile from "./NavbarLinkMobile";
 
 // ==========================================
 // MAIN NAVBAR COMPONENT
@@ -36,7 +32,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 1. Detección de Scroll para alternar la transparencia del Header
+  // Scroll detection to make it transparent
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -46,7 +42,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 2. Comprobación de estado de sesión
+  // Session state verification
   useEffect(() => {
     async function checkSession() {
       try {
@@ -54,7 +50,7 @@ export function Navbar() {
         setIsAuthenticated(!!session?.user);
       } catch (error) {
         console.error(
-          "Error al determinar estado de autenticación en el Navbar:",
+          "Error determining authentication status in the Navbar:",
           error,
         );
       }
@@ -71,10 +67,10 @@ export function Navbar() {
     <>
       {/* DESKTOP HEADER */}
       <header
-        className={`hidden [@media(min-width:805px)]:sticky [@media(min-width:805px)]:top-0 [@media(min-width:805px)]:z-50 [@media(min-width:805px)]:block w-full transition-all duration-300 ${
+        className={`hidden [@media(min-width:805px)]:sticky [@media(min-width:805px)]:top-0 [@media(min-width:805px)]:z-50 [@media(min-width:805px)]:block w-full transition-all duration-300 bg-black text-[#f4f0ea] border-b border-b-[#00BCD4] ${
           isScrolled
-            ? "border-b border-border bg-background/80 backdrop-blur shadow-sm"
-            : "border-b border-transparent bg-transparent"
+            ? "bg-black/85 backdrop-blur shadow-sm"
+            : "border-transparent"
         }`}
       >
         <div className="mx-auto flex h-16 max-w-8xl items-center justify-between px-6 [@media(min-width:900px)]:pr-16">
@@ -93,53 +89,13 @@ export function Navbar() {
           </Link>
 
           <nav className="flex items-center gap-6 text-sm font-medium">
-            <Link
-              href="/"
-              aria-current={isActive("/") ? "page" : undefined}
-              className={`transition-colors ${
-                isActive("/")
-                  ? "text-primary font-bold underline underline-offset-4 decoration-2"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Home
-            </Link>
+            <NavbarLinkDesktop label="Home" linkRef="/" />
 
-            <Link
-              href="/catalog"
-              aria-current={isActive("/catalog") ? "page" : undefined}
-              className={`transition-colors ${
-                isActive("/catalog")
-                  ? "text-primary font-bold underline underline-offset-4 decoration-2"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Catalog
-            </Link>
+            <NavbarLinkDesktop label="Catalog" linkRef="/catalog" />
 
-            <Link
-              href="/contact"
-              aria-current={isActive("/contact") ? "page" : undefined}
-              className={`transition-colors ${
-                isActive("/contact")
-                  ? "text-primary font-bold underline underline-offset-4 decoration-2"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Contact
-            </Link>
+            <NavbarLinkDesktop label="Contact" linkRef="/contact" />
 
-            <Link
-              href="/about"
-              aria-current={isActive("/about") ? "page" : undefined}
-              className={`transition-colors ${
-                isActive("/about")
-                  ? "text-primary font-bold underline underline-offset-4 decoration-2"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              About Us
-            </Link>
+            <NavbarLinkDesktop label="About Us" linkRef="/about" />
 
             {/* Desktop Notifications Bell */}
             {isAuthenticated && (
@@ -170,10 +126,10 @@ export function Navbar() {
 
       {/* MOBILE TOP BRAND HEADER */}
       <header
-        className={`sticky top-0 z-50 block [@media(min-width:805px)]:hidden w-full h-14 transition-all duration-300 ${
+        className={`sticky top-0 z-50 block [@media(min-width:805px)]:hidden w-full h-14 transition-all duration-300 bg-black border-b text-[#f4f0ea] border-b-[#00BCD4] ${
           isScrolled
-            ? "border-b border-border bg-background/80 backdrop-blur"
-            : "border-b border-transparent bg-transparent"
+            ? "bg-black/70 backdrop-blur shadow-sm"
+            : "border-transparent"
         }`}
       >
         <div className="flex h-14 items-center justify-between pl-2 pr-4">
@@ -181,14 +137,19 @@ export function Navbar() {
             href="/"
             className="flex gap-1 items-center text-md font-bold tracking-tight text-primary"
           >
-            <Image
-              src={logo}
-              alt="Decadent Arrangements Logo"
-              width={32}
-              height={32}
-            />
+            <div className="w-[32px] h-[32px] overflow-hidden">
+              <Image
+                src={logo}
+                alt="Decadent Arrangements Logo"
+                width={32}
+                height={32}
+              />
+            </div>
             Decadent Arrangements
           </Link>
+          <div>
+            
+          </div>
 
           <div className="flex items-center gap-2">
             {isAuthenticated && (
@@ -215,67 +176,21 @@ export function Navbar() {
       </header>
 
       {/* MOBILE BOTTOM NAVIGATION */}
-      <nav className="fixed bottom-0 w-full h-16 z-50 block border-t border-border bg-background/95 backdrop-blur [@media(min-width:805px)]:hidden grid grid-cols-[1fr_1fr_2fr_1fr_1fr] place-items-center">
+      <nav className="fixed bottom-0 w-full h-16 z-50 block border-t bg-black border-t text-[#f4f0ea] border-t-[#00BCD4] [@media(min-width:805px)]:hidden grid grid-cols-[1fr_1fr_2fr_1fr_1fr] place-items-center pt-2 pb-3">
         {/* Home Link */}
-        <Link
-          href="/"
-          aria-current={isActive("/") ? "page" : undefined}
-          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${
-            isActive("/")
-              ? "text-primary font-bold scale-105"
-              : "text-muted hover:text-foreground"
-          }`}
-        >
-          <HomeIcon className="h-5 w-5" />
-          <span>Home</span>
-        </Link>
 
-        {/* Catalog Link */}
-        <Link
-          href="/catalog"
-          aria-current={isActive("/catalog") ? "page" : undefined}
-          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${
-            isActive("/catalog")
-              ? "text-primary font-bold scale-105"
-              : "text-muted hover:text-foreground"
-          }`}
-        >
-          <BookOpenIcon className="h-5 w-5" />
-          <span>Catalog</span>
-        </Link>
+        <NavbarLinkMobile label="Home" linkRef="/" />
+
+        <NavbarLinkMobile label="Catalog" linkRef="/catalog" />
 
         {/* Orders / Admin Action CTA */}
         <div className="relative flex flex-col items-center justify-center scale-105 drop-shadow-sm z-10 w-full">
           <NavActionButton />
         </div>
 
-        {/* Contact Link */}
-        <Link
-          href="/contact"
-          aria-current={isActive("/contact") ? "page" : undefined}
-          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${
-            isActive("/contact")
-              ? "text-primary font-bold scale-105"
-              : "text-muted hover:text-foreground"
-          }`}
-        >
-          <EnvelopeIcon className="h-5 w-5" />
-          <span>Contact</span>
-        </Link>
+        <NavbarLinkMobile label="Contact" linkRef="/contact" />
 
-        {/* About Us Link */}
-        <Link
-          href="/about"
-          aria-current={isActive("/about") ? "page" : undefined}
-          className={`flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-16 ${
-            isActive("/about")
-              ? "text-primary font-bold scale-105"
-              : "text-muted hover:text-foreground"
-          }`}
-        >
-          <InformationCircleIcon className="h-5 w-5" />
-          <span>About Us</span>
-        </Link>
+        <NavbarLinkMobile label="About Us" linkRef="/about" />
 
         <div
           id="mobile-breadcrumbs"
