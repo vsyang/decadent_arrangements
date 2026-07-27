@@ -15,6 +15,7 @@ import { useState } from "react";
 
 import { cormorant, montserrat } from "@/app/ui/home/fonts";
 import { createOrder } from "./actions";
+import Link from "next/link";
 
 type OrderProduct = {
   id: string;
@@ -695,19 +696,18 @@ export default function OrderForm({
                 </section>
 
                 {/* =============================================
-                    PAYMENT NOTICE
+                    PAYMENT NOTICE & AGREEMENT
                 ============================================== */}
                 <section className="border border-[#007C91]/35 bg-[#bcc6c8] px-6 py-8 sm:px-8">
                   <div className="flex items-start gap-5">
-                    <CheckCircle2
-                      className="mt-1 h-6 w-6 shrink-0 text-[#007C91]"
-                      strokeWidth={1.35}
-                    />
-
                     <div className="w-full">
                       <h2
-                        className={`${cormorant.className} text-3xl font-medium text-[#252525]`}
+                        className={`${cormorant.className} flex gap-4 text-3xl font-medium text-[#252525]`}
                       >
+                        <CheckCircle2
+                          className="mt-1 h-6 w-6 shrink-0 text-[#007C91]"
+                          strokeWidth={1.35}
+                        />
                         Final acknowledgment
                       </h2>
 
@@ -725,6 +725,52 @@ export default function OrderForm({
                         </span>
                       </label>
                     </div>
+                  </div>
+                  <div className="flex items-start gap-5">
+                    <div className="w-full">
+                      <label className="mt-5 flex cursor-pointer items-start gap-4 text-sm leading-7 text-[#000000]">
+                        <input
+                          type="checkbox"
+                          name="agreeToPayment"
+                          required
+                          className="mt-1 h-4 w-4 shrink-0 accent-[#007C91]"
+                        />
+                        <div>
+                          <span>
+                            {
+                              "By placing your order, you accept our Terms and Conditions, ensuring you have read and aligned with our policies. This includes our "
+                            }
+                          </span>
+
+                          <Link
+                            href="/cookie-policy"
+                            className="underline decoration-[#00BCD4] font-bold hover:underline"
+                          >
+                            Cookies Policy
+                          </Link>
+                          <span>{", "}</span>
+
+                          <Link
+                            href="/terms-of-service"
+                            className="underline decoration-[#00BCD4] font-bold hover:underline"
+                          >
+                            Terms of Service
+                          </Link>
+
+                          <span>{", "}</span>
+
+                          <Link
+                            href="/privacy-policy"
+                            className="underline decoration-[#00BCD4] font-bold hover:underline"
+                          >
+                            Privacy Policy
+                          </Link>
+
+                          <span>{"."}</span>
+                        </div>
+                      </label>
+                    </div>
+                    <p></p>
                   </div>
                 </section>
 
