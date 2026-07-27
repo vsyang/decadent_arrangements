@@ -88,7 +88,7 @@ export function Navbar({
             <NavbarLinkDesktop label="About Us" linkRef="/about" />
 
             {/* Desktop Notifications Bell */}
-            {isAuthenticated && (
+            {/* {isAuthenticated && (
               <Link
                 href="/notifications"
                 aria-current={isActive("/notifications") ? "page" : undefined}
@@ -107,12 +107,15 @@ export function Navbar({
                   </span>
                 )}
               </Link>
-            )}
+            )} */}
 
             <NavActionButton />
 
             {isAuthenticated && (
-              <div>{isAdmin ? <SidebarAdmin /> : <SidebarClient />}</div>
+              <>
+                <div className="bg-transparent sidebar-placeholder" />
+                <div>{isAdmin ? <SidebarAdmin /> : <SidebarClient />}</div>
+              </>
             )}
           </nav>
         </div>
@@ -144,7 +147,7 @@ export function Navbar({
 
           {isAuthenticated && (
             <div className="flex items-center gap-2">
-              <Link
+              {/* <Link
                 href="/notifications"
                 aria-current={isActive("/notifications") ? "page" : undefined}
                 className={`relative flex flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors w-12 ${
@@ -160,7 +163,7 @@ export function Navbar({
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                   </span>
                 )}
-              </Link>
+              </Link> */}
 
               {isAdmin ? <SidebarAdmin /> : <SidebarClient />}
             </div>

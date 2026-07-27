@@ -15,37 +15,38 @@ export function SidebarAdmin() {
     const isActive =
       href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-    return `flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-      isActive
-        ? "bg-accent/10 text-accent font-semibold"
-        : "hover:bg-muted/40 hover:text-foreground"
+    return `flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:underline hover:decoration-[#00BCD4] ${
+      isActive ? "bg-[#00BCD4]/20 text-white font-semibold" : ""
     }`;
   };
 
   return (
     <>
-      <div className="top-3 right-3 z-[80]" onClick={() => setIsOpen(!isOpen)}>
+      <div
+        className="fixed top-3 right-3 z-[80]"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <SidebarButton isOpen={isOpen} />
       </div>
 
       {/* OVERLAY BACKDROP */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-[60] backdrop-blur-sm bg-black/40 md:mt-14"
+          className="fixed inset-0 z-[60] h-screen bg-black/80"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* SIDEBAR */}
       <aside
-        className={`fixed inset-y-0 left-0 md:left-auto md:right-0 z-[70] w-64 flex flex-col justify-between bg-black/90 transform transition-transform duration-300 ease-in-out pt-6 md:mt-14 ${
-          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-full"
+        className={`fixed inset-y-0 left-auto right-0 z-[70] w-64 flex flex-col justify-between bg-black/90 transform transition-transform duration-300 ease-in-out pt-6 pb-14 md:pb-0 h-screen ${
+          isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <nav className="space-y-6 px-4 flex-1">
+        <nav className="space-y-6 px-4 flex-1 pt-10">
           {/* ADMIN OPERATIONS */}
           <div className="space-y-2">
-            <span className="px-3 text-sm font-bold uppercase block">
+            <span className="px-3 text-sm font-bold uppercase block text-[#00BCD4]">
               Admin Operations
             </span>
             <div className="space-y-1">
@@ -68,7 +69,7 @@ export function SidebarAdmin() {
 
           {/* PERSONAL SETTINGS */}
           <div className="space-y-2">
-            <span className="px-3 text-sm font-bold uppercase tracking-wider block">
+            <span className="px-3 text-sm font-bold uppercase tracking-wider block text-[#00BCD4]">
               Personal Settings
             </span>
             <div className="space-y-1">
