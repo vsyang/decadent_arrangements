@@ -368,7 +368,7 @@ export default function OrderForm({
               ) : (
                 <>
                   <div className="mt-8 grid gap-6 md:grid-cols-2">
-                    <div>
+                    <div className="min-w-0">
                       <label htmlFor="eventDate" className={labelClassName}>
                         Event Date
                       </label>
@@ -379,7 +379,7 @@ export default function OrderForm({
                         name="eventDate"
                         min={minimumEventDate}
                         required
-                        className={inputClassName}
+                        className={`${inputClassName} block min-w-0 max-w-full`}
                       />
                     </div>
 
@@ -783,7 +783,14 @@ export default function OrderForm({
                         />
 
                         <span>
-                          <strong>Legal Notice:</strong> I acknowlegde that fraudulent orders will not be processed. Any malicious checkout attempts are considered a breach of <strong>Decadent Arrangements Terms and Conditions</strong> previously stated and will be reported to appropriate legal and financial institutions.
+                          <strong>Legal Notice:</strong> I acknowlegde that
+                          fraudulent orders will not be processed. Any malicious
+                          checkout attempts are considered a breach of{" "}
+                          <strong>
+                            Decadent Arrangements Terms and Conditions
+                          </strong>{" "}
+                          previously stated and will be reported to appropriate
+                          legal and financial institutions.
                         </span>
                       </label>
                     </div>
