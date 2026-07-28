@@ -40,7 +40,7 @@ export function SidebarAdmin() {
       {/* SIDEBAR */}
       <aside
         className={`fixed inset-y-0 left-auto right-0 z-[70] w-64 flex flex-col justify-between bg-black/90 transform transition-transform duration-300 ease-in-out pt-6 pb-14 md:pb-0 h-screen ${
-          isOpen ? "translate-x-0" : "translate-x-full"
+          isOpen ? "translate-x-0" : "hidden translate-x-full"
         }`}
       >
         <nav className="space-y-6 px-4 flex-1 pt-10">
