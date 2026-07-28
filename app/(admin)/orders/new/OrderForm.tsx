@@ -731,7 +731,7 @@ export default function OrderForm({
                       <label className="mt-5 flex cursor-pointer items-start gap-4 text-sm leading-7 text-[#000000]">
                         <input
                           type="checkbox"
-                          name="agreeToPayment"
+                          name="agreeToTermsAndConditions"
                           required
                           className="mt-1 h-4 w-4 shrink-0 accent-[#007C91]"
                         />
@@ -771,6 +771,22 @@ export default function OrderForm({
                       </label>
                     </div>
                     <p></p>
+                  </div>
+                  <div className="flex items-start gap-5">
+                    <div className="w-full">
+                      <label className="mt-5 flex cursor-pointer items-start gap-4 text-sm leading-7 text-[#000000]">
+                        <input
+                          type="checkbox"
+                          name="agreeToLegalNotice"
+                          required
+                          className="mt-1 h-4 w-4 shrink-0 accent-[#007C91]"
+                        />
+
+                        <span>
+                          <strong>Legal Notice:</strong> I acknowlegde that fraudulent orders will not be processed. Any malicious checkout attempts are considered a breach of <strong>Decadent Arrangements Terms and Conditions</strong> previously stated and will be reported to appropriate legal and financial institutions.
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </section>
 
