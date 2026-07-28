@@ -380,6 +380,11 @@ export default function OrderForm({
                         min={minimumEventDate}
                         required
                         className={`${inputClassName} block min-w-0 max-w-full`}
+                        style={{
+                          width: "100%",
+                          minWidth: 0,
+                          maxWidth: "100%",
+                        }}
                       />
                     </div>
 
