@@ -86,10 +86,10 @@ export default async function Home() {
             </p>
 
             {/* Hero buttons */}
-            <div className="animate-cinematic-fade-up animation-delay-800 mt-10 flex flex-col items-start gap-4 sm:flex-row">
+            <div className="animate-cinematic-fade-up animation-delay-800 w-full mt-10 flex flex-col  gap-4 sm:flex-row">
               <Link
                 href="/catalog"
-                className="group inline-flex min-w-60 items-center justify-center gap-4 bg-white px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition duration-300 hover:bg-[#00BCD4]"
+                className="group inline-flex min-w-75 items-center justify-center gap-4 bg-white px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition duration-300 hover:bg-[#00BCD4]"
               >
                 View the Collection
                 <ArrowRight
@@ -100,7 +100,7 @@ export default async function Home() {
 
               <Link
                 href={orderHref}
-                className="group inline-flex min-w-60 items-center justify-center gap-4 border border-white/70 px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-white transition duration-300 hover:border-white hover:bg-white hover:text-black"
+                className="group inline-flex min-w-75 items-center justify-center gap-4 border border-white/70 px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-white transition duration-300 hover:border-white hover:bg-white hover:text-black"
               >
                 Start Your Order
                 <ArrowRight
