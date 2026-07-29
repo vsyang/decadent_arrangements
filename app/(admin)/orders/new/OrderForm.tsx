@@ -11,10 +11,10 @@ import {
   Mail,
   Users,
 } from "lucide-react";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 
 import { cormorant, montserrat } from "@/app/ui/home/fonts";
-import { createOrder } from "./actions";
+import { createOrder, type OrderFormState } from "./actions";
 import Link from "next/link";
 
 type OrderProduct = {
@@ -51,11 +51,23 @@ const labelClassName =
 const sectionClassName =
   "border border-black/15 bg-[#f4f0ea] px-6 py-8 sm:px-8 sm:py-10";
 
+const errorClassName = "mt-2 text-sm font-medium text-red-700";
+
+const initialState: OrderFormState = {
+  errors: {},
+  message: "",
+};
+
 export default function OrderForm({
   products,
   defaultProductId = "",
   savedCustomer,
 }: OrderFormProps) {
+  const [state, formAction, isPending] = useActionState(
+    createOrder,
+    initialState,
+  );
+
   const [selectedProductId, setSelectedProductId] = useState(defaultProductId);
 
   function formatPhoneNumber(value: string) {
@@ -109,9 +121,7 @@ export default function OrderForm({
           preload="metadata"
           className="animate-cinematic-image-reveal absolute inset-0 h-full w-full scale-[1.50] object-cover object-center"
         >
-          <source
-            src="/videos/movie/boxing.mp4"
-            type="video/mp4" />
+          <source src="/videos/boxing.mp4" type="video/mp4" />
         </video>
         {/* Cinematic overlays */}
         <div className="absolute inset-0 bg-black/35" />
@@ -151,7 +161,19 @@ export default function OrderForm({
       ====================================================== */}
       <section className="bg-gradient-to-r from-[#a9a6a0] via-[#f4f0ea] to-[#a9a6a0] px-6 py-16 text-black sm:px-10 lg:py-24">
         <div className="mx-auto max-w-6xl">
-          <form action={createOrder} className="space-y-px bg-black/5">
+          <form
+            action={formAction}
+            noValidate
+            className="space-y-px bg-black/5"
+          >
+            {state.message && (
+              <div
+                role="alert"
+                className="border border-red-700/30 bg-red-50 px-6 py-4 text-sm font-medium text-red-800"
+              >
+                {state.message}
+              </div>
+            )}
             {/* =================================================
                 CUSTOMER INFORMATION
             ================================================== */}
@@ -182,8 +204,22 @@ export default function OrderForm({
                     name="fullName"
                     required
                     defaultValue={savedCustomer?.name ?? ""}
-                    className={inputClassName}
+                    aria-invalid={Boolean(state.errors.fullName)}
+                    aria-describedby={
+                      state.errors.fullName ? "fullName-error" : undefined
+                    }
+                    className={`${inputClassName} ${
+                      state.errors.fullName
+                        ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                        : ""
+                    }`}
                   />
+
+                  {state.errors.fullName && (
+                    <p id="fullName-error" className={errorClassName}>
+                      {state.errors.fullName}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -197,8 +233,22 @@ export default function OrderForm({
                     name="email"
                     required
                     defaultValue={savedCustomer?.email ?? ""}
-                    className={inputClassName}
+                    aria-invalid={Boolean(state.errors.email)}
+                    aria-describedby={
+                      state.errors.email ? "email-error" : undefined
+                    }
+                    className={`${inputClassName} ${
+                      state.errors.email
+                        ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                        : ""
+                    }`}
                   />
+
+                  {state.errors.email && (
+                    <p id="email-error" className={errorClassName}>
+                      {state.errors.email}
+                    </p>
+                  )}
                 </div>
 
                 <div className="md:col-span-2">
@@ -219,8 +269,22 @@ export default function OrderForm({
                     maxLength={12}
                     placeholder="123-456-7890"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    className={inputClassName}
+                    aria-invalid={Boolean(state.errors.phone)}
+                    aria-describedby={
+                      state.errors.phone ? "phone-error" : undefined
+                    }
+                    className={`${inputClassName} ${
+                      state.errors.phone
+                        ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                        : ""
+                    }`}
                   />
+
+                  {state.errors.phone && (
+                    <p id="phone-error" className={errorClassName}>
+                      {state.errors.phone}
+                    </p>
+                  )}
                 </div>
               </div>
             </section>
@@ -256,7 +320,15 @@ export default function OrderForm({
                       setSelectedProductId(event.target.value)
                     }
                     required
-                    className={`${inputClassName} appearance-none pr-12`}
+                    aria-invalid={Boolean(state.errors.productId)}
+                    aria-describedby={
+                      state.errors.productId ? "productId-error" : undefined
+                    }
+                    className={`${inputClassName} appearance-none pr-12 ${
+                      state.errors.productId
+                        ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                        : ""
+                    }`}
                   >
                     <option value="" disabled>
                       Select an arrangement
@@ -276,6 +348,12 @@ export default function OrderForm({
                     strokeWidth={1.5}
                   />
                 </div>
+
+                {state.errors.productId && (
+                  <p id="productId-error" className={errorClassName}>
+                    {state.errors.productId}
+                  </p>
+                )}
               </div>
 
               {selectedProduct && (
@@ -378,8 +456,22 @@ export default function OrderForm({
                         name="eventDate"
                         min={minimumEventDate}
                         required
-                        className={inputClassName}
+                        aria-invalid={Boolean(state.errors.eventDate)}
+                        aria-describedby={
+                          state.errors.eventDate ? "eventDate-error" : undefined
+                        }
+                        className={`${inputClassName} ${
+                          state.errors.eventDate
+                            ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                            : ""
+                        }`}
                       />
+
+                      {state.errors.eventDate && (
+                        <p id="eventDate-error" className={errorClassName}>
+                          {state.errors.eventDate}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -455,6 +547,12 @@ export default function OrderForm({
                           />
                         </div>
                       </div>
+
+                      {state.errors.eventTime && (
+                        <p id="eventTime-error" className={errorClassName}>
+                          {state.errors.eventTime}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -486,8 +584,27 @@ export default function OrderForm({
                       rows={4}
                       placeholder="List dietary restrictions or allergies. If none, type 'None'."
                       required
-                      className={inputClassName}
+                      aria-invalid={Boolean(state.errors.dietaryRestrictions)}
+                      aria-describedby={
+                        state.errors.dietaryRestrictions
+                          ? "dietaryRestrictions-error"
+                          : undefined
+                      }
+                      className={`${inputClassName} ${
+                        state.errors.dietaryRestrictions
+                          ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                          : ""
+                      }`}
                     />
+
+                    {state.errors.dietaryRestrictions && (
+                      <p
+                        id="dietaryRestrictions-error"
+                        className={errorClassName}
+                      >
+                        {state.errors.dietaryRestrictions}
+                      </p>
+                    )}
                   </div>
                 </>
               )}
@@ -525,8 +642,24 @@ export default function OrderForm({
                       name="streetAddress"
                       required
                       defaultValue={savedCustomer?.streetAddress ?? ""}
-                      className={inputClassName}
+                      aria-invalid={Boolean(state.errors.streetAddress)}
+                      aria-describedby={
+                        state.errors.streetAddress
+                          ? "streetAddress-error"
+                          : undefined
+                      }
+                      className={`${inputClassName} ${
+                        state.errors.streetAddress
+                          ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                          : ""
+                      }`}
                     />
+
+                    {state.errors.streetAddress && (
+                      <p id="streetAddress-error" className={errorClassName}>
+                        {state.errors.streetAddress}
+                      </p>
+                    )}
                   </div>
 
                   <div className="mt-6 grid gap-6 md:grid-cols-3">
@@ -541,8 +674,22 @@ export default function OrderForm({
                         name="city"
                         required
                         defaultValue={savedCustomer?.city ?? ""}
-                        className={inputClassName}
+                        aria-invalid={Boolean(state.errors.city)}
+                        aria-describedby={
+                          state.errors.city ? "city-error" : undefined
+                        }
+                        className={`${inputClassName} ${
+                          state.errors.city
+                            ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                            : ""
+                        }`}
                       />
+
+                      {state.errors.city && (
+                        <p id="city-error" className={errorClassName}>
+                          {state.errors.city}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -556,7 +703,15 @@ export default function OrderForm({
                           name="state"
                           required
                           defaultValue={savedCustomer?.state ?? ""}
-                          className={`${inputClassName} appearance-none pr-12`}
+                          aria-invalid={Boolean(state.errors.state)}
+                          aria-describedby={
+                            state.errors.state ? "state-error" : undefined
+                          }
+                          className={`${inputClassName} appearance-none pr-12 ${
+                            state.errors.state
+                              ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                              : ""
+                          }`}
                         >
                           <option value="">Select a state</option>
                           <option value="AL">AL</option>
@@ -615,6 +770,12 @@ export default function OrderForm({
                           strokeWidth={1.5}
                         />
                       </div>
+
+                      {state.errors.state && (
+                        <p id="state-error" className={errorClassName}>
+                          {state.errors.state}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -628,8 +789,25 @@ export default function OrderForm({
                         name="postalCode"
                         required
                         defaultValue={savedCustomer?.postalCode ?? ""}
-                        className={inputClassName}
+                        inputMode="numeric"
+                        aria-invalid={Boolean(state.errors.postalCode)}
+                        aria-describedby={
+                          state.errors.postalCode
+                            ? "postalCode-error"
+                            : undefined
+                        }
+                        className={`${inputClassName} ${
+                          state.errors.postalCode
+                            ? "border-red-600 focus:border-red-600 focus:ring-red-600"
+                            : ""
+                        }`}
                       />
+
+                      {state.errors.postalCode && (
+                        <p id="postalCode-error" className={errorClassName}>
+                          {state.errors.postalCode}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -668,7 +846,24 @@ export default function OrderForm({
                     </div>
                   </div>
 
-                  <div className="grid gap-px bg-black/20 sm:grid-cols-3">
+                  <p id="payment-preference-label" className={labelClassName}>
+                    Select a payment method
+                  </p>
+
+                  <div
+                    role="radiogroup"
+                    aria-labelledby="payment-preference-label"
+                    aria-describedby={
+                      state.errors?.paymentPreference
+                        ? "paymentPreference-error"
+                        : undefined
+                    }
+                    className={`grid gap-px bg-black/20 sm:grid-cols-3 ${
+                      state.errors?.paymentPreference
+                        ? "border border-red-600"
+                        : ""
+                    }`}
+                  >
                     {[
                       { value: "venmo", label: "Venmo" },
                       { value: "paypal", label: "PayPal" },
@@ -692,6 +887,15 @@ export default function OrderForm({
                       </label>
                     ))}
                   </div>
+
+                  {state.errors?.paymentPreference && (
+                    <p
+                      id="paymentPreference-error"
+                      className="mt-2 text-sm font-medium text-red-700"
+                    >
+                      {state.errors.paymentPreference}
+                    </p>
+                  )}
                 </section>
 
                 {/* =============================================
@@ -715,6 +919,12 @@ export default function OrderForm({
                           type="checkbox"
                           name="agreeToPayment"
                           required
+                          aria-invalid={Boolean(state.errors.agreeToPayment)}
+                          aria-describedby={
+                            state.errors.agreeToPayment
+                              ? "agreeToPayment-error"
+                              : undefined
+                          }
                           className="mt-1 h-4 w-4 shrink-0 accent-[#007C91]"
                         />
 
@@ -723,6 +933,12 @@ export default function OrderForm({
                           payment is received.
                         </span>
                       </label>
+
+                      {state.errors.agreeToPayment && (
+                        <p id="agreeToPayment-error" className={errorClassName}>
+                          {state.errors.agreeToPayment}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-start gap-5">
@@ -732,6 +948,14 @@ export default function OrderForm({
                           type="checkbox"
                           name="agreeToTermsAndConditions"
                           required
+                          aria-invalid={Boolean(
+                            state.errors.agreeToTermsAndConditions,
+                          )}
+                          aria-describedby={
+                            state.errors.agreeToTermsAndConditions
+                              ? "agreeToTermsAndConditions-error"
+                              : undefined
+                          }
                           className="mt-1 h-4 w-4 shrink-0 accent-[#007C91]"
                         />
                         <div>
@@ -768,6 +992,15 @@ export default function OrderForm({
                           <span>{"."}</span>
                         </div>
                       </label>
+
+                      {state.errors.agreeToTermsAndConditions && (
+                        <p
+                          id="agreeToTermsAndConditions-error"
+                          className={errorClassName}
+                        >
+                          {state.errors.agreeToTermsAndConditions}
+                        </p>
+                      )}
                     </div>
                     <p></p>
                   </div>
@@ -778,6 +1011,14 @@ export default function OrderForm({
                           type="checkbox"
                           name="agreeToLegalNotice"
                           required
+                          aria-invalid={Boolean(
+                            state.errors.agreeToLegalNotice,
+                          )}
+                          aria-describedby={
+                            state.errors.agreeToLegalNotice
+                              ? "agreeToLegalNotice-error"
+                              : undefined
+                          }
                           className="mt-1 h-4 w-4 shrink-0 accent-[#007C91]"
                         />
 
@@ -792,6 +1033,15 @@ export default function OrderForm({
                           legal and financial institutions.
                         </span>
                       </label>
+
+                      {state.errors.agreeToLegalNotice && (
+                        <p
+                          id="agreeToLegalNotice-error"
+                          className={errorClassName}
+                        >
+                          {state.errors.agreeToLegalNotice}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </section>
@@ -801,9 +1051,10 @@ export default function OrderForm({
                 ============================================== */}
                 <button
                   type="submit"
-                  className="group flex w-full cursor-pointer items-center justify-center gap-4 bg-black px-8 py-5 text-xs font-semibold uppercase tracking-[0.2em] text-white transition duration-300 hover:bg-[#00BCD4] hover:text-black"
+                  disabled={isPending}
+                  className="group flex w-full cursor-pointer items-center justify-center gap-4 bg-black px-8 py-5 text-xs font-semibold uppercase tracking-[0.2em] text-white transition duration-300 hover:bg-[#00BCD4] hover:text-black disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Send My Order
+                  {isPending ? "Sending Order..." : "Send My Order"}
                   <ArrowRight
                     className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                     strokeWidth={1.5}
