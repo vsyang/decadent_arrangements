@@ -73,7 +73,7 @@ export default async function Home() {
               Curated for the
               <span className="block">moments worth</span>
               <span
-                className={`${cursive.className} animate-handwritten-reveal mt-2 block origin-left scale-x-[1.04] px-6 pb-4 text-6xl font-normal leading-[1.15] text-[#00BCD4] text-center sm:text-8xl lg:text-[7.5rem]`}
+                className={`${cursive.className} animate-handwritten-reveal mt-2 block origin-left scale-x-[1.04] px-6 pb-4 text-6xl tracking-[-0.0em] font-normal leading-[1.15] text-[#00BCD4] text-center sm:text-8xl lg:text-[7.5rem] [animation-duration:3s]`}
               >
                 Remembering.
               </span>
