@@ -33,9 +33,7 @@ export default function CatalogPage() {
           className="animate-cinematic-image-reveal absolute inset-0 h-full w-full scale-[1.50] object-cover object-center"
         >
           <source
-            src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/movie/strawberries-chocolate.mp4"
-            type="video/mp4"
-          />
+            src="/videos/strawberries-chocolate.mp4" type="video/mp4" />
         </video>
 
         {/* Cinematic overlays */}

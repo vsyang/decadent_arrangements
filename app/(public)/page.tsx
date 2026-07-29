@@ -286,9 +286,8 @@ export default async function Home() {
           className="absolute inset-0 h-full w-full scale-[1.30] object-cover object-center"
         >
           <source
-            src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/movie/honey-on-cheese.mp4"
-            type="video/mp4"
-          />
+            src="/videos/honey-on-cheese.mp4"
+            type="video/mp4" />
         </video>
 
         {/* Dark overlay so the text stays readable */}
