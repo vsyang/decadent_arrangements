@@ -1,6 +1,6 @@
-// src/lib/notification.ts
-
 import nodemailer from "nodemailer";
+
+import { emailStyles } from "./emailStyles";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 const logoUrl = `${appUrl}/images/Decadentarrangements_logo.png`;
@@ -23,7 +23,7 @@ function createEmailTransporter() {
   });
 }
 
-// Prevents customer-entered text from being interpreted as HTML.
+// Prevents user-entered text from being interpreted as email HTML.
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
@@ -62,7 +62,20 @@ function formatCapacity(value: string) {
   return `${value} people`;
 }
 
-// Sends a notification to the business owner when a customer submits an order.
+function createLogoHeader() {
+  return `
+    <div style="${emailStyles.logoHeader}">
+      <img
+        src="${logoUrl}"
+        alt="Decadent Arrangements logo"
+        width="420"
+        style="${emailStyles.logo}"
+      />
+    </div>
+  `;
+}
+
+// Sends a notification to the owner when a customer submits an order.
 export async function sendOwnerEmail({
   orderCode,
 }: {
@@ -94,116 +107,31 @@ export async function sendOwnerEmail({
       `${signInUrl}`,
 
     html: `
-      <div
-        style="
-          margin: 0;
-          padding: 24px 12px;
-          color: #252525;
-          font-family: Arial, Helvetica, sans-serif;
-        "
-      >
-        <div
-          style="
-            max-width: 600px;
-            margin: 0 auto;
-            overflow: hidden;
-            border: 1px solid #d8d2ca;
-          "
-        >
-          <div
-            style="
-              padding: 36px 20px;
-              text-align: center;
-              border-bottom: 3px solid #00bcd4;
-            "
-          >
-            <img
-              src="${logoUrl}"
-              alt="Decadent Arrangements logo"
-              width="420"
-              style="
-                display: block;
-                width: 420px;
-                max-width: 90%;
-                height: auto;
-                margin: 0 auto;
-                border: 0;
-              "
-            />
-          </div>
+      <div style="${emailStyles.wrapper}">
+        <div style="${emailStyles.ownerContainer}">
+          ${createLogoHeader()}
 
-          <div style="padding: 34px 28px;">
-            <h1
-              style="
-                margin: 0 0 18px;
-                color: #252525;
-                font-family: Georgia, 'Times New Roman', serif;
-                font-size: 30px;
-                line-height: 1.2;
-                font-weight: normal;
-              "
-            >
+          <div style="${emailStyles.content}">
+            <h1 style="${emailStyles.heading}">
               A new order is waiting for review.
             </h1>
 
-            <p
-              style="
-                margin: 0;
-                color: #545454;
-                font-size: 15px;
-                line-height: 1.7;
-              "
-            >
+            <p style="${emailStyles.bodyText}">
               A customer has submitted a new order through the
               Decadent Arrangements website.
             </p>
 
-            <div
-              style="
-                margin: 26px 0;
-                padding: 20px;
-                background-color: #f4f0ea;
-                border: 1px solid #d8d2ca;
-              "
-            >
-              <p
-                style="
-                  margin: 0 0 7px;
-                  color: #545454;
-                  font-size: 12px;
-                  font-weight: bold;
-                "
-              >
+            <div style="${emailStyles.confirmationBox}">
+              <p style="${emailStyles.confirmationLabel}">
                 Confirmation Code
               </p>
 
-              <p
-                style="
-                  margin: 0;
-                  color: #252525;
-                  font-family: Georgia, 'Times New Roman', serif;
-                  font-size: 28px;
-                  font-weight: bold;
-                "
-              >
+              <p style="${emailStyles.confirmationCode}">
                 ${safeOrderCode}
               </p>
             </div>
 
-            <a
-              href="${signInUrl}"
-              style="
-                display: inline-block;
-                padding: 15px 24px;
-                background-color: #111111;
-                color: #ffffff;
-                font-size: 11px;
-                font-weight: bold;
-                letter-spacing: 1.5px;
-                text-decoration: none;
-                text-transform: uppercase;
-              "
-            >
+            <a href="${signInUrl}" style="${emailStyles.button}">
               View Order Details
             </a>
           </div>
@@ -336,115 +264,31 @@ export async function sendCustomerConfirmation({
       `Decadent Arrangements`,
 
     html: `
-      <div
-        style="
-          margin: 0;
-          padding: 24px 12px;
-          color: #252525;
-          font-family: Arial, Helvetica, sans-serif;
-        "
-      >
-        <div
-          style="
-            max-width: 660px;
-            margin: 0 auto;
-            overflow: hidden;
-            border: 1px solid #d8d2ca;
-          "
-        >
-          <div
-            style="
-              padding: 36px 20px;
-              text-align: center;
-              border-bottom: 3px solid #00bcd4;
-            "
-          >
-            <img
-              src="${logoUrl}"
-              alt="Decadent Arrangements logo"
-              width="420"
-              style="
-                display: block;
-                width: 420px;
-                max-width: 90%;
-                height: auto;
-                margin: 0 auto;
-                border: 0;
-              "
-            />
-          </div>
+      <div style="${emailStyles.wrapper}">
+        <div style="${emailStyles.container}">
+          ${createLogoHeader()}
 
-          <div
-            style="
-              padding: 34px 28px;
-            "
-          >
-            <h1
-              style="
-                margin: 0 0 18px;
-                color: #252525;
-                font-family: Georgia, 'Times New Roman', serif;
-                font-size: 32px;
-                line-height: 1.2;
-                font-weight: normal;
-              "
-            >
+          <div style="${emailStyles.content}">
+            <h1 style="${emailStyles.heading}">
               Thank you, ${safeCustomerName}.
             </h1>
 
-            <p
-              style="
-                margin: 0;
-                color: #545454;
-                font-size: 15px;
-                line-height: 1.7;
-              "
-            >
+            <p style="${emailStyles.bodyText}">
               Your order has been received and is currently awaiting
               review. Below is a copy of your order.
             </p>
 
-            <div
-              style="
-                margin: 26px 0;
-                padding: 20px;
-                background-color: #f4f0ea;
-                border: 1px solid #d8d2ca;
-              "
-            >
-              <p
-                style="
-                  margin: 0 0 7px;
-                  color: #545454;
-                  font-size: 12px;
-                  font-weight: bold;
-                "
-              >
+            <div style="${emailStyles.confirmationBox}">
+              <p style="${emailStyles.confirmationLabel}">
                 Confirmation Code
               </p>
 
-              <p
-                style="
-                  margin: 0;
-                  color: #252525;
-                  font-family: Georgia, 'Times New Roman', serif;
-                  font-size: 28px;
-                  font-weight: bold;
-                "
-              >
+              <p style="${emailStyles.confirmationCode}">
                 ${safeOrderCode}
               </p>
             </div>
 
-            <h2
-              style="
-                margin: 30px 0 14px;
-                color: #252525;
-                font-family: Georgia, 'Times New Roman', serif;
-                font-size: 25px;
-                font-weight: normal;
-              "
-            >
+            <h2 style="${emailStyles.subheading}">
               Order Snapshot
             </h2>
 
@@ -454,147 +298,124 @@ export async function sendCustomerConfirmation({
               cellpadding="0"
               border="0"
               width="100%"
-              style="
-                width: 100%;
-                border-collapse: collapse;
-                background-color: #ffffff;
-                border: 1px solid #d8d2ca;
-              "
+              style="${emailStyles.table}"
             >
               <tr>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Customer Name
                 </td>
-                <td style="padding: 13px; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.valueCell}">
                   ${safeCustomerName}
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Email
                 </td>
-                <td style="padding: 13px; word-break: break-word; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.valueCell}">
                   ${safeCustomerEmail}
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Phone
                 </td>
-                <td style="padding: 13px; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.valueCell}">
                   ${safeCustomerPhone}
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Arrangement
                 </td>
-                <td style="padding: 13px; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.valueCell}">
                   ${safeProductName}
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Capacity
                 </td>
-                <td style="padding: 13px; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.valueCell}">
                   ${safeProductCapacity}
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Event Date and Time
                 </td>
-                <td style="padding: 13px; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.valueCell}">
                   ${safeFormattedDate}
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Price
                 </td>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
-                  ${safeFormattedPrice}
+                <td style="${emailStyles.valueCell}">
+                  <strong>${safeFormattedPrice}</strong>
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Payment Preference
                 </td>
-                <td style="padding: 13px; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.valueCell}">
                   ${safePaymentPreference}
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; vertical-align: top; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Delivery Address
                 </td>
-                <td style="padding: 13px; line-height: 1.6; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.valueCell}">
                   ${safeStreetAddress}<br />
                   ${safeCity}, ${safeState} ${safePostalCode}
                 </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; vertical-align: top; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Delivery Notes
                 </td>
-                <td style="padding: 13px; border-bottom: 1px solid #e5e0da;">${safeDeliveryNotes}</td>
+                <td style="${emailStyles.valueCell}">${safeDeliveryNotes}</td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; vertical-align: top; border-bottom: 1px solid #e5e0da;">
+                <td style="${emailStyles.labelCell}">
                   Dietary Restrictions
                 </td>
-                <td style="padding: 13px; border-bottom: 1px solid #e5e0da;">${safeDietaryRestrictions}</td>
+                <td style="${emailStyles.valueCell}">
+                  ${safeDietaryRestrictions}
+                </td>
               </tr>
 
               <tr>
-                <td style="padding: 13px; font-weight: bold; vertical-align: top;">
+                <td style="${emailStyles.lastLabelCell}">
                   Special Requests
                 </td>
-                <td style="padding: 13px;">${safeSpecialRequests}</td>
+                <td style="${emailStyles.lastValueCell}">
+                  ${safeSpecialRequests}
+                </td>
               </tr>
             </table>
 
-            <div
-              style="
-                margin-top: 24px;
-                padding: 18px;
-                background-color: #f4f0ea;
-              "
-            >
-              <p
-                style="
-                  margin: 0;
-                  color: #252525;
-                  font-size: 14px;
-                  line-height: 1.7;
-                "
-              >
+            <div style="${emailStyles.notice}">
+              <p style="${emailStyles.noticeText}">
                 Please keep this email for your records. Your order
                 will not begin until payment has been received.
               </p>
             </div>
 
-            <p
-              style="
-                margin: 30px 0 0;
-                color: #545454;
-                font-family: Georgia, 'Times New Roman', serif;
-                font-size: 17px;
-                font-style: italic;
-                line-height: 1.6;
-              "
-            >
+            <p style="${emailStyles.signature}">
               Yours Truly,<br />
               Decadent Arrangements
             </p>
@@ -636,88 +457,24 @@ export async function sendCustomerDeliveryEmail({
       `Great news! Your ${productName} order is on its way to you.\n\n` +
       `Thank you for choosing Decadent Arrangements. ` +
       `We hope you love your order!\n\n` +
-      `Yours truly,\n` +
+      `Yours Truly,\n` +
       `Decadent Arrangements`,
 
     html: `
-      <div
-        style="
-          margin: 0;
-          padding: 24px 12px;
-          background-color: #ffffff;
-          color: #252525;
-          font-family: Arial, Helvetica, sans-serif;
-        "
-      >
-        <div
-          style="
-            max-width: 620px;
-            margin: 0 auto;
-            overflow: hidden;
-            background-color: #ffffff;
-            border: 1px solid #d8d2ca;
-          "
-        >
-          <div
-            style="
-              padding: 36px 20px;
-              text-align: center;
-              border-bottom: 3px solid #00bcd4;
-            "
-          >
-            <img
-              src="${logoUrl}"
-              alt="Decadent Arrangements logo"
-              width="420"
-              style="
-                display: block;
-                width: 420px;
-                max-width: 90%;
-                height: auto;
-                margin: 0 auto;
-                border: 0;
-              "
-            />
-          </div>
+      <div style="${emailStyles.wrapper}">
+        <div style="${emailStyles.deliveryContainer}">
+          ${createLogoHeader()}
 
-          <div
-            style="
-              padding: 34px 28px;
-              background-color: #ffffff;
-            "
-          >
-            <h1
-              style="
-                margin: 0 0 22px;
-                color: #252525;
-                font-family: Georgia, 'Times New Roman', serif;
-                font-size: 32px;
-                line-height: 1.2;
-                font-weight: normal;
-              "
-            >
+          <div style="${emailStyles.content}">
+            <h1 style="${emailStyles.heading}">
               Your order is on its way.
             </h1>
 
-            <p
-              style="
-                margin: 0 0 18px;
-                color: #545454;
-                font-size: 15px;
-                line-height: 1.7;
-              "
-            >
+            <p style="${emailStyles.deliveryGreeting}">
               Hello ${safeCustomerName},
             </p>
 
-            <p
-              style="
-                margin: 0;
-                color: #545454;
-                font-size: 15px;
-                line-height: 1.7;
-              "
-            >
+            <p style="${emailStyles.bodyText}">
               Great news! Your
               <strong style="color: #252525;">
                 ${safeProductName}
@@ -725,36 +482,14 @@ export async function sendCustomerDeliveryEmail({
               order is on its way to you.
             </p>
 
-            <div
-              style="
-                margin-top: 24px;
-                padding: 18px;
-                background-color: #f4f0ea;
-              "
-            >
-              <p
-                style="
-                  margin: 0;
-                  color: #252525;
-                  font-size: 14px;
-                  line-height: 1.7;
-                "
-              >
+            <div style="${emailStyles.notice}">
+              <p style="${emailStyles.noticeText}">
                 Thank you for choosing Decadent Arrangements.
                 We hope you love your order!
               </p>
             </div>
 
-            <p
-              style="
-                margin: 30px 0 0;
-                color: #545454;
-                font-family: Georgia, 'Times New Roman', serif;
-                font-size: 17px;
-                font-style: italic;
-                line-height: 1.6;
-              "
-            >
+            <p style="${emailStyles.signature}">
               Yours Truly,<br />
               Decadent Arrangements
             </p>
