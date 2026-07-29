@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 
-import logo from "@/app/apple-icon.png";
+import logo from "@/public/images/Decadentarrangements_logo.png";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -14,14 +14,18 @@ export default function Footer() {
     <footer className="bg-stone-900 text-stone-300 font-sans border-t border-stone-800 md:mb-0 mb-16">
       <div className="max-w-7xl mx-auto px-4 pt-12 pb-6 md:pt-16 flex flex-col">
         <div className="flex items-center space-x-2 flex flex-col justfy-center text-center">
-          <Image
-            src={logo}
-            alt="Decadent Arrangements Logo"
-            placeholder="blur"
-            width={40}
-            height={40}
-          />
-          <span className="text-2xl font-bold text-[#00BCD4] tracking-wide leading-none w-full uppercase">
+          <div className="overflow-hidden border border-2 rounded-full h-21 w-21">
+            <Image
+              src={logo}
+              alt="Decadent Arrangements Logo"
+              placeholder="blur"
+              width={120}
+              height={120}
+              className=" bg-white border border-2 border-white scale-210"
+            />
+          </div>
+
+          <span className="text-2xl font-bold text-[#00BCD4] tracking-wide leading-none w-full uppercase pt-2">
             Decadent Arrangements
           </span>
           <div className="h-px bg-white/80 w-full mt-4" />
