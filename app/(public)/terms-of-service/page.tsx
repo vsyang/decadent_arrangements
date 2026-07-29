@@ -1,3 +1,4 @@
+import { PoliciesSection } from "@/app/ui/admin/policies/PoliciesSection";
 import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Link from "next/link";
 
@@ -13,9 +14,7 @@ const montserrat = Montserrat({
 
 export default function TermsOfServicePage() {
   return (
-    <main
-      className={`${montserrat.className} min-h-screen bg-[#0a0a0a] text-white`}
-    >
+    <main className={`${montserrat.className} min-h-screen text-white`}>
       {/* Page header */}
       <section className="border-b border-white/10 bg-black px-6 py-20 sm:px-10 lg:py-28">
         <div className="mx-auto max-w-4xl">
@@ -36,17 +35,16 @@ export default function TermsOfServicePage() {
       </section>
 
       {/* Terms content */}
-      <div className="mx-auto max-w-4xl px-6 py-16 sm:px-10 lg:py-24">
+      <div className="mx-auto max-w-4xl px-6 py-16 sm:px-10 lg:py-24 bg-white">
         {/* Introduction */}
         <section className="space-y-5">
-          <p className="leading-8 text-white/70">
-            Welcome to{" "}
-            <strong className="text-white">Decadent Arrangements</strong>. These
-            Terms of Service govern your use of our website, products, services,
-            and any orders placed through our platform.
+          <p className="leading-8 text-black">
+            Welcome to <strong>Decadent Arrangements</strong>. These Terms of
+            Service govern your use of our website, products, services, and any
+            orders placed through our platform.
           </p>
 
-          <p className="leading-8 text-white/70">
+          <p className="leading-8 text-black">
             By accessing our website, creating an account, or placing an order
             with us, you agree to be bound by these Terms of Service. If you do
             not agree with any part of these terms, please do not use our
@@ -55,7 +53,7 @@ export default function TermsOfServicePage() {
         </section>
 
         {/* Section 1 */}
-        <TermsSection number="01" title="About Our Services">
+        <PoliciesSection number="01" title="About Our Services">
           <p>
             Decadent Arrangements provides custom food arrangements, grazing
             tables, charcuterie arrangements, gift arrangements, desserts, and
@@ -67,10 +65,10 @@ export default function TermsOfServicePage() {
             options, and services may vary depending on location, requested
             date, seasonal availability, and other circumstances.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 2 */}
-        <TermsSection number="02" title="Orders and Purchases">
+        <PoliciesSection number="02" title="Orders and Purchases">
           <p>
             When you place an order through our website, you agree to provide
             accurate and complete information necessary to organize and fulfill
@@ -107,10 +105,10 @@ export default function TermsOfServicePage() {
             requested product, ingredient, date, or delivery option is
             unavailable.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 3 */}
-        <TermsSection number="03" title="Order Confirmation">
+        <PoliciesSection number="03" title="Order Confirmation">
           <p>
             An order submission through the website is considered a request
             until it has been reviewed and accepted by Decadent Arrangements.
@@ -126,10 +124,10 @@ export default function TermsOfServicePage() {
             Customers are responsible for reviewing all confirmation details and
             promptly notifying us if any information is incorrect.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 4 */}
-        <TermsSection number="04" title="Food and Product Information">
+        <PoliciesSection number="04" title="Food and Product Information">
           <p>
             We make reasonable efforts to ensure that product descriptions,
             photographs, ingredients, capacities, prices, and other information
@@ -154,10 +152,10 @@ export default function TermsOfServicePage() {
             cannot guarantee that products will be completely free from
             allergens or cross-contact with allergens.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 5 */}
-        <TermsSection number="05" title="Custom and Special Requests">
+        <PoliciesSection number="05" title="Custom and Special Requests">
           <p>
             Products and arrangements may be customized according to customer
             preferences when possible. Custom requests are subject to
@@ -176,10 +174,10 @@ export default function TermsOfServicePage() {
             other product is unavailable, a reasonable substitution may be
             discussed or used when appropriate.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 6 */}
-        <TermsSection number="06" title="Pricing and Payment">
+        <PoliciesSection number="06" title="Pricing and Payment">
           <p>
             Prices displayed on our website are listed in U.S. dollars unless
             otherwise stated.
@@ -203,10 +201,10 @@ export default function TermsOfServicePage() {
             Decadent Arrangements. An order may not be considered confirmed
             until any required payment or deposit has been received.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 7 */}
-        <TermsSection number="07" title="Delivery and Pickup">
+        <PoliciesSection number="07" title="Delivery and Pickup">
           <p>
             Customers are responsible for providing complete and accurate
             delivery information, including the recipient&apos;s name, address,
@@ -232,10 +230,10 @@ export default function TermsOfServicePage() {
             following appropriate storage, refrigeration, and food-safety
             instructions after receiving the order.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 8 */}
-        <TermsSection number="08" title="Cancellations and Refunds">
+        <PoliciesSection number="08" title="Cancellations and Refunds">
           <p>
             Cancellation and refund eligibility may depend on how far in advance
             the request is made and whether ingredients, supplies, or custom
@@ -262,10 +260,10 @@ export default function TermsOfServicePage() {
             Refunds or replacements, when approved, will be determined based on
             the circumstances of the order.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 9 */}
-        <TermsSection number="09" title="Customer Responsibilities">
+        <PoliciesSection number="09" title="Customer Responsibilities">
           <p>
             Customers agree to provide accurate information and use our website
             and services only for lawful purposes.
@@ -293,10 +291,10 @@ export default function TermsOfServicePage() {
             Customers should promptly notify Decadent Arrangements if any order
             information changes after submission.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 10 */}
-        <TermsSection number="10" title="Accounts and Website Access">
+        <PoliciesSection number="10" title="Accounts and Website Access">
           <p>
             Certain website features may require users to sign in using a
             supported Google account.
@@ -313,10 +311,10 @@ export default function TermsOfServicePage() {
             or use the website in a way that could harm the business or other
             users.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 11 */}
-        <TermsSection number="11" title="Intellectual Property">
+        <PoliciesSection number="11" title="Intellectual Property">
           <p>
             All content available on this website, including logos, branding,
             photographs, graphics, text, product descriptions, designs, and
@@ -328,10 +326,10 @@ export default function TermsOfServicePage() {
             modified, published, or used for commercial purposes without prior
             written permission.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 12 */}
-        <TermsSection number="12" title="Third-Party Services">
+        <PoliciesSection number="12" title="Third-Party Services">
           <p>
             Our website may rely on or link to third-party services, including
             Google, Vercel, PayPal, Venmo, Zelle, and other technology or
@@ -343,10 +341,10 @@ export default function TermsOfServicePage() {
             availability, or operation of third-party services. Your use of
             those services is subject to their own terms and policies.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 13 */}
-        <TermsSection number="13" title="Limitation of Liability">
+        <PoliciesSection number="13" title="Limitation of Liability">
           <p>
             To the extent permitted by applicable law, Decadent Arrangements
             shall not be liable for indirect, incidental, special, or
@@ -359,10 +357,10 @@ export default function TermsOfServicePage() {
             liability where such exclusion or limitation is not permitted by
             applicable law.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 14 */}
-        <TermsSection number="14" title="Changes to These Terms">
+        <PoliciesSection number="14" title="Changes to These Terms">
           <p>
             We may update these Terms of Service from time to time to reflect
             changes in our website, services, policies, technology, or legal
@@ -374,55 +372,55 @@ export default function TermsOfServicePage() {
             date. Your continued use of the website after changes are posted
             constitutes acknowledgment of the updated Terms of Service.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 15 */}
-        <TermsSection number="15" title="Governing Law">
+        <PoliciesSection number="15" title="Governing Law">
           <p>
             These Terms of Service shall be governed by and interpreted in
             accordance with the laws of the State of Colorado and applicable
             United States law, without regard to conflict-of-law principles.
           </p>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Section 16 */}
-        <TermsSection number="16" title="Contact Us">
+        <PoliciesSection number="16" title="Contact Us">
           <p>
             If you have questions about these Terms of Service, an order,
             cancellation, refund, or other concern, please contact us.
           </p>
 
-          <div className="mt-7 border border-white/15 bg-white/[0.04] p-6 sm:p-8">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/40">
+          <div className="mt-7 border border-white/15 bg-black/[0.04] p-6 sm:p-8">
+            <p className="text-sm uppercase tracking-[0.2em] text-black">
               Business
             </p>
 
-            <p className={`${cormorant.className} mt-2 text-3xl text-white`}>
+            <p className={`${cormorant.className} mt-2 text-3xl text-black`}>
               Decadent Arrangements
             </p>
 
-            <p className="mt-6 text-sm uppercase tracking-[0.2em] text-white/40">
+            <p className="mt-6 text-sm uppercase tracking-[0.2em] text-black">
               Location
             </p>
 
-            <p className="mt-2 text-white/70">Denver, Colorado</p>
+            <p className="mt-2 text-black">Denver, Colorado</p>
 
-            <p className="mt-6 text-sm uppercase tracking-[0.2em] text-white/40">
+            <p className="mt-6 text-sm uppercase tracking-[0.2em] text-black">
               Email
             </p>
 
             <a
               href="mailto:decadentarrangements2023@gmail.com"
-              className="mt-2 inline-block break-all text-[#00BCD4] underline decoration-[#00BCD4]/50 underline-offset-4 transition hover:text-white"
+              className="mt-2 inline-block break-all text-[#00BCD4] underline decoration-[#00BCD4]/50 underline-offset-4 transition hover:text-black"
             >
               decadentarrangements2023@gmail.com
             </a>
           </div>
-        </TermsSection>
+        </PoliciesSection>
 
         {/* Footer navigation */}
         <footer className="mt-20 border-t border-white/10 pt-8">
-          <div className="flex flex-col gap-5 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-5 text-sm text-black sm:flex-row sm:items-center sm:justify-between">
             <p>
               © {new Date().getFullYear()} Decadent Arrangements. All rights
               reserved.
@@ -447,36 +445,6 @@ export default function TermsOfServicePage() {
 /* =========================================================
    REUSABLE TERMS COMPONENTS
 ========================================================= */
-
-type TermsSectionProps = {
-  number: string;
-  title: string;
-  children: React.ReactNode;
-};
-
-function TermsSection({ number, title, children }: TermsSectionProps) {
-  return (
-    <section className="mt-16 border-t border-white/10 pt-10">
-      <div className="grid gap-6 sm:grid-cols-[55px_1fr]">
-        <span
-          className={`${cormorant.className} text-2xl italic text-[#00BCD4]`}
-        >
-          {number}
-        </span>
-
-        <div>
-          <h2
-            className={`${cormorant.className} mb-6 text-3xl font-medium text-white sm:text-4xl`}
-          >
-            {title}
-          </h2>
-
-          <div className="space-y-5 leading-8 text-white/70">{children}</div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function TermsList({ items }: { items: string[] }) {
   return (

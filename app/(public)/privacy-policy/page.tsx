@@ -1,3 +1,4 @@
+import { PoliciesSection } from "@/app/ui/admin/policies/PoliciesSection";
 import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Link from "next/link";
 
@@ -13,9 +14,7 @@ const montserrat = Montserrat({
 
 export default function PrivacyPolicyPage() {
   return (
-    <main
-      className={`${montserrat.className} min-h-screen bg-[#0a0a0a] text-white`}
-    >
+    <main className={`${montserrat.className} min-h-screen text-white`}>
       {/* Page header */}
       <section className="border-b border-white/10 bg-black px-6 py-20 sm:px-10 lg:py-28">
         <div className="mx-auto max-w-4xl">
@@ -36,37 +35,37 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* Policy content */}
-      <div className="mx-auto max-w-4xl px-6 py-16 sm:px-10 lg:py-24">
+      <div className="mx-auto max-w-4xl px-6 py-16 sm:px-10 lg:py-24 bg-white">
         {/* Introduction */}
         <section className="space-y-5">
-          <p className="leading-8 text-white/70">
+          <p className="leading-8 text-black">
             Decadent Arrangements (&quot;Decadent Arrangements,&quot;
             &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) respects your
             privacy and is committed to protecting the personal information you
             provide when using our website and services.
           </p>
 
-          <p className="leading-8 text-white/70">
+          <p className="leading-8 text-black">
             This Privacy Policy explains what information we collect, how we use
             it, how we protect it, and the choices available to you when you use
             our website at{" "}
             <a
               href="https://decadent-arrangements.vercel.app"
-              className="font-medium text-[#00BCD4] underline decoration-[#00BCD4]/50 underline-offset-4 transition hover:text-white"
+              className="font-medium text-[#00BCD4] underline decoration-[#00BCD4]/50 underline-offset-4 transition hover:text-black"
             >
               decadent-arrangements.vercel.app
             </a>
             .
           </p>
 
-          <p className="leading-8 text-white/70">
+          <p className="leading-8 text-black">
             By using our website, creating an account, or placing an order, you
             acknowledge the practices described in this Privacy Policy.
           </p>
         </section>
 
         {/* Section 1 */}
-        <PolicySection number="01" title="Information We Collect">
+        <PoliciesSection number="01" title="Information We Collect">
           <p>
             We collect information that you voluntarily provide when you create
             an account, place an order, or communicate with us.
@@ -107,10 +106,10 @@ export default function PrivacyPolicyPage() {
               "Selected payment preference, such as PayPal, Venmo, or Zelle",
             ]}
           />
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 2 */}
-        <PolicySection number="02" title="How We Use Your Information">
+        <PoliciesSection number="02" title="How We Use Your Information">
           <p>
             We use the information we collect only for legitimate business and
             operational purposes related to providing our services.
@@ -139,10 +138,10 @@ export default function PrivacyPolicyPage() {
             We do not currently use customer information to send promotional
             newsletters or marketing emails.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 3 */}
-        <PolicySection
+        <PoliciesSection
           number="03"
           title="Food Allergies and Dietary Information"
         >
@@ -171,10 +170,10 @@ export default function PrivacyPolicyPage() {
             from a previous order will automatically be applied to future
             orders.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 4 */}
-        <PolicySection number="04" title="Payment Information">
+        <PoliciesSection number="04" title="Payment Information">
           <p>
             Decadent Arrangements does not directly process or store
             customers&apos; payment card numbers, bank account credentials, or
@@ -194,10 +193,10 @@ export default function PrivacyPolicyPage() {
             policies and terms of the applicable payment service before using
             it.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 5 */}
-        <PolicySection number="05" title="Authentication and Login Sessions">
+        <PoliciesSection number="05" title="Authentication and Login Sessions">
           <p>
             Our website uses Google account authentication to help ensure that
             users placing orders are authenticated users.
@@ -220,10 +219,10 @@ export default function PrivacyPolicyPage() {
             Your use of Google authentication is also subject to Google&apos;s
             own privacy policies and terms.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 6 */}
-        <PolicySection number="06" title="Sharing of Information">
+        <PoliciesSection number="06" title="Sharing of Information">
           <p>We do not sell your personal information.</p>
 
           <p>
@@ -261,10 +260,10 @@ export default function PrivacyPolicyPage() {
             information with third parties for their own independent marketing
             purposes.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 7 */}
-        <PolicySection number="07" title="Website Hosting and Database">
+        <PoliciesSection number="07" title="Website Hosting and Database">
           <p>
             Our website relies on third-party technology providers, including
             Google for authentication, Vercel for website hosting and image
@@ -277,10 +276,10 @@ export default function PrivacyPolicyPage() {
             our website. However, no internet transmission or electronic storage
             system can be guaranteed to be completely secure.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 8 */}
-        <PolicySection number="08" title="Order-Related Communications">
+        <PoliciesSection number="08" title="Order-Related Communications">
           <p>
             We may use your email address to communicate with you regarding
             activities directly related to your account or orders.
@@ -296,10 +295,10 @@ export default function PrivacyPolicyPage() {
             These communications are considered transactional or service-related
             communications and are not promotional marketing messages.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 9 */}
-        <PolicySection number="09" title="Data Retention">
+        <PoliciesSection number="09" title="Data Retention">
           <p>
             We retain personal information for as long as reasonably necessary
             to provide our services, manage customer accounts, maintain order
@@ -311,10 +310,10 @@ export default function PrivacyPolicyPage() {
             The amount of time information is retained may vary depending on the
             type of information and the reason it was collected.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 10 */}
-        <PolicySection number="10" title="Your Privacy Rights">
+        <PoliciesSection number="10" title="Your Privacy Rights">
           <p>
             Depending on applicable law, you may have the right to request
             information about the personal data we maintain about you.
@@ -342,10 +341,10 @@ export default function PrivacyPolicyPage() {
             To protect your account and personal information, we may need to
             verify your identity before completing certain requests.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 11 */}
-        <PolicySection number="11" title="Children's Privacy">
+        <PoliciesSection number="11" title="Children's Privacy">
           <p>
             Our website is not intended for children under the age of 13. We do
             not knowingly collect personal information from children under 13.
@@ -356,10 +355,10 @@ export default function PrivacyPolicyPage() {
             under 13 without appropriate consent, we will take reasonable steps
             to delete that information.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 12 */}
-        <PolicySection number="12" title="Changes to This Privacy Policy">
+        <PoliciesSection number="12" title="Changes to This Privacy Policy">
           <p>
             We may update this Privacy Policy from time to time to reflect
             changes in our services, technology, legal requirements, or business
@@ -370,40 +369,40 @@ export default function PrivacyPolicyPage() {
             When changes are made, the updated policy will be posted on this
             page and the &quot;Last updated&quot; date will be revised.
           </p>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Section 13 */}
-        <PolicySection number="13" title="Contact Us">
+        <PoliciesSection number="13" title="Contact Us">
           <p>
             If you have questions about this Privacy Policy or would like to
             submit a privacy-related request, please contact us.
           </p>
 
-          <div className="mt-7 border border-white/15 bg-white/[0.04] p-6 sm:p-8">
-            <p className="text-sm uppercase tracking-[0.2em] text-white/40">
+          <div className="mt-7 border border-white/15 bg-black/[0.04] p-6 sm:p-8">
+            <p className="text-sm uppercase tracking-[0.2em] text-black">
               Business
             </p>
 
-            <p className={`${cormorant.className} mt-2 text-3xl text-white`}>
+            <p className={`${cormorant.className} mt-2 text-3xl text-black`}>
               Decadent Arrangements
             </p>
 
-            <p className="mt-6 text-sm uppercase tracking-[0.2em] text-white/40">
+            <p className="mt-6 text-sm uppercase tracking-[0.2em] text-black">
               Email
             </p>
 
             <a
               href="mailto:decadentarrangements2023@gmail.com"
-              className="mt-2 inline-block break-all text-[#00BCD4] underline decoration-[#00BCD4]/50 underline-offset-4 transition hover:text-white"
+              className="mt-2 inline-block break-all text-[#00BCD4] underline decoration-[#00BCD4]/50 underline-offset-4 transition hover:text-black"
             >
               decadentarrangements2023@gmail.com
             </a>
           </div>
-        </PolicySection>
+        </PoliciesSection>
 
         {/* Footer navigation */}
         <footer className="mt-20 border-t border-white/10 pt-8">
-          <div className="flex flex-col gap-5 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-5 text-sm text-black sm:flex-row sm:items-center sm:justify-between">
             <p>
               © {new Date().getFullYear()} Decadent Arrangements. All rights
               reserved.
@@ -429,40 +428,10 @@ export default function PrivacyPolicyPage() {
    REUSABLE POLICY COMPONENTS
 ========================================================= */
 
-type PolicySectionProps = {
-  number: string;
-  title: string;
-  children: React.ReactNode;
-};
-
-function PolicySection({ number, title, children }: PolicySectionProps) {
-  return (
-    <section className="mt-16 border-t border-white/10 pt-10">
-      <div className="grid gap-6 sm:grid-cols-[55px_1fr]">
-        <span
-          className={`${cormorant.className} text-2xl italic text-[#00BCD4]`}
-        >
-          {number}
-        </span>
-
-        <div>
-          <h2
-            className={`${cormorant.className} mb-6 text-3xl font-medium text-white sm:text-4xl`}
-          >
-            {title}
-          </h2>
-
-          <div className="space-y-5 leading-8 text-white/70">{children}</div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function PolicySubheading({ children }: { children: React.ReactNode }) {
   return (
     <h3
-      className={`${cormorant.className} pt-3 text-2xl font-medium text-white`}
+      className={`${cormorant.className} pt-3 text-2xl font-medium text-black`}
     >
       {children}
     </h3>
