@@ -110,9 +110,8 @@ export default function OrderForm({
           className="animate-cinematic-image-reveal absolute inset-0 h-full w-full scale-[1.50] object-cover object-center"
         >
           <source
-            src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/movie/boxing.mp4"
-            type="video/mp4"
-          />
+            src="/videos/movie/boxing.mp4"
+            type="video/mp4" />
         </video>
         {/* Cinematic overlays */}
         <div className="absolute inset-0 bg-black/35" />

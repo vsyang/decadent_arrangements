@@ -35,9 +35,8 @@ export default function AboutPage() {
           className="absolute inset-0 h-full w-full object-cover object-center"
         >
           <source
-            src="https://jwul10vtycq0k5q2.public.blob.vercel-storage.com/movie/jessica-prep.mp4"
-            type="video/mp4"
-          />
+            src="/videos/jessica-prep.mp4"
+            type="video/mp4" />
         </video>
 
         {/* Dark overlays */}
