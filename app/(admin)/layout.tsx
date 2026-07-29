@@ -9,9 +9,7 @@ export default async function AdminLayout({
   return (
     <>
       <div className="bg-background md:flex md:flex-row w-full">
-        <div className="w-full">
-          <main className="w-full">{children}</main>
-        </div>
+        <main className="w-full">{children}</main>
       </div>
     </>
   );
