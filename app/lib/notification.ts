@@ -517,7 +517,7 @@ export async function sendCustomerConfirmation({
 
               <tr>
                 <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
-                  Estimated Total
+                  Price
                 </td>
                 <td style="padding: 13px; font-weight: bold; border-bottom: 1px solid #e5e0da;">
                   ${safeFormattedPrice}

@@ -389,7 +389,7 @@ export default function OrderForm({
 
                   <div className="py-5 sm:pl-5">
                     <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#807973]">
-                      Investment
+                      Price
                     </p>
 
                     <p
