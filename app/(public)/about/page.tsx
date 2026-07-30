@@ -83,7 +83,7 @@ export default function AboutPage() {
           <Reveal>
             <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
               <div>
-                <p className="mb-6 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+                <p className="mb-6 text-xs font-medium uppercase tracking-[0.34em] text-[#006a78]">
                   Our Beginning
                 </p>
 
@@ -244,7 +244,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl">
           <Reveal>
             <div className="mb-14 max-w-3xl">
-              <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+              <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#006a78]">
                 What Guides Us
               </p>
 
@@ -263,10 +263,6 @@ export default function AboutPage() {
                 <Heart className="h-8 w-8 text-[#007C91]" strokeWidth={1.2} />
 
                 <div className="mt-16">
-                  <p className="mb-3 text-[10px] uppercase tracking-[0.25em] text-[#807973]">
-                    01
-                  </p>
-
                   <h3
                     className={`${cormorant.className} text-3xl text-[#252525]`}
                   >
@@ -289,10 +285,6 @@ export default function AboutPage() {
                 />
 
                 <div className="mt-16">
-                  <p className="mb-3 text-[10px] uppercase tracking-[0.25em] text-[#807973]">
-                    02
-                  </p>
-
                   <h3
                     className={`${cormorant.className} text-3xl text-[#252525]`}
                   >
@@ -315,10 +307,6 @@ export default function AboutPage() {
                 />
 
                 <div className="mt-16">
-                  <p className="mb-3 text-[10px] uppercase tracking-[0.25em] text-[#807973]">
-                    03
-                  </p>
-
                   <h3
                     className={`${cormorant.className} text-3xl text-[#252525]`}
                   >

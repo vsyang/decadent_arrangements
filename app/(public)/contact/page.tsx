@@ -72,7 +72,7 @@ export default function ContactPage() {
           <Reveal>
             <div className="mb-14 grid gap-10 border-b border-black/15 pb-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
               <div>
-                <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+                <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#006a78]">
                   Get in Touch
                 </p>
 
@@ -106,7 +106,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="mt-16">
-                  <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#807973]">
+                  <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#545454]">
                     Direct Email
                   </p>
 
@@ -121,7 +121,7 @@ export default function ContactPage() {
                     needs, or general questions.
                   </p>
 
-                  <p className="mt-6 break-all text-xs font-semibold tracking-wide text-[#007C91]">
+                  <p className="mt-6 break-all text-xs font-semibold tracking-wide text-[#006a78]">
                     decadentarrangements2023@gmail.com
                   </p>
                 </div>
@@ -161,7 +161,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="mt-16">
-                  <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#807973]">
+                  <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#545454]">
                     Instagram
                   </p>
 
@@ -176,7 +176,7 @@ export default function ContactPage() {
                     direct message.
                   </p>
 
-                  <p className="mt-6 text-xs font-semibold tracking-wide text-[#007C91]">
+                  <p className="mt-6 text-xs font-semibold tracking-wide text-[#006a78]">
                     @decadent_arrangements
                   </p>
                 </div>
@@ -196,7 +196,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="mt-16">
-                  <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#807973]">
+                  <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.25em] text-[#545454]">
                     Service Area
                   </p>
 

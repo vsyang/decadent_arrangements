@@ -151,7 +151,7 @@ export default async function Home() {
         <Reveal>
           <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
             <div>
-              <p className="mb-6 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+              <p className="mb-6 text-xs font-medium uppercase tracking-[0.34em] text-[#006a78]">
                 Decadent Arrangements
               </p>
 
@@ -227,7 +227,7 @@ export default async function Home() {
                   {/* Product image */}
                   <Image
                     src={arrangement.image}
-                    alt={arrangement.name}
+                    alt=""
                     fill
                     className="object-cover transition duration-[1200ms] ease-out group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -562,7 +562,7 @@ export default async function Home() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-12 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#007C91]">
+                <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#006a78]">
                   Follow Our Journey
                 </p>
 
