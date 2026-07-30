@@ -55,10 +55,10 @@ export default async function OrderDetailsPage(props: {
     <main className="m-auto max-w-7xl py-5">
       {/* Show admin breadcrumbs when the user is authorized. */}
       {authorized ? (
-        <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+        <nav className="px-6 py-5 sm:px-10 lg:py-7 flex flex-row items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
           <Link
             href="/dashboard"
-            className="flex items-center gap-1 transition-colors hover:text-[#c97c5d]"
+            className="hover:underline hover:decoration-[#00BCD4] hover:decoration-2 transition-colors flex items-center gap-1"
           >
             Management
           </Link>
@@ -67,20 +67,20 @@ export default async function OrderDetailsPage(props: {
 
           <Link
             href="/orders"
-            className="transition-colors hover:text-[#c97c5d]"
+            className="hover:underline hover:decoration-[#00BCD4] hover:decoration-2 transition-colors flex items-center gap-1"
           >
             Orders
           </Link>
 
           <ChevronRightIcon className="h-3 w-3" />
 
-          <span className="max-w-50 truncate text-[#6b4f3f]">
+          <span className="text-[#00BCD4] truncate max-w-50">
             {order.idReadable}
           </span>
         </nav>
       ) : (
         /* Show customer breadcrumbs when the user is not an administrator. */
-        <nav className="mb-8 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+        <nav className="hover:underline hover:decoration-[#00BCD4] hover:decoration-2 transition-colors flex items-center gap-1">
           <Link
             href="/orders"
             className="transition-colors hover:text-[#c97c5d]"
@@ -90,7 +90,7 @@ export default async function OrderDetailsPage(props: {
 
           <ChevronRightIcon className="h-3 w-3" />
 
-          <span className="max-w-50 truncate text-[#6b4f3f]">
+          <span className="text-[#00BCD4] truncate max-w-50">
             {order.idReadable}
           </span>
         </nav>
@@ -136,7 +136,7 @@ export default async function OrderDetailsPage(props: {
               ) : (
                 /* Customers can only view the current status. */
                 <span
-                  className={`w-full appearance-none rounded-lg border-3 px-2 py-2 text-sm font-semibold text-slate-700 shadow-sm ${
+                  className={`w-full appearance-none rounded-lg border-3 px-2 py-2 text-sm font-semibold text-slate-700 shadow-sm uppercase ${
                     order.status === "preparing"
                       ? "border-yellow-500 bg-yellow-500/10"
                       : order.status === "delivered"
