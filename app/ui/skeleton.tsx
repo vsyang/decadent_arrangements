@@ -47,6 +47,14 @@ export function ProductsGridSkeleton() {
   );
 }
 
+export function OrdersQuantitySkeleton() {
+  return (
+    <div className="w-full flex justify-end px-5">
+      <div className="h-5 w-36 bg-gray-200 rounded animate-pulse" />
+    </div>
+  );
+}
+
 export function TableSkeleton({ rows = 2 }: { rows?: number }) {
   return (
     <>

@@ -143,7 +143,7 @@ export const emailStyles = {
     font-style: italic;
     line-height: 1.6;
   `,
- ownerContainer: `
+  ownerContainer: `
     max-width: 600px;
     margin: 0 auto;
     overflow: hidden;

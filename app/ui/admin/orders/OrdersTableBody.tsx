@@ -109,7 +109,7 @@ export default async function OrdersTableBody({
           <td className="m-auto whitespace-nowrap py-4 text-slate-900">
             <Link
               href={`/orders/${order.id}`}
-              className="m-auto flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-100 bg-black p-2 text-white transition-all duration-300 hover:-translate-y-1 hover:text-[#c97c5d] hover:shadow-xl"
+              className="bg-black h-10 w-10 p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-slate-100 text-white hover:text-[#00BCD4] flex items-center justify-center shrink-0 m-auto"
               aria-label={`View order ${order.idReadable}`}
             >
               <MagnifyingGlassIcon className="h-6 w-6" />

@@ -76,11 +76,7 @@ function createLogoHeader() {
 }
 
 // Sends a notification to the owner when a customer submits an order.
-export async function sendOwnerEmail({
-  orderCode,
-}: {
-  orderCode: string;
-}) {
+export async function sendOwnerEmail({ orderCode }: { orderCode: string }) {
   const emailUser = process.env.EMAIL_USER;
   const ownerEmail = process.env.OWNER_EMAIL;
 
@@ -194,44 +190,33 @@ export async function sendCustomerConfirmation({
     currency: "USD",
   });
 
-  const formattedPaymentPreference =
-    formatPaymentMethod(paymentPreference);
+  const formattedPaymentPreference = formatPaymentMethod(paymentPreference);
 
-  const formattedProductCapacity =
-    formatCapacity(productCapacity);
+  const formattedProductCapacity = formatCapacity(productCapacity);
 
   const safeCustomerEmail = escapeHtml(customerEmail);
   const safeCustomerName = escapeHtml(customerName);
   const safeCustomerPhone = escapeHtml(customerPhone);
   const safeOrderCode = escapeHtml(orderCode);
   const safeProductName = escapeHtml(productName);
-  const safeProductCapacity = escapeHtml(
-    formattedProductCapacity,
-  );
+  const safeProductCapacity = escapeHtml(formattedProductCapacity);
   const safeFormattedDate = escapeHtml(formattedEventDate);
   const safeFormattedPrice = escapeHtml(formattedPrice);
-  const safePaymentPreference = escapeHtml(
-    formattedPaymentPreference,
-  );
+  const safePaymentPreference = escapeHtml(formattedPaymentPreference);
   const safeStreetAddress = escapeHtml(streetAddress);
   const safeCity = escapeHtml(city);
   const safeState = escapeHtml(state);
   const safePostalCode = escapeHtml(postalCode);
 
-  const safeDeliveryNotes = escapeHtml(
-    deliveryNotes || "None provided",
-  );
+  const safeDeliveryNotes = escapeHtml(deliveryNotes || "None provided");
 
   const safeDietaryRestrictions = escapeHtml(
     dietaryRestrictions || "None provided",
   );
 
-  const safeSpecialRequests = escapeHtml(
-    specialRequests || "None provided",
-  );
+  const safeSpecialRequests = escapeHtml(specialRequests || "None provided");
 
-  const deliveryAddress =
-    `${streetAddress}, ${city}, ${state} ${postalCode}`;
+  const deliveryAddress = `${streetAddress}, ${city}, ${state} ${postalCode}`;
 
   await transporter.sendMail({
     from: `"Decadent Arrangements" <${emailUser}>`,
@@ -254,9 +239,7 @@ export async function sendCustomerConfirmation({
       `Payment preference: ${formattedPaymentPreference}\n` +
       `Delivery address: ${deliveryAddress}\n` +
       `Delivery notes: ${deliveryNotes || "None provided"}\n` +
-      `Dietary restrictions: ${
-        dietaryRestrictions || "None provided"
-      }\n` +
+      `Dietary restrictions: ${dietaryRestrictions || "None provided"}\n` +
       `Special requests: ${specialRequests || "None provided"}\n\n` +
       `Please keep this email for your records.\n` +
       `Your order will not begin until payment has been received.\n\n` +

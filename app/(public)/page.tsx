@@ -285,9 +285,7 @@ export default async function Home() {
           preload="metadata"
           className="absolute inset-0 h-full w-full scale-[1.30] object-cover object-center"
         >
-          <source
-            src="/videos/honey-on-cheese.mp4"
-            type="video/mp4" />
+          <source src="/videos/honey-on-cheese.mp4" type="video/mp4" />
         </video>
 
         {/* Dark overlay so the text stays readable */}

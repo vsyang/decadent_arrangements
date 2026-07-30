@@ -9,7 +9,10 @@ import { redirect } from "next/navigation";
 import { db } from "@/app/db";
 import { Order, Product, users } from "@/app/db/schema";
 import { authOptions } from "@/app/lib/auth";
-import { sendOwnerEmail, sendCustomerConfirmation } from "@/app/lib/notification";
+import {
+  sendOwnerEmail,
+  sendCustomerConfirmation,
+} from "@/app/lib/notification";
 
 export type OrderFormErrors = {
   fullName?: string;
@@ -131,8 +134,7 @@ export async function createOrder(
 
   // Read customer information.
   const fullName = formData.get("fullName")?.toString().trim() ?? "";
-  const email =
-    formData.get("email")?.toString().trim().toLowerCase() ?? "";
+  const email = formData.get("email")?.toString().trim().toLowerCase() ?? "";
   const formattedPhone = formData.get("phone")?.toString().trim() ?? "";
   const phone = formattedPhone.replace(/\D/g, "");
 
@@ -148,14 +150,11 @@ export async function createOrder(
     formData.get("dietaryRestrictions")?.toString().trim() ?? "";
 
   // Read delivery information.
-  const streetAddress =
-    formData.get("streetAddress")?.toString().trim() ?? "";
+  const streetAddress = formData.get("streetAddress")?.toString().trim() ?? "";
   const city = formData.get("city")?.toString().trim() ?? "";
-  const state =
-    formData.get("state")?.toString().trim().toUpperCase() ?? "";
+  const state = formData.get("state")?.toString().trim().toUpperCase() ?? "";
   const postalCode = formData.get("postalCode")?.toString().trim() ?? "";
-  const deliveryNotes =
-    formData.get("deliveryNotes")?.toString().trim() ?? "";
+  const deliveryNotes = formData.get("deliveryNotes")?.toString().trim() ?? "";
 
   // Read payment and agreement information.
   const paymentPreference =
@@ -450,10 +449,7 @@ export async function createOrder(
       deliveryNotes,
     });
   } catch (error) {
-    console.error(
-      "Failed to send customer confirmation email:",
-      error,
-    );
+    console.error("Failed to send customer confirmation email:", error);
   }
   // Send the customer to the confirmation page.
   redirect(`/orders/new/confirmation?code=${readableOrderCode}`);
