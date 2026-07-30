@@ -58,7 +58,7 @@ export default function OrderStatusSelect({
         onChange={handleChange}
         value={status}
         disabled={isPending}
-        className={`w-full appearance-none rounded-lg border-3 py-2 px-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 focus:outline-none focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-60 ${
+        className={`w-full appearance-none rounded-lg border-3 py-2 px-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 focus:outline-none focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-60 uppercase ${
           status === "preparing"
             ? "border-yellow-500 bg-yellow-500/10"
             : status === "delivered"

@@ -8,10 +8,16 @@ import { redirect } from "next/navigation";
 import { IsAdminProtection } from "../../dashboard/adminAction";
 import { fetchAllOrdersCompletedFiltered } from "@/app/db/queries";
 import Search from "@/app/ui/admin/search";
-import { TableSkeleton } from "@/app/ui/skeleton";
+import { OrdersQuantitySkeleton, TableSkeleton } from "@/app/ui/skeleton";
 import OrdersTableBody from "@/app/ui/admin/orders/OrdersTableBody";
 import Pagination from "@/app/ui/helpers/pagination";
 import ItemsPerPage from "@/app/ui/helpers/itemsPerPage";
+import { Cormorant_Garamond } from "next/font/google";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Orders Overview",
@@ -52,10 +58,10 @@ export default async function CompletedOrdersPage(props: {
 
   return (
     <>
-      <nav className="mb-4 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+      <nav className="bg-black px-6 pt-5 sm:px-10 lg:pt-7 flex flex-row items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
         <Link
           href="/dashboard"
-          className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
+          className="hover:underline hover:decoration-[#00BCD4] hover:decoration-2 transition-colors flex items-center gap-1"
         >
           Management
         </Link>
@@ -64,104 +70,128 @@ export default async function CompletedOrdersPage(props: {
 
         <Link
           href="/orders"
-          className="hover:text-[#c97c5d] transition-colors flex items-center gap-1"
+          className="hover:underline hover:decoration-[#00BCD4] hover:decoration-2 transition-colors flex items-center gap-1"
         >
           Orders
         </Link>
 
         <ChevronRightIcon className="w-3 h-3" />
 
-        <span className="text-[#6b4f3f] truncate max-w-50">Completed</span>
+        <span className="text-[#00BCD4] truncate max-w-50">Completed</span>
       </nav>
 
       <div>
-        <h1 className="text-2xl font-bold text-primary">
-          Completed Orders Overview
-        </h1>
-        <p className="text-muted mt-2">Manage products orders here.</p>
+        <section className="relative px-6 pt-5 sm:px-10 lg:pt-7">
+          <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
+            Orders Management
+          </p>
 
-        <p className="md:hidden">
-          Remember:{" "}
-          <span className="bg-green-600 rounded-full py-1 px-2 text-slate-100">
-            Delivered
-          </span>{" "}
-          <span className="bg-red-600 rounded-full py-1 px-2 text-slate-100">
-            Cancelled
-          </span>
-        </p>
+          <h1
+            className={`${cormorant.className} text-4xl font-medium leading-none tracking-tight text-white sm:text-5xl lg:text-6xl`}
+          >
+            Completed Orders Overview
+          </h1>
+
+          <div className="h-[2px] bg-[#00BCD4]/80 to-transparent w-25 mt-5" />
+
+          <p className="text-sm text-white/70 py-4">
+            Manage completed orders here.
+          </p>
+
+          <p className="md:hidden">
+            Remember:{" "}
+            <span className="bg-gray-100 rounded-full py-1 px-2 text-black border-1">
+              Delivered
+            </span>{" "}
+            <span className="bg-yellow-500 rounded-full py-1 px-2 text-slate-100">
+              Cancelled
+            </span>
+          </p>
+        </section>
       </div>
 
-      <div className="w-full pt-2">
+      <div className="w-full pt-2 bg-black px-15">
         <Search placeholder="Search by ORDER CODE: DA-00000" />
       </div>
 
-      <div className="m-auto py-5">
-        <div className="w-full flex justify-end px-5">
-          <p>
-            {firstOrderNum} - {lastOrderNum} of {totalOrders} Orders
-          </p>
+      <div className="m-auto py-5 w-full bg-black">
+        <div className="flex justify-end w-full px-5 md:px-15">
+          <Suspense
+            key={firstOrderNum + lastOrderNum + totalOrders}
+            fallback={<OrdersQuantitySkeleton />}
+          >
+            <p className="text-white">
+              {firstOrderNum} - {lastOrderNum} of {totalOrders} Orders
+            </p>
+          </Suspense>
         </div>
+        <div className="m-auto bg-black pt-5 w-full px-5 md:px-15 pb-2 md:pb-5">
+          <table className="w-full text-left text-sm text-slate-600 bg-white border border-2 border-[#00BCD4]">
+            <thead className="text-s uppercase text-slate-700 border-b border-black bg-[#00BCD4]/15">
+              <tr>
+                <th scope="col" className="md:hidden px-1 py-4"></th>
 
-        <table className="w-full text-left text-sm text-slate-600">
-          <thead className="text-s uppercase text-slate-700 border-b border-slate-200">
-            <tr>
-              <th scope="col" className="md:hidden px-1 py-4"></th>
+                <th
+                  scope="col"
+                  className="px-6 py-4 [@media(max-width:1000px)]:px-2"
+                >
+                  <span className="[@media(min-width:880px)]:hidden">
+                    Order (Size)
+                  </span>
+                  <span className="hidden [@media(min-width:880px)]:inline">
+                    Order Code
+                  </span>
+                </th>
 
-              <th
-                scope="col"
-                className="px-6 py-4 [@media(max-width:1000px)]:px-2"
+                {authorized && (
+                  <th
+                    scope="col"
+                    className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden"
+                  >
+                    Customer Name
+                  </th>
+                )}
+
+                <th
+                  scope="col"
+                  className="px-6 py-4 [@media(max-width:1000px)]:px-2"
+                >
+                  <span className="md:hidden">Date</span>
+                  <span className="hidden md:inline">Date of Event</span>
+                </th>
+
+                <th
+                  scope="col"
+                  className="md:table-cell px-6 py-4 [@media(max-width:880px)]:hidden"
+                >
+                  Arrang. Size
+                </th>
+
+                <th scope="col" className="hidden md:table-cell px-6 py-4">
+                  Status
+                </th>
+
+                <th
+                  scope="col"
+                  className="px-6 py-4 [@media(max-width:1000px)]:px-2 text-center"
+                >
+                  Details
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-slate-100 font-medium">
+              <Suspense
+                key={query + currentPage + minCardShow + orders}
+                fallback={<TableSkeleton />}
               >
-                <span className="[@media(min-width:880px)]:hidden">
-                  Order (Size)
-                </span>
-                <span className="hidden [@media(min-width:880px)]:inline">
-                  Order Code
-                </span>
-              </th>
-
-              <th
-                scope="col"
-                className="hidden md:table-cell px-6 py-4 [@media(max-width:1010px)]:hidden"
-              >
-                Customer Name
-              </th>
-
-              <th
-                scope="col"
-                className="px-6 py-4 [@media(max-width:1000px)]:px-2"
-              >
-                <span className="md:hidden">Date</span>
-                <span className="hidden md:inline">Date of Event</span>
-              </th>
-
-              <th
-                scope="col"
-                className="md:table-cell px-6 py-4 [@media(max-width:880px)]:hidden"
-              >
-                Arrang. Size
-              </th>
-
-              <th scope="col" className="hidden md:table-cell px-6 py-4">
-                Status
-              </th>
-
-              <th
-                scope="col"
-                className="px-6 py-4 [@media(max-width:1000px)]:px-2 text-center"
-              >
-                Details
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="divide-y divide-slate-100 font-medium">
-            <Suspense fallback={<TableSkeleton rows={2} />}>
-              <OrdersTableBody orders={orders} isAdmin={true} />
-            </Suspense>
-          </tbody>
-        </table>
+                <OrdersTableBody orders={orders} isAdmin={authorized} />
+              </Suspense>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div className="flex flex-row justify-center items-center gap-4 px-8 w-full">
+      <div className="flex flex-row justify-center items-center gap-4 px-8 w-full bg-black pb-10">
         <div className="flex justify-center">
           <Pagination totalPages={totalPages} />
         </div>

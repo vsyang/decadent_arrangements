@@ -29,7 +29,7 @@ export default function ItemsPerPage({ minCardShow }: { minCardShow: number }) {
     <div className="flex flex-row gap-1.5 place-items-center my-4">
       <label
         htmlFor="itemsPerPage"
-        className="text-[10px] uppercase tracking-[0.15em] font-bold text-orangee-500 px-1"
+        className="text-[10px] uppercase tracking-[0.15em] font-bold text-[#00BCD4] px-1"
       >
         Items per page
       </label>

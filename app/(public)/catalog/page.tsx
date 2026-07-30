@@ -32,8 +32,7 @@ export default function CatalogPage() {
           preload="metadata"
           className="animate-cinematic-image-reveal absolute inset-0 h-full w-full scale-[1.50] object-cover object-center"
         >
-          <source
-            src="/videos/strawberries-chocolate.mp4" type="video/mp4" />
+          <source src="/videos/strawberries-chocolate.mp4" type="video/mp4" />
         </video>
 
         {/* Cinematic overlays */}

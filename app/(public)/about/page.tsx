@@ -34,9 +34,7 @@ export default function AboutPage() {
           preload="metadata"
           className="absolute inset-0 h-full w-full object-cover object-center"
         >
-          <source
-            src="/videos/jessica-prep.mp4"
-            type="video/mp4" />
+          <source src="/videos/jessica-prep.mp4" type="video/mp4" />
         </video>
 
         {/* Dark overlays */}

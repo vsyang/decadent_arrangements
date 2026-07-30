@@ -51,7 +51,8 @@ export default async function CatalogTableBody({
           <td className="whitespace-nowrap py-4 text-slate-900">
             <Link
               href={`/products/${p.id}`}
-              className="bg-black h-10 w-10 p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-100 text-white hover:text-[#c97c5d] flex items-center justify-center shrink-0 m-auto"
+              className="bg-black h-10 w-10 p-2 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-slate-100 text-white hover:text-[#00BCD4] flex items-center justify-center shrink-0 m-auto"
+              aria-label={`View ${p.name} details`}
             >
               <MagnifyingGlassIcon className="h-6 w-6 text-xl font-bold" />
             </Link>

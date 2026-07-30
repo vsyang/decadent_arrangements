@@ -31,12 +31,12 @@ export default function Search({ placeholder }: { placeholder: string }) {
         Search
       </label>
 
-      <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#c97c5d] transition-colors">
+      <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#00BCD4] transition-colors">
         <MagnifyingGlassIcon className="h-5 w-5" />
       </div>
 
       <input
-        className="peer block w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#c97c5d] focus:border-transparent transition-all shadow-sm shadow-slate-100/50"
+        className="peer block w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#00BCD4] focus:border-transparent transition-all shadow-sm shadow-slate-100/50"
         id="search"
         placeholder={placeholder}
         onChange={(e) => {
@@ -49,7 +49,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
       <div className="absolute right-4 top-1/2 -translate-y-1/2">
         <div
           className={`h-1.5 w-1.5 rounded-full transition-colors ${
-            isSearching ? "bg-[#c97c5d] animate-pulse" : "bg-[#8fae9e]"
+            isSearching ? "bg-[#00BCD4] animate-pulse" : "bg-[#8fae9e]"
           }`}
         />
       </div>

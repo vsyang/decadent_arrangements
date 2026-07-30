@@ -187,7 +187,7 @@ export default function ProductForm({
       </section>
 
       {/* Form action buttons */}
-      <div className="flex items-center justify-between border-t border-slate-200 pt-6">
+      <div className="flex items-center justify-between border-t border-[#00BCD4] pt-6">
         {/* Allow deletion from the edit page. */}
         {mode === "edit" && (
           <button
@@ -203,7 +203,7 @@ export default function ProductForm({
           <button
             type="button"
             onClick={handleDiscard}
-            className="rounded-lg border border-slate-300 px-5 py-2.5 font-medium hover:bg-slate-100"
+            className="rounded-lg border text-white bg-black border-slate-300 px-5 py-2.5 font-medium hover:bg-slate-100 hover:text-black"
           >
             {isDeleteMode ? "Cancel" : "Discard"}
           </button>
