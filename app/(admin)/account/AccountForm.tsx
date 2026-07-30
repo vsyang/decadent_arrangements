@@ -81,7 +81,7 @@ export default function AccountForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 max-w-xl bg-card p-6 rounded-lg border border-border"
+      className="space-y-6 max-w-xl bg-card p-6 rounded-lg border border-border bg-white"
     >
       {message && (
         <div
