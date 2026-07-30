@@ -1,4 +1,4 @@
-//app/(admin)/orders/page.tsx
+// app/(admin)/products/page.tsx
 
 import "@/app/globals.css";
 
@@ -25,81 +25,85 @@ export default async function CatalogManagementPage() {
 
   return (
     <>
-      <nav className="bg-black px-6 pt-5 sm:px-10 lg:pt-7 flex flex-row items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+      {/* Breadcrumb navigation */}
+      <nav className="flex flex-row items-center gap-2 bg-black px-6 pt-5 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 sm:px-10 lg:pt-7">
         <Link
           href="/dashboard"
-          className="hover:underline hover:decoration-[#00BCD4] hover:decoration-2 transition-colors flex items-center gap-1"
+          className="flex items-center gap-1 transition-colors hover:text-white hover:underline hover:decoration-[#00BCD4] hover:decoration-2"
         >
           Management
         </Link>
 
-        <ChevronRightIcon className="w-3 h-3" />
+        <ChevronRightIcon className="h-3 w-3" />
 
-        <span className="text-[#00BCD4] truncate max-w-50">Catalog</span>
+        <span className="max-w-50 truncate text-[#00BCD4]">Catalog</span>
       </nav>
 
-      <div className="bg-black flex justify-between items-start">
-        <div>
-          <section className="relative px-6 pt-5 sm:px-10 lg:pt-7">
-            <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
-              Management
-            </p>
+      {/* Page heading */}
+      <section className="relative bg-black px-6 pt-5 sm:px-10 lg:pt-7">
+        <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
+          Management
+        </p>
 
-            <h1
-              className={`${cormorant.className} text-4xl font-medium leading-none tracking-tight text-white sm:text-5xl lg:text-6xl`}
-            >
-              Catalog Overview
-            </h1>
+        <h1
+          className={`${cormorant.className} text-4xl font-medium leading-none tracking-tight text-white sm:text-5xl lg:text-6xl`}
+        >
+          Catalog Overview
+        </h1>
 
-            <div className="h-[2px] bg-[#00BCD4]/80 to-transparent w-25 mt-5" />
+        <div className="mt-5 h-[2px] w-25 bg-[#00BCD4]/80" />
 
-            <p className="text-sm text-white/70 py-4">
-              Price set on 0 is stated as <i>Upon request</i>.
-            </p>
-          </section>
-        </div>
+        <p className="py-4 text-sm text-white/70">
+          Products priced at $0 are displayed as{" "}
+          <span className="italic text-white/90">Upon request</span>.
+        </p>
+      </section>
+
+      {/* New Product control */}
+      <div className="flex w-full justify-end bg-black px-5 pb-2 sm:px-10 md:px-15">
         <Link
           href="/products/new"
-          className="bg-white/5 h-10 w-10 [@media(min-width:805px)]:w-40 md:h-auto p-2 rounded-2xl shadow shadow-[#00BCD4] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-slate-100 text-white hover:text-[#00BCD4] flex items-center justify-center shrink-0 mr-10 mb-0 mt-auto ml-auto"
+          aria-label="Create a new product"
+          className="flex h-10 shrink-0 items-center justify-center border border-[#00BCD4]/70 bg-[#00BCD4]/10 px-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#00BCD4] transition duration-300 hover:bg-[#00BCD4] hover:text-black md:px-5"
         >
-          <span className="text-xl font-bold [@media(min-width:805px)]:hidden">
-            +
-          </span>
-          <span className="hidden [@media(min-width:805px)]:inline">
-            New product
-          </span>
+          <span className="text-lg leading-none md:hidden">+</span>
+
+          <span className="hidden md:inline">New Product</span>
         </Link>
       </div>
 
-      <div className="m-auto bg-black pt-5 w-full px-5 md:px-15 pb-5 md:pb-14">
-        <table className="w-full text-left text-sm text-slate-600 bg-white border border-2 border-[#00BCD4]">
-          <thead className="text-s uppercase text-slate-700 border-b border-black bg-[#00BCD4]/15">
-            <tr>
-              <th scope="col" className="px-6 py-4">
-                <span className="hidden md:inline">Name</span>
-                <span className="md:hidden">Name (Size)</span>
-              </th>
+      {/* Catalog table */}
+      <div className="m-auto w-full bg-black px-5 pb-5 pt-5 md:px-15 md:pb-14">
+        <div className="w-full overflow-x-auto">
+          <table className="w-full border-2 border-[#00BCD4] bg-white text-left text-sm text-slate-600">
+            <thead className="border-b border-black bg-[#00BCD4]/15 text-sm uppercase text-slate-700">
+              <tr>
+                <th scope="col" className="px-6 py-4">
+                  <span className="hidden md:inline">Name</span>
+                  <span className="md:hidden">Name (Size)</span>
+                </th>
 
-              <th scope="col" className="hidden md:table-cell px-6 py-4">
-                Capacity (Size)
-              </th>
+                <th scope="col" className="hidden px-6 py-4 md:table-cell">
+                  Capacity (Size)
+                </th>
 
-              <th scope="col" className="hidden md:table-cell px-6 py-4">
-                Price (USD)
-              </th>
+                <th scope="col" className="hidden px-6 py-4 md:table-cell">
+                  Price (USD)
+                </th>
 
-              <th scope="col" className="px-6 py-4 text-center">
-                Details
-              </th>
-            </tr>
-          </thead>
+                <th scope="col" className="px-6 py-4 text-center">
+                  Details
+                </th>
+              </tr>
+            </thead>
 
-          <tbody className="divide-y divide-slate-100 font-medium">
-            <Suspense fallback={<TableSkeleton rows={2} />}>
-              <CatalogTableBody products={products} />
-            </Suspense>
-          </tbody>
-        </table>
+            <tbody className="divide-y divide-slate-100 font-medium">
+              <Suspense fallback={<TableSkeleton rows={2} />}>
+                <CatalogTableBody products={products} />
+              </Suspense>
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
