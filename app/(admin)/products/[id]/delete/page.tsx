@@ -5,6 +5,12 @@ import { notFound, redirect } from "next/navigation";
 
 import ProductForm from "@/app/ui/admin/products/ProductForm";
 import { DeleteProductById, ProductInput } from "../../actions";
+import { Cormorant_Garamond } from "next/font/google";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 type DeleteProductPageProps = {
   params: Promise<{
@@ -48,9 +54,19 @@ export default async function DeleteProductPage({
 
   return (
     <div className="py-10">
-      <h1 className="mx-auto mb-6 max-w-5xl px-4 text-3xl font-bold">
-        Delete Product
-      </h1>
+      <section className="relative px-6 py-5 sm:px-10 lg:py-7">
+        <p className="mb-5 text-xs font-medium uppercase tracking-[0.34em] text-[#00BCD4]">
+          Management Catalog
+        </p>
+
+        <h1
+          className={`${cormorant.className} text-4xl font-medium leading-none tracking-tight text-white sm:text-5xl lg:text-6xl`}
+        >
+          Delete Product
+        </h1>
+
+        <div className="h-[2px] bg-[#00BCD4]/80 to-transparent w-25 mt-5" />
+      </section>
 
       <ProductForm
         mode="delete"
