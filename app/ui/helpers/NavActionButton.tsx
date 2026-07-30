@@ -68,12 +68,6 @@ export function NavActionButton() {
     return trimmed.charAt(0).toUpperCase();
   };
 
-  const getFormattedName = (name?: string | null): string => {
-    if (!name) return "My Profile";
-    const firstName = name.trim().split(" ")[0];
-    return firstName;
-  };
-
   if (loading) {
     return (
       <div
@@ -103,7 +97,7 @@ export function NavActionButton() {
 
   const userName = session.userName;
   const userImage = session.userImage;
-  const targetHref = session.isAdmin ? "/orders" : "/dashboard";
+  const targetHref = "/dashboard";
 
   return (
     <>
@@ -146,7 +140,7 @@ export function NavActionButton() {
               : "[@media(max-width:805px)]:bg-stone-100 [@media(max-width:805px)]:text-stone-900 [@media(max-width:805px)]:border-stone-200"
           }`}
         >
-          {session.isAdmin ? "Orders" : getFormattedName(userName)}
+          Orders
         </span>
       </Link>
     </>
