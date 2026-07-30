@@ -14,7 +14,7 @@ import { Reveal } from "@/app/ui/helpers/Reveal";
 export const metadata: Metadata = {
   title: "About Us | Decadent Arrangements",
   description:
-    "Meet Jessica, the creative mind behind Decadent Arrangements and its handcrafted grazing tables and custom arrangements.",
+    "Meet Jessica, the creative mind behind Decadent Arrangements and its custom arrangements and handcrafted grazing tables.",
 };
 
 export default function AboutPage() {
