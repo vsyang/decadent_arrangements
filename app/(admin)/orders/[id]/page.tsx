@@ -296,7 +296,7 @@ export default async function OrderDetailsPage(props: {
                   <EditableTextField
                     copy={true}
                     orderId={order.id}
-                    label="Phone"
+                    label="Email"
                     value={order.email}
                     field="customerEmailAtPurchase"
                     type="email"
