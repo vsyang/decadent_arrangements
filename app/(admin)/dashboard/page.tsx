@@ -3,7 +3,6 @@
 import "@/app/globals.css";
 
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { IsAdminProtection } from "./adminAction";
 import { Cormorant_Garamond } from "next/font/google";
 import { DashboardSection } from "@/app/ui/admin/DashboardSection";
