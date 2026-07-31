@@ -98,15 +98,20 @@ export default async function CompletedOrdersPage(props: {
             Manage completed orders here.
           </p>
 
-          <p className="md:hidden">
-            Remember:{" "}
-            <span className="bg-gray-100 rounded-full py-1 px-2 text-black border-1">
-              Delivered
-            </span>{" "}
-            <span className="bg-yellow-500 rounded-full py-1 px-2 text-slate-100">
-              Cancelled
-            </span>
-          </p>
+          {/* Mobile status legend */}
+            <div className="mb-5 mt-1 flex items-center gap-3 md:hidden">
+              <span className="text-[9px] font-semibold uppercase tracking-[0.22em] text-white/70">
+                Status
+              </span>
+
+              <span className="border-l-2 border-green-500/70 bg-green-500/10 px-2.5 py-1 text-[10px] font-medium text-white">
+                Delivered
+              </span>
+
+              <span className="border-l-2 border-red-500 bg-red-500/10 px-2.5 py-1 text-[10px] font-medium text-[#f0cf72]">
+                Cancelled
+              </span>
+            </div>
         </section>
       </div>
 
