@@ -33,7 +33,7 @@ export default function Footer() {
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-12 md:pb-16 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8 justify-items-center text-center md:text-left">
         {/* Brand and hours for attention*/}
-        <div className="space-y-4">
+        <div className="space-y-4 w-full pl-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-100 mb-4">
             Contact
           </h3>
@@ -78,7 +78,7 @@ export default function Footer() {
         </div>
 
         {/* Navigation Links */}
-        <div className="md:col-span-2">
+        <div className="w-full pl-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-100 mb-4">
             Navigation
           </h3>
@@ -119,7 +119,7 @@ export default function Footer() {
         </div>
 
         {/* Customer service */}
-        <div>
+        <div className="w-full pl-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-100 mb-4">
             Customer Service
           </h3>
